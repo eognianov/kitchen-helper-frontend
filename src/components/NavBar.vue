@@ -77,7 +77,7 @@ body {
 	letter-spacing: .5px;
 	color: #666;
 	background: #fff;
-	padding-top: 94px
+	padding-top: 120px
 }
 
 body, html {
@@ -203,9 +203,28 @@ body, html {
 	border-radius: 0;
 }
 
+/* CUSTOMIZATION */
+
+.navbar-dark {
+	background-color: #FBB040;
+}
+
+.navbar-brand img {
+	max-width: 250px;
+	width: 100%;
+}
+
+.navbar-toggler-icon {
+	color: red;
+}
+
+.container-fluid > .navbar-toggler {
+	border: 2px solid #FFFFFF66;
+}
+
 @media only screen and (max-width: 992px) {
 	body {
-		padding-top: 80px
+		padding-top: 104px;
 	}
 
 	.navbar {
@@ -245,8 +264,8 @@ body, html {
 	}
 }
 
-@media only screen and (max-width: 768px) {
 
+@media only screen and (max-width: 768px) {
 
 	.navbar {
 		padding: 10px 0
@@ -282,6 +301,13 @@ body, html {
 }
 
 @media only screen and (max-width: 480px) {
+	body {
+		padding-top: 74px;
+	}
+	.navbar-brand img {
+		max-width: 180px;
+		width: 80%;
+	}
 	.navbar {
 		padding: 10px 0
 	}
@@ -315,20 +341,4 @@ body, html {
 	}
 }
 
-@media only screen and (max-width: 420px) {
-	.navbar-brand span {
-		display: none;
-	}
-}
-
-/* CUSTOMIZATION */
-
-.navbar-dark {
-	background-color: #FBB040;
-}
-
-.navbar-brand img {
-	max-width: 160px;
-	width: 100%;
-}
 </style>
