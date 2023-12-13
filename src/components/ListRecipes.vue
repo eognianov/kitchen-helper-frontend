@@ -5,6 +5,7 @@
 				<div class="col-lg-12">
 					<h5><i class="fa fa-cutlery" aria-hidden="true"></i> List Recipes</h5>
 				</div>
+
 				<small-recipe-box></small-recipe-box>
 				<small-recipe-box></small-recipe-box>
 				<small-recipe-box></small-recipe-box>
@@ -23,6 +24,7 @@
 
 <script>
 import SmallRecipeBox from "./SmallRecipeBox.vue";
+
 export default {
 	components: {
 		'small-recipe-box': SmallRecipeBox,
@@ -51,6 +53,9 @@ export default {
 }
 
 .list .btn-load:hover {
-	color: #000;
+	text-decoration: none;
+	background-color: #f8f8f8;
+	color: #222;
+	transition: all 0.3s ease;
 }
 </style>

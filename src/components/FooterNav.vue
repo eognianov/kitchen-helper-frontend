@@ -108,5 +108,6 @@ footer .btn {
 footer .btn:hover {
 	color: #222;
 	font-weight: bold;
+	background-color: #f8f8f8;
 }
 </style>

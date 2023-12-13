@@ -70,6 +70,7 @@ export default {
 	background: #727272;
 	transition: all 0.3s ease;
 	margin: 0 3px 6px 0;
+	text-decoration: none;
 }
 
 .box.grid.recipes .tag a:hover {

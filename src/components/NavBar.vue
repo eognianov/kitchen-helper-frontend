@@ -118,7 +118,7 @@ export default {
 	margin-top: 23px;
 	padding: 13px 24px 11px;
 	color: #fff;
-	border-radius: 3px;
+	border-radius: 6px;
 	background-color: #727272;
 }
 
@@ -127,7 +127,10 @@ export default {
 }
 
 .navbar .navbar-nav .btn-submit-recipe a:hover {
-	color: #222
+	background-color: #f8f8f8;
+	color: #222;
+	transition: all 0.3s ease;
+	border: 1px solid #727272;
 }
 
 .dropdown-item {
@@ -287,6 +290,7 @@ export default {
 		max-width: 180px;
 		width: 80%;
 	}
+
 	.navbar {
 		padding: 10px 0
 	}

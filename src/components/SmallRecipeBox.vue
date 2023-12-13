@@ -42,6 +42,10 @@ export default {
 	padding-right: 10px;
 	padding-left: 10px
 }
+.box.grid.recipes p {
+	font-size: .85rem;
+	line-height: 1.2;
+}
 
 .box.grid.recipes h2 {
 	font-size: 1.1rem;
@@ -50,7 +54,7 @@ export default {
 }
 
 .box.grid.recipes h2 a {
-	color: #333
+	color: #333;
 }
 
 .box.grid.recipes img {
@@ -67,6 +71,7 @@ export default {
 	background: #727272;
 	transition: all 0.3s ease;
 	margin: 0 3px 6px 0;
+	text-decoration: none;
 }
 
 .box.grid.recipes .tag a:hover {
