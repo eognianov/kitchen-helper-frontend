@@ -1,9 +1,14 @@
 <template>
 	<div class="box clearfix">
-		<a href="#">
+		<router-link to="/details">
 			<img src="/images/P1560722.JPG?url" alt="">
-		</a>
-		<h3><a href="#">Cinnamon Baked Doughnuts</a></h3>
+		</router-link>
+
+		<h3>
+			<router-link to="/details">
+				Cinnamon Baked Doughnuts
+			</router-link>
+		</h3>
 		<p>Lorem ipsum dolor sit amet, adipiscing elit...</p>
 	</div>
 </template>

@@ -3,10 +3,14 @@
 		<div class="by">
 			<i class="fa fa-user" aria-hidden="true"></i> Gerina Amy
 		</div>
-		<a href="#">
+		<router-link to="/details">
 			<img src="/images/P1560722.JPG?url" alt="">
-		</a>
-		<h2><a href="#">Roast Chicken With Lemon Gravy</a></h2>
+		</router-link>
+		<h2>
+			<router-link to="/details">
+				Roast Chicken With Lemon Gravy
+			</router-link>
+		</h2>
 		<p>Dapibus mattis a. Nec lacus nam. Volutpat molestie ipsum. Eu et fermentum malesuada et et lorem mauris
 			aenean partur..</p>
 		<div class="tag">

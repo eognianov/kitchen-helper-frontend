@@ -1,5 +1,5 @@
 <template>
-	<nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="test">
+	<nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="navigation">
 		<div class="container-fluid justify-content-center">
 			<router-link to="/" class="navbar-brand">
 				<img src="/images/logos/kh-logo-hw.svg" alt>
@@ -17,7 +17,7 @@
 							Home
 						</router-link>
 					</li>
-					<li class="nav-item dropdown active">
+					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true"
 							 aria-expanded="false">
 
@@ -30,13 +30,9 @@
 						</div>
 					</li>
 					<li class="nav-item dropdown">
-						<router-link to="/recipes" class="nav-link" data-toggle="dropdown" aria-haspopup="true">
+						<router-link to="/recipes" class="nav-link" aria-haspopup="true">
 							Recipes
 						</router-link>
-						<!--						<div class="dropdown-menu">-->
-						<!--							<a class="dropdown-item" href="#">Browse Recipes</a>-->
-						<!--							<a class="dropdown-item" href="#">Recipe Detail</a>-->
-						<!--						</div>-->
 					</li>
 					<li class="nav-item dropdown">
 						<a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true"
@@ -51,7 +47,10 @@
 						</div>
 					</li>
 					<li class="nav-item btn-submit-recipe">
-						<a class="nav-link" href="#"><i class="fa fa-upload" aria-hidden="true"></i> Submit Recipe</a>
+						<router-link to="/create" class="nav-link">
+							<i class="fa fa-upload" aria-hidden="true"></i>
+							Submit Recipe
+						</router-link>
 					</li>
 				</ul>
 			</div>
@@ -66,15 +65,15 @@ export default {
 </script>
 
 <style>
-.navbar {
-	padding-top: 0;
-	padding-bottom: 0;
-	background-color: #222;
-	box-shadow: 0 0 15px rgba(0, 0, 0, .1)
+
+#navigation {
+	box-sizing: border-box;
+	padding-top: 0 ;
+	padding-bottom: 0 ;
 }
 
 .navbar-brand img {
-	max-width: 250px;
+	max-width: 220px;
 	width: 100%;
 }
 
@@ -184,7 +183,6 @@ export default {
 	list-style: none;
 	background-color: #fff;
 	background-clip: padding-box;
-	border: 1px solid rgba(0, 0, 0, 0.45);
 	border-radius: 0;
 }
 
@@ -195,6 +193,17 @@ export default {
 
 .container-fluid > .navbar-toggler {
 	border: 2px solid #FFFFFF66;
+}
+.navbar .nav-item a{
+	box-sizing: border-box;
+	border-bottom: 3px solid #72727200;
+}
+.navbar .nav-item a.router-link-active {
+	color: #727272;
+	border-bottom: 3px solid #727272;
+}
+.navbar .nav-item.btn-submit-recipe a.router-link-active {
+	color: #fff;
 }
 
 @media only screen and (max-width: 992px) {

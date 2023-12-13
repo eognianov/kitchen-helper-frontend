@@ -2,10 +2,14 @@
 	<div class="col-lg-4 col-sm-6">
 		<div class="box grid recipes">
 			<div class="by"><i class="fa fa-user" aria-hidden="true"></i> Gerina Amy</div>
-			<a href="#">
+			<router-link to="/details">
 				<img src="/images/P1560722.JPG?url" alt="">
-			</a>
-			<h2><a href="#">Cornbread Topped Cast-Iron Skillet Chili</a></h2>
+			</router-link>
+			<h2>
+				<router-link to="/details">
+					Cornbread Topped Cast-Iron Skillet Chili
+				</router-link>
+			</h2>
 			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
 			<div class="tag">
 				<a href="#">Chicken</a>
@@ -46,6 +50,7 @@ export default {
 	padding-right: 10px;
 	padding-left: 10px
 }
+
 .box.grid.recipes p {
 	font-size: .85rem;
 	line-height: 1.2;
