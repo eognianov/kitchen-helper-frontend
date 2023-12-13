@@ -36,12 +36,12 @@ export default {
 	font-size: 2.5rem;
 	font-weight: 700;
 	margin-bottom: 40px;
-	color: #333
+	color: #727272;
 }
 .featured h4 {
 	font-size: 1rem;
 	text-transform: uppercase;
-	color: #cacaca
+	color: #727272;
 }
 
 </style>

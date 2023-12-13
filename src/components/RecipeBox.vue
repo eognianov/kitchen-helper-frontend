@@ -53,7 +53,7 @@ export default {
 .box.grid.recipes h2 {
 	font-size: 1.3rem;
 	font-weight: 700;
-	text-transform: capitalize
+	text-transform: capitalize;
 }
 
 .box.grid.recipes h2 a {
@@ -68,7 +68,7 @@ export default {
 .box.grid.recipes .tag a {
 	display: inline-block;
 	padding: 10px 20px;
-	color: #666;
+	color: #fff;
 	border: 1px solid #FBB040;
 	border-radius: 6px;
 	background: #FBB040;
