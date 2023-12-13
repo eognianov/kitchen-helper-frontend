@@ -2,7 +2,7 @@
 	<nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="test">
 		<div class="container-fluid justify-content-center">
 			<a class="navbar-brand" href="#">
-				<img src="/images/logos/kitchen-helper-logo-horizontal.svg" alt>
+				<img src="/images/logos/kh-logo-hw.svg" alt>
 			</a>
 
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
@@ -79,7 +79,7 @@ export default {
 }
 
 .navbar-brand img {
-	max-width: 80px;
+	max-width: 250px;
 	width: 100%;
 }
 
@@ -193,19 +193,9 @@ export default {
 	border-radius: 0;
 }
 
-/* CUSTOMIZATION */
 
 .navbar-dark {
 	background-color: #FBB040;
-}
-
-.navbar-brand img {
-	max-width: 250px;
-	width: 100%;
-}
-
-.navbar-toggler-icon {
-	color: red;
 }
 
 .container-fluid > .navbar-toggler {

@@ -1,6 +1,8 @@
 <template>
 	<div class="box grid recipes">
-		<div class="by"><i class="fa fa-user" aria-hidden="true"></i> Gerina Amy</div>
+		<div class="by">
+			<i class="fa fa-user" aria-hidden="true"></i> Gerina Amy
+		</div>
 		<a href="#">
 			<img src="/images/P1560722.JPG?url" alt="">
 		</a>
@@ -11,9 +13,7 @@
 			<a href="#">Chicken</a>
 			<a href="#">Lemon</a>
 			<a href="#">Sayur</a>
-			<a href="#">Chicken</a>
-			<a href="#">Lemon</a>
-			<a href="#">Sayur</a>
+
 		</div>
 	</div>
 </template>
@@ -27,6 +27,7 @@ export default {
 <style scoped>
 
 .box.grid.recipes {
+	position: relative;
 	margin-bottom: 40px;
 	padding-bottom: 20px;
 	text-align: center;
@@ -34,11 +35,14 @@ export default {
 }
 
 .box.grid.recipes .by {
-	padding: 30px 45px;
+	position: absolute;
+	width: 100%;
+	padding: 20px 35px;
 	text-align: left;
 	color: #fff;
-	background-color: #727272;
+	background-color: #727272AA;
 	font-size: 18px;
+	font-weight: bold;
 }
 
 .box.grid.recipes .tag, .box.grid.recipes h2, .box.grid.recipes p {
@@ -64,10 +68,10 @@ export default {
 .box.grid.recipes .tag a {
 	display: inline-block;
 	padding: 10px 20px;
-	color: #fff;
-	border: 1px solid #727272;
+	color: #666;
+	border: 1px solid #FBB040;
 	border-radius: 6px;
-	background: #727272;
+	background: #FBB040;
 	transition: all 0.3s ease;
 	margin: 0 3px 6px 0;
 	text-decoration: none;

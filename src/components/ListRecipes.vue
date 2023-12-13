@@ -50,6 +50,7 @@ export default {
 	border: 1px solid #222;
 	border-radius: 6px;
 	background: #727272;
+	margin-top: 20px;
 }
 
 .list .btn-load:hover {

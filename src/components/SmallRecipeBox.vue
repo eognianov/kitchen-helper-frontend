@@ -8,7 +8,7 @@
 			<h2><a href="#">Cornbread Topped Cast-Iron Skillet Chili</a></h2>
 			<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit</p>
 			<div class="tag">
-				<a href="#">Corn</a>
+				<a href="#">Chicken</a>
 				<a href="#">Lemon</a>
 				<a href="#">Sayur</a>
 			</div>
@@ -24,6 +24,7 @@ export default {
 
 <style scoped>
 .box.grid.recipes {
+	position: relative;
 	margin-bottom: 20px;
 	padding-bottom: 20px;
 	text-align: center;
@@ -31,11 +32,14 @@ export default {
 }
 
 .box.grid.recipes .by {
+	position: absolute;
+	width: 100%;
 	padding: 10px 25px;
 	text-align: left;
 	color: #fff;
-	background-color: #727272;
+	background-color: #727272AA;
 	font-size: 14px;
+	font-weight: bolder;
 }
 
 .box.grid.recipes .tag, .box.grid.recipes h2, .box.grid.recipes p {
@@ -66,9 +70,9 @@ export default {
 	display: inline-block;
 	padding: 5px 10px;
 	color: #fff;
-	border: 1px solid #727272;
+	border: 1px solid #FBB040;
 	border-radius: 6px;
-	background: #727272;
+	background: #FBB040;
 	transition: all 0.3s ease;
 	margin: 0 3px 6px 0;
 	text-decoration: none;

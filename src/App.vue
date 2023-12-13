@@ -4,8 +4,6 @@
 	<top-recipes></top-recipes>
 	<list-recipes></list-recipes>
 	<footer-nav></footer-nav>
-<!--	<p>Hello</p>-->
-<!--	<button class="btn btn-danger mt-5"><i class="bi bi-usb-c"></i> test</button>-->
 </template>
 
 <script>
@@ -31,13 +29,10 @@ export default {
 body {
 	font-family: 'Roboto', sans-serif;
 	letter-spacing: .5px;
-	color: #666;
-	background: #FFF;
-	padding-top: 120px
 }
 
 body, html {
-	height: 100%
+	height: 100%;
 }
 
 body {
