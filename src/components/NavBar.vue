@@ -71,19 +71,6 @@ export default {
 </script>
 
 <style>
-
-body {
-	font-family: 'Roboto', sans-serif;
-	letter-spacing: .5px;
-	color: #666;
-	background: #fff;
-	padding-top: 120px
-}
-
-body, html {
-	height: 100%
-}
-
 .navbar {
 	padding-top: 0;
 	padding-bottom: 0;
@@ -223,10 +210,6 @@ body, html {
 }
 
 @media only screen and (max-width: 992px) {
-	body {
-		padding-top: 104px;
-	}
-
 	.navbar {
 		padding: 10px 0
 	}
@@ -266,7 +249,6 @@ body, html {
 
 
 @media only screen and (max-width: 768px) {
-
 	.navbar {
 		padding: 10px 0
 	}
@@ -301,9 +283,6 @@ body, html {
 }
 
 @media only screen and (max-width: 480px) {
-	body {
-		padding-top: 74px;
-	}
 	.navbar-brand img {
 		max-width: 180px;
 		width: 80%;

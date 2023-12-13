@@ -1,0 +1,81 @@
+<template>
+	<div class="box grid recipes">
+		<div class="by"><i class="fa fa-user" aria-hidden="true"></i> Gerina Amy</div>
+		<a href="#">
+			<img src="/images/P1560722.JPG?url" alt="">
+		</a>
+		<h2><a href="#">Roast Chicken With Lemon Gravy</a></h2>
+		<p>Dapibus mattis a. Nec lacus nam. Volutpat molestie ipsum. Eu et fermentum malesuada et et lorem mauris
+			aenean partur..</p>
+		<div class="tag">
+			<a href="#">Chicken</a>
+			<a href="#">Lemon</a>
+			<a href="#">Sayur</a>
+			<a href="#">Chicken</a>
+			<a href="#">Lemon</a>
+			<a href="#">Sayur</a>
+		</div>
+	</div>
+</template>
+
+<script>
+export default {
+	name: "RecipeBox"
+}
+</script>
+
+<style scoped>
+
+.box.grid.recipes {
+	margin-bottom: 40px;
+	padding-bottom: 20px;
+	text-align: center;
+	border: 1px solid #dedede
+}
+
+.box.grid.recipes .by {
+	padding: 30px 45px;
+	text-align: left;
+	color: #fff;
+	background-color: #727272;
+	font-size: 18px;
+}
+
+.box.grid.recipes .tag, .box.grid.recipes h2, .box.grid.recipes p {
+	padding-right: 15px;
+	padding-left: 15px
+}
+
+.box.grid.recipes h2 {
+	font-size: 1.3rem;
+	font-weight: 700;
+	text-transform: capitalize
+}
+
+.box.grid.recipes h2 a {
+	color: #333
+}
+
+.box.grid.recipes img {
+	width: 100%;
+	margin-bottom: 30px
+}
+
+.box.grid.recipes .tag a {
+	display: inline-block;
+	padding: 10px 20px;
+	color: #fff;
+	border: 1px solid #727272;
+	border-radius: 6px;
+	background: #727272;
+	transition: all 0.3s ease;
+	margin: 0 3px 6px 0;
+}
+
+.box.grid.recipes .tag a:hover {
+	text-decoration: none;
+	background-color: #f8f8f8;
+	color: #222;
+	transition: all 0.3s ease;
+}
+</style>
