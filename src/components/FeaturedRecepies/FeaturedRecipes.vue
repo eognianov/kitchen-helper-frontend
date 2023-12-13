@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import RecipeBox from './RecipeBox.vue';
+import RecipeBox from '../RecipeOfTheDay/RecipeBox.vue';
 
 export default {
 	components: {
