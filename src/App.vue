@@ -11,7 +11,7 @@ import FooterNav from './components/FooterNav/FooterNav.vue';
 export default {
 	components: {
 		'nav-bar': NavBar,
-		'footer-nav':FooterNav,
+		'footer-nav': FooterNav,
 	}
 }
 
@@ -28,13 +28,17 @@ body, html {
 }
 
 body {
-	padding-top: 104px;
+	padding-top: 90px;
 }
-
+@media only screen and (max-width: 992px) {
+	body {
+		padding-top: 70px ;
+	}
+}
 
 @media only screen and (max-width: 480px) {
 	body {
-		padding-top: 74px;
+		padding-top: 50px ;
 	}
 }
 </style>

@@ -48,11 +48,6 @@
 						</div>
 
 						<div class="form-group">
-							<label>Tag</label>
-							<input type="text" class="form-control">
-						</div>
-
-						<div class="form-group">
 							<label>Upload your photos</label>
 							<input type="file" class="form-control-file">
 						</div>
@@ -73,42 +68,56 @@
 											<input type="text" class="form-control" placeholder="Notes (quantity or additional info)">
 										</div>
 										<div class="col-lg-1 col-sm-1">
-											<i class="fa fa-times-circle-o minusbtn" aria-hidden="true"></i>
+											<i class="fa fa-times-circle minusbtn" aria-hidden="true"></i>
 										</div>
 									</div>
 								</div>
 
 							</div>
-							<a href="#" class="btn btn-light">Add new ingredient</a>
-
-						</div>
-
-						<div class="form-group">
-							<label>Directions:</label>
-							<textarea class="form-control" rows="4" required="required"></textarea>
-						</div>
-
-						<div class="form-group">
-							<label>Additional Informations</label>
+							<a href="#" class="btn btn-dark">Add new ingredient</a>
 							<hr>
-						</div>
-						<div class="form-group row">
-							<label class="col-sm-2 col-form-label">Yield</label>
-							<div class="col-sm-10">
-								<input type="text" class="form-control">
+							<label>Instructions:</label>
+							<div id="sortable2">
+								<div class="box ui-sortable-handle">
+									<div class="row justify-content-between">
+										<div class="col-sm-1">
+											<i class="fa fa-arrows" aria-hidden="true"></i>
+										</div>
+										<div class="col-sm-1">
+											<i class="fa fa-times-circle minusbtn" aria-hidden="true"></i>
+										</div>
+									</div>
+									<div class="row mb-3">
+										<div class="col-lg-12 col-lg-3">
+											<select class="js-search-category form-control" name="category"
+															data-placeholder="Choose Category">
+												<option value="1">Breakfast</option>
+												<option value="2">Lunch</option>
+												<option value="3">Dinner</option>
+											</select>
+										</div>
+									</div>
+									<div class="row mb-3">
+										<div class="col-lg-12 col-lg-3">
+											<textarea class="form-control" rows="4" required="required"></textarea>
+										</div>
+									</div>
+									<div class="row mb-3">
+										<div class="col-lg-12 col-lg-3">
+											<input type="text" class="form-control" placeholder="Time to prepare">
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-lg-12 col-lg-3">
+											<input type="text" class="form-control" placeholder="Complexity">
+										</div>
+									</div>
+								</div>
+
 							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-sm-2 col-form-label">Preparation Time</label>
-							<div class="col-sm-10">
-								<input type="text" class="form-control">
-							</div>
-						</div>
-						<div class="form-group row">
-							<label class="col-sm-2 col-form-label">Cooking Time</label>
-							<div class="col-sm-10">
-								<input type="text" class="form-control">
-							</div>
+							<a href="#" class="btn btn-dark">Add new instruction</a>
+
 						</div>
 
 						<div class="form-group">
@@ -193,7 +202,14 @@ export default {
 .submit .content .btn-submit {
 	padding: 15px;
 	color: #fff;
-	background-color: #e13b2b
+	background-color: #FBB040
+}
+
+.submit .content .btn-submit:hover {
+	padding: 15px;
+	color: #727272;
+	background-color: #fff;
+	border: 1px solid #727272;
 }
 
 .submit .content .select2-container--default .select2-selection--single .select2-selection__rendered {
@@ -227,5 +243,10 @@ export default {
 
 .submit .content .box .fa-times-circle-o:hover {
 	color: #e13b2b
+}
+
+.fa {
+	padding-top: 11px !important;
+	padding-bottom: 11px !important;
 }
 </style>
