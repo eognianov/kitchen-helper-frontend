@@ -24,33 +24,9 @@
             </router-link>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true"
-               aria-expanded="false">
-
-              Demo
-
-            </a>
-            <div class="dropdown-menu">
-              <a class="dropdown-item" href="#">Homepage-1</a>
-              <a class="dropdown-item" href="#">Homepage-2</a>
-            </div>
-          </li>
-          <li class="nav-item dropdown">
-            <router-link to="/recipes" class="nav-link" aria-haspopup="true">
+            <router-link to="/recipes" class="nav-link">
               Recipes
             </router-link>
-          </li>
-          <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" aria-haspopup="true"
-               aria-expanded="false">
-
-              Pages
-
-            </a>
-            <div class="dropdown-menu">
-              <a class="dropdown-item" href="#">Typography</a>
-              <a class="dropdown-item" href="#">Contact</a>
-            </div>
           </li>
           <li class="nav-item btn-submit-recipe">
             <router-link to="/create" class="nav-link">

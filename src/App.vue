@@ -30,6 +30,9 @@ body, html {
 body {
 	padding-top: 90px;
 }
+a {
+  text-decoration: none!important;
+}
 @media only screen and (max-width: 992px) {
 	body {
 		padding-top: 70px ;
