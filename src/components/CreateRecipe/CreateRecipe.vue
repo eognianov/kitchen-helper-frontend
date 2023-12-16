@@ -172,7 +172,7 @@ export default {
 <style scoped>
 .submit .title {
   padding: 30px 0;
-  background-color: #f8f8f8
+  background-color: var(--white-hover)
 }
 
 .submit .title h2 {
@@ -191,34 +191,34 @@ export default {
 }
 
 .submit .content .form-group hr {
-  border-top: 1px dashed black;
+  border-top: 1px dashed var(--dark-grey);
 }
 
 
 .submit .content .btn-submit {
   padding: 15px;
-  color: #fff;
-  background-color: #FBB040
+  color: var(--white);
+  background-color: var(--main-color)
 }
 
 .submit .content .btn-submit:hover {
   padding: 15px;
-  color: #727272;
-  background-color: #fff;
-  border: 1px solid #727272;
+  color: var(--grey);
+  background-color: var(--white-hover);
+  border: 1px solid var(--grey);
 }
 
-.submit .content .select2-container--default .select2-selection--single .select2-selection__rendered {
-  line-height: 45px;
-  color: #444
-}
+/*.submit .content .select2-container--default .select2-selection--single .select2-selection__rendered {*/
+/*  line-height: 45px;*/
+/*  color: #444*/
+/*}*/
 
-.submit .content .select2-container--default .select2-selection--single .select2-selection__arrow {
-  height: 490px
-}
+/*.submit .content .select2-container--default .select2-selection--single .select2-selection__arrow {*/
+/*  height: 490px*/
+/*}*/
 
 .submit .content .box {
-  background-color: #f8f8f8;
+  background-color: var(--white-hover);
   margin-bottom: 15px;
   padding: 20px;
   text-align: center
@@ -238,7 +238,7 @@ export default {
 }
 
 .submit .content .box .fa-circle-minus:hover {
-  color: #e13b2b
+  color: var(--red)
 }
 
 .submit .fa {
@@ -247,13 +247,13 @@ export default {
 }
 
 .submit .btn-dark {
-  background-color: #727272;
-  border: 1px solid #727272;
+  background-color: var(--grey);
+  border: 1px solid var(--grey);
 }
 
 .submit .btn-dark:hover {
-  background-color: #fff;
-  color: #727272;
+  background-color: var(--white-hover);
+  color: var(--grey);
 }
 .submit label {
   margin-bottom: 10px;

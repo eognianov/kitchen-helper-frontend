@@ -125,18 +125,18 @@ export default {
 	font-size: 2.5rem;
 	font-weight: 700;
 	margin-bottom: 10px;
-	color: #727272;
+	color: var(--dark-grey);
 }
 
 .recipe-detail .by {
 	margin-bottom: 40px;
 	font-size: 18px;
-	color: #727272;
+	color: var(--dark-grey);
 }
 
 .recipe-detail .by i {
 	font-size: 20px;
-	color: #727272;
+	color: var(--dark-grey);
 }
 
 .recipe-detail img {
@@ -147,10 +147,10 @@ export default {
 .recipe-detail .tag a {
 	display: inline-block;
 	padding: 10px 20px;
-	color: #fff;
-	border: 1px solid #FBB040;
+	color: var(--white);
+	border: 1px solid var(--main-color);
 	border-radius: 6px;
-	background: #FBB040;
+	background: var(--main-color);
 	transition: all 0.3s ease;
 	margin: 0 3px 6px 0;
 	text-decoration: none;
@@ -158,9 +158,9 @@ export default {
 
 .recipe-detail .tag a:hover {
 	text-decoration: none;
-	background-color: #f8f8f8;
-	color: #727272;
-	border: 1px solid #727272;
+	background-color: var(--white-hover);
+	color: var(--grey);
+	border: 1px solid var(--grey);
 	transition: all 0.3s ease;
 }
 
@@ -168,8 +168,8 @@ export default {
 .recipe-detail .info {
 	margin-bottom: 20px;
 	padding: 20px;
-	color: #fff;
-	background-color: #727272;
+	color: var(--white);
+	background-color: var(--grey);
 }
 
 .recipe-detail .info p {
@@ -179,7 +179,7 @@ export default {
 
 .recipe-detail .info p strong {
 	font-size: 1rem;
-	color: #fff
+	color: var(--white)
 }
 
 .recipe-detail .ingredient-direction {
@@ -195,13 +195,13 @@ export default {
 .recipe-detail .ingredient-direction ul.ingredients {
 	padding: 30px 30px 30px 0;
 	list-style: none;
-	background: #f9f9f9
+	background: var(--white-hover);
 }
 
 .recipe-detail .ingredient-direction ul.ingredients li {
 	margin-bottom: 10px;
 	padding-bottom: 10px;
-	border-bottom: 1px dashed #dedede
+	border-bottom: 1px dashed var(--very-light-grey)
 }
 
 .recipe-detail ol.directions > li {
@@ -227,8 +227,8 @@ export default {
 	width: 34px;
 	height: 34px;
 	text-align: center;
-	color: #999;
-	background-color: #f4f4f4;
+	color: var(--grey);
+	background-color: var(--very-light-grey);
 	content: counter(li-counter);
 	counter-increment: li-counter;
 	cursor: default
@@ -239,8 +239,8 @@ export default {
 	margin-bottom: 50px;
 	padding-top: 20px;
 	padding-bottom: 20px;
-	border-top: 1px dashed #dedede;
-	border-bottom: 1px dashed #dedede
+	border-top: 1px dashed var(--grey);
+	border-bottom: 1px dashed var(--grey);
 }
 
 .recipe-detail .nutrition-facts h3 {
@@ -249,16 +249,18 @@ export default {
 	top: -20px;
 	left: 0;
 	padding: 8px 10px;
-	color: #fff;
-	background-color: #666
+	color: var(--white);
+	background-color: var(--grey)
 }
 
 .recipe-detail .nutrition-facts p {
-	font-size: .8rem
+  color: var(--dark-grey);
+	font-size: .8rem;
 }
 
 .recipe-detail .nutrition-facts p strong {
-	font-size: 1rem
+	font-size: 1rem;
+  color: var(--dark-grey)
 }
 
 .recipe-detail .nutrition-facts div {
@@ -268,94 +270,5 @@ export default {
 
 .recipe-detail .nutrition-facts div p {
 	margin-bottom: 0
-}
-
-.recipe-detail .blog-comment h3 {
-	font-size: 14px;
-	font-weight: 800;
-	line-height: 30px;
-	text-decoration: underline;
-	text-transform: uppercase;
-	color: #333
-}
-
-.recipe-detail .blog-comment a {
-	font-weight: 700;
-	color: #333
-}
-
-.recipe-detail .blog-comment ul {
-	padding: 0;
-	list-style-type: none
-}
-
-.recipe-detail .blog-comment img {
-	opacity: 1;
-	border-radius: 4px;
-	filter: alpha(opacity=100);
-}
-
-.recipe-detail .blog-comment img.avatar {
-	position: relative;
-	float: left;
-	width: 65px;
-	height: 65px;
-	margin-top: 0;
-	margin-left: 0
-}
-
-.recipe-detail .blog-comment .post-comments {
-	position: relative;
-	margin-right: 0;
-	margin-bottom: 20px;
-	padding: 10px 20px;
-	color: #6b6e80;
-	border: 1px dashed #dedede;
-	-webkit-border-radius: 4px;
-	-moz-border-radius: 4px;
-	border-radius: 4px;
-	background: #fff;
-	-o-border-radius: 4px
-}
-
-.recipe-detail .blog-comment .meta {
-	font-size: 13px;
-	margin-bottom: 10px !important;
-	padding-bottom: 8px;
-	color: #aaa;
-	border-bottom: 1px solid #eee
-}
-
-.recipe-detail .blog-comment ul.comments ul {
-	margin-left: 85px;
-	padding: 0;
-	list-style-type: none
-}
-
-.recipe-detail .reply {
-	margin-bottom: 30px;
-	padding: 20px;
-	border-radius: 4px
-}
-
-.recipe-detail .reply h3 {
-	margin-top: 0;
-	text-decoration: none
-}
-
-.recipe-detail .reply .required {
-	color: red
-}
-
-.recipe-detail .reply .btn-submit {
-	margin-top: 10px;
-	padding: 17px;
-	color: #fff;
-	background: #e13b2b
-}
-
-.recipe-detail .reply .btn-submit:hover {
-	color: #222;
-	font-weight: 400;
 }
 </style>

@@ -32,7 +32,7 @@ export default {
 	margin-bottom: 20px;
 	padding-bottom: 20px;
 	text-align: center;
-	border: 1px solid #dedede
+	border: 1px solid var(--very-light-grey)
 }
 
 .box.grid.recipes .by {
@@ -40,8 +40,8 @@ export default {
 	width: 100%;
 	padding: 10px 25px;
 	text-align: left;
-	color: #fff;
-	background-color: #727272AA;
+	color: var(--white);
+	background-color: var(--grey-transparent);
 	font-size: 14px;
 	font-weight: bolder;
 }
@@ -54,16 +54,17 @@ export default {
 .box.grid.recipes p {
 	font-size: .85rem;
 	line-height: 1.2;
+  color: var(--dark-grey);
 }
 
 .box.grid.recipes h2 {
 	font-size: 1.1rem;
 	font-weight: 700;
-	text-transform: capitalize
+	text-transform: capitalize;
 }
 
 .box.grid.recipes h2 a {
-	color: #333;
+	color: var(--dark-grey);
 }
 
 .box.grid.recipes img {
@@ -74,10 +75,10 @@ export default {
 .box.grid.recipes .tag a {
 	display: inline-block;
 	padding: 5px 10px;
-	color: #fff;
-	border: 1px solid #FBB040;
+	color: var(--white);
+	border: 1px solid var(--main-color);
 	border-radius: 6px;
-	background: #FBB040;
+	background: var(--main-color);
 	transition: all 0.3s ease;
 	margin: 0 3px 6px 0;
 	text-decoration: none;
@@ -85,8 +86,8 @@ export default {
 
 .box.grid.recipes .tag a:hover {
 	text-decoration: none;
-	background-color: #f8f8f8;
-	color: #222;
+	background-color: var(--white-hover);
+	color: var(--dark-grey);
 	transition: all 0.3s ease;
 }
 

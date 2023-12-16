@@ -41,22 +41,23 @@ export default {
 .list h5 {
 	margin-bottom: 40px;
 	padding-bottom: 20px;
-	border-bottom: 1px dashed #222
+	border-bottom: 1px dashed var(--dark-grey);
+  color: var(--dark-grey);
 }
 
 .list .btn-load {
 	padding: 15px 30px;
 	color: #FFF;
-	border: 1px solid #222;
+	border: 1px solid var(--grey);
 	border-radius: 6px;
-	background: #727272;
+	background: var(--grey);
 	margin-top: 20px;
 }
 
 .list .btn-load:hover {
 	text-decoration: none;
-	background-color: #f8f8f8;
-	color: #222;
+	background-color: var(--white-hover);
+	color: var(--grey);
 	transition: all 0.3s ease;
 }
 </style>

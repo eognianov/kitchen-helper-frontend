@@ -34,18 +34,17 @@ export default {
 
 .top {
 	padding: 80px 0;
-	background-color: #727272;
+	background-color: var(--grey);
 }
 
-.box.grid.recipes, .top .box {
-	background-color: #fff;
-	box-shadow: 0 6px 15px rgba(36, 37, 38, .08)
+.top .box {
+	background-color: var(--white);
 }
 
 .top h5 {
 	font-size: 1.2rem;
 	margin-bottom: 30px;
-	color: #dadada
+	color: var(--very-light-grey)
 }
 
 .top .box {
@@ -55,17 +54,18 @@ export default {
 .top .box h3 {
 	font-size: 1.2rem;
 	font-weight: 700;
-	padding-left: 120px
+	padding-left: 120px;
 }
 
 .top .box h3 a {
-	color: #333
+	color: var(--dark-grey);
 }
 
 .top .box p {
 	line-height: 22px;
 	margin-bottom: 0;
-	padding-left: 120px
+	padding-left: 120px;
+  color: var(--dark-grey);
 }
 
 .top .box img {
