@@ -3,7 +3,7 @@
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-lg-12">
-					<h4>Oct 30, 2017</h4>
+					<h4>DEC 18, 2023</h4>
 					<h3>Recipes of the day</h3>
 				</div>
 				<div class="col-lg-8">
@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import RecipeBox from '../RecipeOfTheDay/RecipeBox.vue';
+import RecipeBox from '../RecipeBox/RecipeBox.vue';
 
 export default {
 	components: {

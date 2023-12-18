@@ -5,13 +5,24 @@
 				<div class="col-lg-12">
 					<h5><i class="fa fa-cutlery" aria-hidden="true"></i> List Recipes</h5>
 				</div>
-
-				<small-recipe-box></small-recipe-box>
-				<small-recipe-box></small-recipe-box>
-				<small-recipe-box></small-recipe-box>
-				<small-recipe-box></small-recipe-box>
-				<small-recipe-box></small-recipe-box>
-				<small-recipe-box></small-recipe-box>
+				<div class="col-lg-4 col-sm-6">
+					<recipe-box></recipe-box>
+				</div>
+				<div class="col-lg-4 col-sm-6">
+					<recipe-box></recipe-box>
+				</div>
+				<div class="col-lg-4 col-sm-6">
+					<recipe-box></recipe-box>
+				</div>
+				<div class="col-lg-4 col-sm-6">
+					<recipe-box></recipe-box>
+				</div>
+				<div class="col-lg-4 col-sm-6">
+					<recipe-box></recipe-box>
+				</div>
+				<div class="col-lg-4 col-sm-6">
+					<recipe-box></recipe-box>
+				</div>
 
 				<div class="col-lg-12 text-center">
 					<a href="#" class="btn btn-load">Load More</a>
@@ -23,17 +34,17 @@
 </template>
 
 <script>
-import SmallRecipeBox from "./SmallRecipeBox.vue";
+import RecipeBox from "../RecipeBox/RecipeBox.vue";
 
 export default {
 	components: {
-		'small-recipe-box': SmallRecipeBox,
+		'recipe-box': RecipeBox,
 	},
 	name: "ListRecipes"
 }
 </script>
 
-<style scoped>
+<style>
 .list {
 	margin-top: 80px
 }
@@ -42,7 +53,7 @@ export default {
 	margin-bottom: 40px;
 	padding-bottom: 20px;
 	border-bottom: 1px dashed var(--dark-grey);
-  color: var(--dark-grey);
+	color: var(--dark-grey);
 }
 
 .list .btn-load {
@@ -60,4 +71,15 @@ export default {
 	color: var(--grey);
 	transition: all 0.3s ease;
 }
+.list .box.grid.recipes .by {
+	padding: 10px 15px;
+	font-size: 15px;
+}
+.list .box.grid.recipes a {
+	font-size: 1.2rem
+}
+.list .box.grid.recipes p {
+	font-size: .9rem
+}
+
 </style>

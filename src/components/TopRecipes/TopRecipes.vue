@@ -30,81 +30,24 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
 .top {
 	padding: 80px 0;
 	background-color: var(--grey);
 }
-
-.top .box {
-	background-color: var(--white);
-}
-
 .top h5 {
 	font-size: 1.2rem;
 	margin-bottom: 30px;
-	color: var(--very-light-grey)
+	color: var(--very-light-grey);
+	padding-bottom: 15px;
+	border-bottom: 1px dashed var(--very-light-grey);
 }
 
-.top .box {
-	padding: 25px
-}
 
-.top .box h3 {
-	font-size: 1.2rem;
-	font-weight: 700;
-	padding-left: 120px;
-}
-
-.top .box h3 a {
-	color: var(--dark-grey);
-}
-
-.top .box p {
-	line-height: 22px;
-	margin-bottom: 0;
-	padding-left: 120px;
-  color: var(--dark-grey);
-}
-
-.top .box img {
-	float: left;
-	width: 100px;
-	height: 100px;
-	border-radius: 6px
-}
 @media only screen and (max-width: 990px) {
 	.top h5 {
 		margin-top: 30px;
 		margin-bottom: 20px;
 	}
 }
-
-@media only screen and (max-width: 768px) {
-	.top .box {
-		margin-bottom: 30px
-	}
-
-	.top .box img {
-		width: 60px;
-		height: 60px
-	}
-
-	.top .box h3, .top .box p {
-		padding-left: 80px
-	}
-}
-
-@media only screen and (max-width: 480px) {
-	.top {
-		padding: 40px 0
-	}
-
-	.top .box {
-		margin-bottom: 30px
-	}
-
-}
-
 </style>
