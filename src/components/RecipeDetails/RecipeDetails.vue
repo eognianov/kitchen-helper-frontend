@@ -118,6 +118,9 @@ export default {
 
 <style scoped>
 .recipe-detail {
+	color: var(--dark-grey);
+}
+.recipe-detail {
 	padding: 70px 0
 }
 

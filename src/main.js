@@ -2,7 +2,7 @@ import {createApp} from 'vue'
 import App from './App.vue'
 import {createVuetify} from "vuetify";
 import {createRouter, createWebHistory} from "vue-router";
-import ListRecipes from './components/ListRecipes/ListRecipes.vue'
+import SearchRecipes from './components/SearchRecipes/SearchRecipes.vue'
 import IndexPage from './components/IndexPage.vue'
 import CreateRecipe from './components/CreateRecipe/CreateRecipe.vue'
 import RecipeDetails from "./components/RecipeDetails/RecipeDetails.vue";
@@ -23,7 +23,7 @@ const router = createRouter({
     history: createWebHistory(),
     routes: [
         {path: '/', component: IndexPage},
-        {path: '/recipes', component: ListRecipes},
+        {path: '/recipes', component: SearchRecipes},
         {path: '/create', component: CreateRecipe},
         {path: '/details', component: RecipeDetails},
         {path: '/login', component: LoginUser},

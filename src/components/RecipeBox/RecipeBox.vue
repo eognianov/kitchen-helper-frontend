@@ -29,7 +29,9 @@ export default {
 </script>
 
 <style scoped>
-
+.box {
+	color: var(--dark-grey);
+}
 .box.grid.recipes {
 	position: relative;
 	margin-bottom: 40px;

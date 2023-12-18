@@ -170,6 +170,9 @@ export default {
 </script>
 
 <style scoped>
+.submit {
+	color: var(--dark-grey);
+}
 .submit .title {
   padding: 30px 0;
   background-color: var(--white-hover)

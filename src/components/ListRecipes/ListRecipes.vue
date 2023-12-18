@@ -2,25 +2,12 @@
 	<div class="list">
 		<div class="container">
 			<div class="row">
+
 				<div class="col-lg-12">
 					<h5><i class="fa fa-cutlery" aria-hidden="true"></i> List Recipes</h5>
 				</div>
-				<div class="col-lg-4 col-sm-6">
-					<recipe-box></recipe-box>
-				</div>
-				<div class="col-lg-4 col-sm-6">
-					<recipe-box></recipe-box>
-				</div>
-				<div class="col-lg-4 col-sm-6">
-					<recipe-box></recipe-box>
-				</div>
-				<div class="col-lg-4 col-sm-6">
-					<recipe-box></recipe-box>
-				</div>
-				<div class="col-lg-4 col-sm-6">
-					<recipe-box></recipe-box>
-				</div>
-				<div class="col-lg-4 col-sm-6">
+
+				<div class="col-lg-4 col-sm-6" v-for="x in 6" :key="x">
 					<recipe-box></recipe-box>
 				</div>
 
@@ -58,7 +45,7 @@ export default {
 
 .list .btn-load {
 	padding: 15px 30px;
-	color: #FFF;
+	color: var(--white);
 	border: 1px solid var(--grey);
 	border-radius: 6px;
 	background: var(--grey);
@@ -68,6 +55,7 @@ export default {
 .list .btn-load:hover {
 	text-decoration: none;
 	background-color: var(--white-hover);
+	border: 1px solid var(--dark-grey);
 	color: var(--grey);
 	transition: all 0.3s ease;
 }
