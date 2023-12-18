@@ -23,9 +23,14 @@
               Home
             </router-link>
           </li>
-          <li class="nav-item dropdown">
+          <li class="nav-item">
             <router-link to="/recipes" class="nav-link">
               Recipes
+            </router-link>
+          </li>
+					<li class="nav-item">
+            <router-link to="/login" class="nav-link">
+              Login
             </router-link>
           </li>
           <li class="nav-item btn-submit-recipe">
