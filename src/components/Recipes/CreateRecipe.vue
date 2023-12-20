@@ -171,11 +171,11 @@ export default {
 
 <style scoped>
 .submit {
-	color: var(--dark-grey);
+	color: var(--main-text);
 }
 .submit .title {
   padding: 30px 0;
-  background-color: var(--white-hover)
+  background-color: var(--very-light-background)
 }
 
 .submit .title h2 {
@@ -194,7 +194,7 @@ export default {
 }
 
 .submit .content .form-group hr {
-  border-top: 1px dashed var(--dark-grey);
+  border-top: 1px dashed var(--main-text);
 }
 
 
@@ -206,9 +206,9 @@ export default {
 
 .submit .content .btn-submit:hover {
   padding: 15px;
-  color: var(--grey);
-  background-color: var(--white-hover);
-  border: 1px solid var(--grey);
+  color: var(--main-text);
+  background-color: var(--main-hover);
+  border: 1px solid var(--main-text);
 }
 
 /*.submit .content .select2-container--default .select2-selection--single .select2-selection__rendered {*/
@@ -221,7 +221,7 @@ export default {
 /*}*/
 
 .submit .content .box {
-  background-color: var(--white-hover);
+  background-color: var(--main-hover);
   margin-bottom: 15px;
   padding: 20px;
   text-align: center
@@ -241,7 +241,7 @@ export default {
 }
 
 .submit .content .box .fa-circle-minus:hover {
-  color: var(--red)
+  color: var(--main-alert)
 }
 
 .submit .fa {
@@ -250,13 +250,13 @@ export default {
 }
 
 .submit .btn-dark {
-  background-color: var(--grey);
-  border: 1px solid var(--grey);
+  background-color: var(--dark-background);
+  border: 1px solid var(--dark-background);
 }
 
 .submit .btn-dark:hover {
-  background-color: var(--white-hover);
-  color: var(--grey);
+  background-color: var(--main-hover);
+  color: var(--main-text);
 }
 .submit label {
   margin-bottom: 10px;

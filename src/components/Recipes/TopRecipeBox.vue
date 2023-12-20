@@ -36,14 +36,14 @@ export default {
 }
 
 .top .box h3 a {
-	color: var(--dark-grey);
+	color: var(--main-text);
 }
 
 .top .box p {
 	line-height: 22px;
 	margin-bottom: 0;
 	padding-left: 120px;
-	color: var(--dark-grey);
+	color: var(--main-text);
 }
 
 .top .box img {

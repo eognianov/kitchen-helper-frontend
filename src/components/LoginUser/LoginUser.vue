@@ -85,15 +85,16 @@ a {
 }
 
 .form-btn {
+	font-size: 1rem;
 	width: 100%;
 	background-color: var(--main-color);
 	color: var(--white);
 }
 
 .form-btn:hover {
-	background-color: var(--white-hover);
+	background-color: var(--main-hover);
 	border: 1px solid var(--main-color);
-	color: var(--dark-grey);
+	color: var(--main-text);
 }
 
 .rightcolumn {
@@ -108,7 +109,7 @@ a {
 	font-weight: 500;
 	line-height: 32px;
 	border-radius: 50%;
-	background-color: var(--very-light-grey);
+	background-color: var(--very-light-background);
 	margin-bottom: 5px;
 	margin-right: 5px;
 }
@@ -131,6 +132,6 @@ a {
 
 .loginform {
 	padding: 4rem;
-	color: var(--dark-grey);
+	color: var(--main-text);
 }
 </style>

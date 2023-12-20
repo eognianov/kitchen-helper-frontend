@@ -118,7 +118,7 @@ export default {
 
 <style scoped>
 .recipe-detail {
-	color: var(--dark-grey);
+	color: var(--main-text);
 }
 .recipe-detail {
 	padding: 70px 0
@@ -128,18 +128,18 @@ export default {
 	font-size: 2.5rem;
 	font-weight: 700;
 	margin-bottom: 10px;
-	color: var(--dark-grey);
+	color: var(--main-text);
 }
 
 .recipe-detail .by {
 	margin-bottom: 40px;
 	font-size: 18px;
-	color: var(--dark-grey);
+	color: var(--main-text);
 }
 
 .recipe-detail .by i {
 	font-size: 20px;
-	color: var(--dark-grey);
+	color: var(--main-text);
 }
 
 .recipe-detail img {
@@ -161,9 +161,9 @@ export default {
 
 .recipe-detail .tag a:hover {
 	text-decoration: none;
-	background-color: var(--white-hover);
-	color: var(--grey);
-	border: 1px solid var(--grey);
+	background-color: var(--main-hover);
+	color: var(--main-text);
+	border: 1px solid var(--dark-background);
 	transition: all 0.3s ease;
 }
 
@@ -172,7 +172,7 @@ export default {
 	margin-bottom: 20px;
 	padding: 20px;
 	color: var(--white);
-	background-color: var(--grey);
+	background-color: var(--dark-background);
 }
 
 .recipe-detail .info p {
@@ -198,13 +198,13 @@ export default {
 .recipe-detail .ingredient-direction ul.ingredients {
 	padding: 30px 30px 30px 0;
 	list-style: none;
-	background: var(--white-hover);
+	background: var(--very-light-background);
 }
 
 .recipe-detail .ingredient-direction ul.ingredients li {
 	margin-bottom: 10px;
 	padding-bottom: 10px;
-	border-bottom: 1px dashed var(--very-light-grey)
+	border-bottom: 1px dashed var(--main-text)
 }
 
 .recipe-detail ol.directions > li {
@@ -230,8 +230,8 @@ export default {
 	width: 34px;
 	height: 34px;
 	text-align: center;
-	color: var(--grey);
-	background-color: var(--very-light-grey);
+	color: var(--main-text);
+	background-color: var(--light-background);
 	content: counter(li-counter);
 	counter-increment: li-counter;
 	cursor: default
@@ -242,8 +242,8 @@ export default {
 	margin-bottom: 50px;
 	padding-top: 20px;
 	padding-bottom: 20px;
-	border-top: 1px dashed var(--grey);
-	border-bottom: 1px dashed var(--grey);
+	border-top: 1px dashed var(--main-text);
+	border-bottom: 1px dashed var(--main-text);
 }
 
 .recipe-detail .nutrition-facts h3 {
@@ -253,17 +253,17 @@ export default {
 	left: 0;
 	padding: 8px 10px;
 	color: var(--white);
-	background-color: var(--grey)
+	background-color: var(--dark-background)
 }
 
 .recipe-detail .nutrition-facts p {
-  color: var(--dark-grey);
+  color: var(--main-text);
 	font-size: .8rem;
 }
 
 .recipe-detail .nutrition-facts p strong {
 	font-size: 1rem;
-  color: var(--dark-grey)
+  color: var(--main-text)
 }
 
 .recipe-detail .nutrition-facts div {

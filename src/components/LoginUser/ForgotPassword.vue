@@ -39,6 +39,7 @@ export default {
 	padding: 4rem;
 }
 .form-btn {
+	font-size: 1rem;
 	width: 100%;
 	margin-top: 1rem;
 	background-color: var(--main-color);
@@ -46,12 +47,12 @@ export default {
 }
 
 .form-btn:hover {
-	background-color: var(--white-hover);
+	background-color: var(--main-hover);
 	border: 1px solid var(--main-color);
-	color: var(--dark-grey);
+	color: var(--main-text);
 }
 .loginform {
-	color: var(--dark-grey);
+	color: var(--main-text);
 }
 .loginform a {
 	color: var(--main-color);

@@ -89,7 +89,7 @@ export default {
   padding: 13px 24px 11px;
   color: var(--white);
   border-radius: 6px;
-  background-color: var(--grey);
+  background-color: var(--dark-background);
   margin-bottom: 1rem;
 }
 
@@ -98,10 +98,10 @@ export default {
 }
 
 .navbar .navbar-nav .btn-submit-recipe a:hover {
-  background-color: var(--white-hover);
-  color: var(--grey);
+  background-color: var(--main-hover);
+  color: var(--main-text);
   transition: all 0.3s ease;
-  border: 1px solid var(--grey);
+  border: 1px solid var(--main-text);
 }
 
 .navbar .navbar-nav .nav-link {
@@ -112,7 +112,7 @@ export default {
 }
 
 .navbar .navbar-nav .nav-link:hover {
-  color: var(--grey);
+  color: var(--secondary-text);
   transition: all 0.3s ease;
 }
 
@@ -130,8 +130,8 @@ export default {
 }
 
 .navbar .nav-item a.router-link-active {
-  color: var(--grey);
-  border-bottom: 3px solid var(--grey);
+  color: var(--secondary-text);
+  border-bottom: 3px solid var(--secondary-text);
 }
 
 .navbar .nav-item.btn-submit-recipe a.router-link-active {
@@ -139,11 +139,11 @@ export default {
 }
 
 .navbar .nav-item.btn-submit-recipe a.router-link-active:hover {
-  color: var(--grey);
+  color: var(--secondary-text);
 }
 
 #navbarNavDropdown.show > .navbar-nav > .nav-item > a.router-link-active {
-  border-bottom: 1px solid var(--grey);
+  border-bottom: 1px solid var(--secondary-text);
 }
 
 @media only screen and (max-width: 992px) {

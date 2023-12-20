@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import RecipeBox from '../RecipeBox/RecipeBox.vue';
+import RecipeBox from './RecipeBox.vue';
 
 export default {
 	components: {
@@ -36,12 +36,12 @@ export default {
 	font-size: 2.5rem;
 	font-weight: 700;
 	margin-bottom: 40px;
-	color: #333;
+	color: var(--main-text);
 }
 .featured h4 {
 	font-size: 1rem;
 	text-transform: uppercase;
-	color: #333;
+	color:  var(--main-text)
 }
 
 </style>

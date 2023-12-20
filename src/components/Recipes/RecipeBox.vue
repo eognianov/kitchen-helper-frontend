@@ -30,14 +30,14 @@ export default {
 
 <style scoped>
 .box {
-	color: var(--dark-grey);
+	color: var(--main-text);
 }
 .box.grid.recipes {
 	position: relative;
 	margin-bottom: 40px;
 	padding-bottom: 20px;
 	text-align: center;
-	border: 1px solid var(--very-light-grey)
+	border: 1px solid var(--light-background)
 }
 
 .box.grid.recipes .by {
@@ -46,7 +46,7 @@ export default {
 	padding: 20px 35px;
 	text-align: left;
 	color: var(--white);
-	background-color: var(--grey-transparent);
+	background-color: var(--dark-background-transparent);
 	font-size: 18px;
 	font-weight: bold;
 }
@@ -63,7 +63,7 @@ export default {
 }
 
 .box.grid.recipes h2 a {
-	color: var(--dark-grey)
+	color: var(--main-text)
 }
 
 .box.grid.recipes img {
@@ -85,8 +85,8 @@ export default {
 
 .box.grid.recipes .tag a:hover {
 	text-decoration: none;
-	background-color: var(--white-hover);
-	color: var(--grey);
+	background-color: var(--main-hover);
+	color: var(--main-text);
 	transition: all 0.3s ease;
 }
 </style>

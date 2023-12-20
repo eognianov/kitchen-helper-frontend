@@ -46,23 +46,24 @@ export default {
 footer {
 	margin-top: 90px;
 	padding: 90px 0;
-	background-color: var(--dark-grey);
+	background-color: var(--dark-background);
 }
 
 footer h5 {
 	margin-bottom: 30px;
 	padding-bottom: 20px;
-	color: var(--light-grey);
-	border-bottom: 1px dashed var(--light-grey);
+	color: var(--light-text);
+	border-bottom: 1px dashed var(--light-text);
 }
 
 footer p, footer ul li a {
-	color: var(--light-grey);
+	color: var(--light-text);
 	transition: all 0.3s ease;
 }
 
 footer ul li a:hover {
 	color: var(--white);
+	font-weight: bold;
 	transition: all 0.3s ease;
 }
 

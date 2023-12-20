@@ -123,7 +123,7 @@
 </template>
 
 <script>
-import ListRecipes from "../ListRecipes/ListRecipes.vue";
+import ListRecipes from "./ListRecipes.vue";
 
 export default {
 	components: {
@@ -136,8 +136,8 @@ export default {
 <style scoped>
 .search{
     padding:60px 0;
-    background-color: var(--white-hover);
-		color: var(--dark-grey);
+    background-color: var(--main-hover);
+		color: var(--main-text);
 }
 .search .form-group .form-control,.search .form-group input{
     height:45px
@@ -146,7 +146,7 @@ export default {
     font-size:1.2rem;
     margin-bottom:20px;
     padding-bottom:10px;
-    border-bottom:1px dashed var(--dark-grey)
+    border-bottom:1px dashed var(--main-text)
 }
 .search .form-group{
     position:relative
@@ -165,8 +165,8 @@ export default {
     background-color: var(--main-color);
 }
 .search .btn:hover{
-	color: var(--dark-grey);
-	background-color: var(--white-hover);
+	color: var(--main-text);
+	background-color: var(--main-hover);
 	border: 1px solid var(--main-color);
 	font-weight: 400;
 }

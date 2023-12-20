@@ -5,9 +5,9 @@
 </template>
 
 <script>
-import FeaturedRecipes from "./FeaturedRecepies/FeaturedRecipes.vue";
-import TopRecipes from "./TopRecipes/TopRecipes.vue";
-import ListRecipes from "./ListRecipes/ListRecipes.vue";
+import FeaturedRecipes from "./Recipes/FeaturedRecipes.vue";
+import TopRecipes from "./Recipes/TopRecipes.vue";
+import ListRecipes from "./Recipes/ListRecipes.vue";
 
 export default {
 	components: {

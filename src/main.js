@@ -2,10 +2,10 @@ import {createApp} from 'vue'
 import App from './App.vue'
 import {createVuetify} from "vuetify";
 import {createRouter, createWebHistory} from "vue-router";
-import SearchRecipes from './components/SearchRecipes/SearchRecipes.vue'
+import SearchRecipes from './components/Recipes/SearchRecipes.vue'
 import IndexPage from './components/IndexPage.vue'
-import CreateRecipe from './components/CreateRecipe/CreateRecipe.vue'
-import RecipeDetails from "./components/RecipeDetails/RecipeDetails.vue";
+import CreateRecipe from './components/Recipes/CreateRecipe.vue'
+import RecipeDetails from "./components/Recipes/RecipeDetails.vue";
 import LoginUser from "./components/LoginUser/LoginUser.vue";
 import ForgotPassword from "./components/LoginUser/ForgotPassword.vue";
 import CreateAccount from "./components/LoginUser/CreateAccount.vue";

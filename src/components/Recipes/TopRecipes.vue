@@ -33,14 +33,14 @@ export default {
 <style scoped>
 .top {
 	padding: 80px 0;
-	background-color: var(--grey);
+	background-color: var(--backgrond);
 }
 .top h5 {
 	font-size: 1.2rem;
 	margin-bottom: 30px;
-	color: var(--very-light-grey);
+	color: var(--light-text);
 	padding-bottom: 15px;
-	border-bottom: 1px dashed var(--very-light-grey);
+	border-bottom: 1px dashed var(--light-text);
 }
 
 

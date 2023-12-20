@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import RecipeBox from "../RecipeBox/RecipeBox.vue";
+import RecipeBox from "./RecipeBox.vue";
 
 export default {
 	components: {
@@ -39,24 +39,24 @@ export default {
 .list h5 {
 	margin-bottom: 40px;
 	padding-bottom: 20px;
-	border-bottom: 1px dashed var(--dark-grey);
-	color: var(--dark-grey);
+	border-bottom: 1px dashed var(--dark-background);
+	color: var(--main-text);
 }
 
 .list .btn-load {
 	padding: 15px 30px;
 	color: var(--white);
-	border: 1px solid var(--grey);
+	border: 1px solid var(--dark-background);
 	border-radius: 6px;
-	background: var(--grey);
+	background: var(--dark-background);
 	margin-top: 20px;
 }
 
 .list .btn-load:hover {
 	text-decoration: none;
-	background-color: var(--white-hover);
-	border: 1px solid var(--dark-grey);
-	color: var(--grey);
+	background-color: var(--main-hover);
+	border: 1px solid var(--dark-background);
+	color: var(--main-text);
 	transition: all 0.3s ease;
 }
 .list .box.grid.recipes .by {
