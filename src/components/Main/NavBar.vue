@@ -18,22 +18,22 @@
 					 :class="{ 'show': isNavbarVisible }"
 					 id="navbarNavDropdown">
 				<ul class="navbar-nav">
-					<li class="nav-item" @click="toggleNavbar">
+					<li class="nav-item" @click="isNavbarVisible ? toggleNavbar : null">
 						<router-link to="/" class="nav-link">
 							Home
 						</router-link>
 					</li>
-					<li class="nav-item" @click="toggleNavbar">
+					<li class="nav-item" @click="isNavbarVisible ? toggleNavbar : null">
 						<router-link to="/recipes" class="nav-link">
 							Recipes
 						</router-link>
 					</li>
-					<li class="nav-item" @click="toggleNavbar">
+					<li class="nav-item" @click="isNavbarVisible ? toggleNavbar : null" >
 						<router-link to="/login" class="nav-link">
 							Login
 						</router-link>
 					</li>
-					<li class="nav-item btn-submit-recipe"  @click="toggleNavbar">
+					<li class="nav-item btn-submit-recipe"  @click="isNavbarVisible ? toggleNavbar : null">
 						<router-link to="/create" class="nav-link">
 							<i class="fa fa-upload" aria-hidden="true"></i>
 							Submit Recipe
@@ -123,7 +123,7 @@ function toggleNavbar() {
 	border-bottom: 3px solid transparent;
 }
 
-.navbar .nav-item a.router-link-active {
+#navbarNavDropdown>.navbar-nav>.nav-item>a.router-link-active {
 	color: var(--secondary-text);
 	border-bottom: 3px solid var(--secondary-text);
 }
