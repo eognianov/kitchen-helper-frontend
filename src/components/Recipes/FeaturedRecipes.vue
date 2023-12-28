@@ -14,15 +14,8 @@
 	</div>
 </template>
 
-<script>
+<script setup>
 import RecipeBox from './RecipeBox.vue';
-
-export default {
-	components: {
-		'recipe-box': RecipeBox
-	},
-	name: "FeaturedRecipes.vue"
-}
 </script>
 
 <style scoped>

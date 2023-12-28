@@ -22,16 +22,12 @@
 	</div>
 </template>
 
-<script>
-export default {
-	name: "RecipeBox"
-}
-</script>
 
 <style scoped>
 .box {
 	color: var(--main-text);
 }
+
 .box.grid.recipes {
 	position: relative;
 	margin-bottom: 40px;

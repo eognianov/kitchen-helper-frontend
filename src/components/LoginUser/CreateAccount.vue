@@ -60,12 +60,6 @@
 	</div>
 </template>
 
-<script>
-export default {
-	name: "CreateAccount"
-}
-</script>
-
 <style scoped>
 a {
 	color: var(--main-color);

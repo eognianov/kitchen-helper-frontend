@@ -65,12 +65,6 @@
 	</div>
 </template>
 
-<script>
-export default {
-	name: "LoginUser"
-}
-</script>
-
 <style scoped>
 a {
 	color: var(--main-color);
