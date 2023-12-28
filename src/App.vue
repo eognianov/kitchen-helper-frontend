@@ -4,16 +4,9 @@
 	<footer-nav></footer-nav>
 </template>
 
-<script>
+<script setup>
 import NavBar from './components/Main/NavBar.vue';
 import FooterNav from './components/Main/FooterNav.vue';
-
-export default {
-	components: {
-		'nav-bar': NavBar,
-		'footer-nav': FooterNav,
-	}
-}
 
 </script>
 
