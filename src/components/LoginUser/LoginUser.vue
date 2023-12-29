@@ -6,55 +6,24 @@
 				<div
 						class="col-md-12 col-lg-8 py-5 mx-2 rightcolumn d-flex flex-column align-items-center align-self-center shadow-lg">
 					<div class="col-md-12">
-
-						<h3>Login to account</h3>
-						<p>Access to the most powerfull tool in the entire design and web industry.</p>
-
-						<div class="form-group mt-5">
-							<input type="email" id="email" class="form-control" placeholder="Email address">
-						</div>
-
-						<div class="form-group">
-							<input type="password" id="password" class="form-control" placeholder="Password">
-						</div>
-
-						<div class="text-right pb-3">
-							<router-link to="/reset-password" class="font-weight-bold">
-								Forgot Password?
-							</router-link>
-						</div>
-						<input type="button" id="btn" class="btn btn-lg btn-block form-btn font-weight-bold" value="Login">
-
-						<div class="row text-center">
-							<div class="col-12 pt-5 pb-3">
-								<span>Or sign in with</span>
+						<form @submit.prevent="login">
+							<h3>Login to account</h3>
+							<p>Access to the most powerfull tool in the entire design and web industry.</p>
+							<div class="form-group mt-5">
+								<input type="text" id="username" class="form-control" placeholder="Username" v-model="username">
 							</div>
 
-							<div class="col-3">
-								<div class="chip">
-									<a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-								</div>
+							<div class="form-group">
+								<input type="password" id="password" class="form-control" placeholder="Password" v-model="password">
 							</div>
 
-							<div class="col-3">
-								<div class="chip">
-									<a href="#"><i class="fa-brands fa-x-twitter"></i></a>
-								</div>
+							<div class="text-right pb-3">
+								<router-link to="/reset-password" class="font-weight-bold">
+									Forgot Password?
+								</router-link>
 							</div>
-
-							<div class="col-3">
-								<div class="chip">
-									<a href="#"><i class="fa-brands fa-google"></i></a>
-								</div>
-							</div>
-
-							<div class="col-3">
-								<div class="chip">
-									<a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-								</div>
-							</div>
-
-						</div>
+							<button id="btn" class="btn btn-lg btn-block form-btn font-weight-bold">Login</button>
+						</form>
 						<div class="text-center pt-4 font-weight-bold">
 							<router-link to="/signup">Create an account</router-link>
 						</div>
@@ -64,6 +33,44 @@
 		</div>
 	</div>
 </template>
+
+<script setup>
+import axios from 'axios';
+import {useRouter} from 'vue-router';
+
+const router = useRouter();
+let username = ""
+let password = ""
+
+async function login() {
+
+	const response = await axios.post(`/users/signin`, {
+		username: username,
+		password: password
+	}, {
+		headers: {"Content-Type": "multipart/form-data"}
+	})
+	if (response.status === 200) {
+		localStorage.setItem('token', response.data.access_token);
+		router.push({name: "index"});
+	} else {
+		console.log('error')
+	}
+
+	// 		.then(response => {
+	// 	console.log("Response Data:", response.data);
+	// 	if (response.data.access_token) {
+	// 		localStorage.setItem('token', response.data.access_token);
+	// 	}
+	// })
+	// .catch(error => {
+	// 	console.error("Error:", error);
+	// 	if (error.response) {
+	// 		console.error("Response Data:", error.response.data);
+	// 	}
+	// });
+}
+</script>
 
 <style scoped>
 a {

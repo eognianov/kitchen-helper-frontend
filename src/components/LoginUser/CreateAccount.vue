@@ -5,52 +5,32 @@
 			<div
 					class="col-md-12 col-lg-8 py-5 mx-2 rightcolumn d-flex flex-column align-items-center align-self-center shadow-lg">
 				<div class="col-md-12">
+					<form @submit.prevent="signUp">
+						<h3>Create an account</h3>
+						<p>Access to the most powerfull tool in the entire design and web industry.</p>
 
-					<h3>Create an account</h3>
-					<p>Access to the most powerfull tool in the entire design and web industry.</p>
 
-					<div class="form-group mt-5">
-						<input type="text" id="fullname" class="form-control" placeholder="Full name">
-					</div>
-
-					<div class="form-group">
-						<input type="email" id="email" class="form-control" placeholder="Email address">
-					</div>
-
-					<div class="form-group">
-						<input type="password" id="password" class="form-control" placeholder="Password">
-					</div>
-
-					<input type="button" id="btn" class="btn btn-lg btn-block form-btn font-weight-bold" value="Sign up">
-
-					<div class="row text-center">
-						<div class="col-12 pt-5 pb-3">
-							<span>Or sign up with</span>
+						<div class="form-group mt-5">
+							<input type="text" id="username" class="form-control" placeholder="Username"
+										 v-model="username">
 						</div>
-						<div class="col-3">
-								<div class="chip">
-									<a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-								</div>
-							</div>
 
-							<div class="col-3">
-								<div class="chip">
-									<a href="#"><i class="fa-brands fa-x-twitter"></i></a>
-								</div>
-							</div>
+						<div class="form-group">
+							<input type="email" id="email" class="form-control" placeholder="Email address"
+										 v-model="email">
+						</div>
 
-							<div class="col-3">
-								<div class="chip">
-									<a href="#"><i class="fa-brands fa-google"></i></a>
-								</div>
-							</div>
+						<div class="form-group">
+							<input type="password" id="password" class="form-control" placeholder="Password"
+										 v-model="password">
+						</div>
 
-							<div class="col-3">
-								<div class="chip">
-									<a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-								</div>
-							</div>
-					</div>
+						<div class="form-group">
+							<input type="password" id="password2" class="form-control" placeholder="Repeat Password"
+										 v-model="password2">
+						</div>
+						<button id="btn" class="btn btn-lg btn-block form-btn font-weight-bold">Sign Up</button>
+					</form>
 					<div class="text-center pt-4 font-weight-bold">
 						<router-link to="/login">Login</router-link>
 					</div>
@@ -60,13 +40,53 @@
 	</div>
 </template>
 
+<script setup>
+import {defineProps} from "vue";
+import axios from 'axios';
+
+const props = defineProps(['BASEURL'])
+
+let username = ''
+let email = ''
+let password = ''
+let password2 = ''
+
+
+async function signUp() {
+	console.log("OK")
+	axios.post(`${props.BASEURL}/users/signup`, {
+		username: username,
+		email: email,
+		password: password
+	}, {
+		headers: {"Content-Type": "application/json"}
+	})
+			.then(response => {
+				console.log("Response Data:", response.data);
+				if (response.data.access_token) {
+					localStorage.setItem('token', response.data.access_token);
+				}
+			})
+			.catch(error => {
+				console.error("Error:", error);
+				if (error.response) {
+					console.error("Response Data:", error.response.data.detail);
+				}
+			});
+}
+
+
+</script>
+
 <style scoped>
 a {
 	color: var(--main-color);
 }
+
 .loginform .form-group {
 	margin-top: 1.2rem;
 }
+
 .container-fluid {
 	overflow: hidden;
 }
@@ -85,6 +105,7 @@ a {
 	border: 1px solid var(--main-color);
 	color: var(--main-text);
 }
+
 .chip {
 	display: inline-block;
 	height: 30px;

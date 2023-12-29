@@ -18,22 +18,25 @@
 					 :class="{ 'show': isNavbarVisible }"
 					 id="navbarNavDropdown">
 				<ul class="navbar-nav">
-					<li class="nav-item" @click="isNavbarVisible ? toggleNavbar : null">
+					<li class="nav-item" @click="toggleNavbar">
 						<router-link to="/" class="nav-link">
 							Home
 						</router-link>
 					</li>
-					<li class="nav-item" @click="isNavbarVisible ? toggleNavbar : null">
+					<li class="nav-item" @click="toggleNavbar">
 						<router-link to="/recipes" class="nav-link">
 							Recipes
 						</router-link>
 					</li>
-					<li class="nav-item" @click="isNavbarVisible ? toggleNavbar : null" >
+					<li class="nav-item" @click="toggleNavbar" v-if="!props.user">
 						<router-link to="/login" class="nav-link">
 							Login
 						</router-link>
 					</li>
-					<li class="nav-item btn-submit-recipe"  @click="isNavbarVisible ? toggleNavbar : null">
+					<li class="nav-item" @click="logout" v-if="props.user">
+						<a href="javascript:void(9)" class="nav-link">Logout</a>
+					</li>
+					<li class="nav-item btn-submit-recipe" @click="toggleNavbar" v-if="props.user">
 						<router-link to="/create" class="nav-link">
 							<i class="fa fa-upload" aria-hidden="true"></i>
 							Submit Recipe
@@ -46,12 +49,22 @@
 </template>
 
 <script setup>
-import {ref} from 'vue'
+import {ref, defineProps} from 'vue';
+import {useRouter} from 'vue-router';
+
+const router = useRouter();
+
+const props = defineProps(['user'])
 
 let isNavbarVisible = ref(false)
 
 function toggleNavbar() {
 	isNavbarVisible.value = !isNavbarVisible.value
+}
+
+function logout() {
+	localStorage.removeItem('token')
+	router.push({name: "index"});
 }
 </script>
 
@@ -123,7 +136,7 @@ function toggleNavbar() {
 	border-bottom: 3px solid transparent;
 }
 
-#navbarNavDropdown>.navbar-nav>.nav-item>a.router-link-active {
+.navbar #navbarNavDropdown > .navbar-nav > .nav-item > a.router-link-active {
 	color: var(--secondary-text);
 	border-bottom: 3px solid var(--secondary-text);
 }
@@ -136,9 +149,9 @@ function toggleNavbar() {
 	color: var(--secondary-text);
 }
 
-#navbarNavDropdown.show > .navbar-nav > .nav-item > a.router-link-active {
-	border-bottom: 1px solid var(--secondary-text);
-}
+/*.show > .navbar-nav > .nav-item > a.router-link-active {*/
+/*	border-bottom: 1px solid var(--secondary-text);*/
+/*}*/
 
 @media only screen and (max-width: 992px) {
 	.navbar {

@@ -1,13 +1,35 @@
 <template>
-	<nav-bar></nav-bar>
+	<h1 v-if="user">Hello {{ user.username }}</h1>
+	<h1 v-if="!user">Hello </h1>
+	<nav-bar :user="user"></nav-bar>
 	<router-view></router-view>
 	<footer-nav></footer-nav>
 </template>
 
 <script setup>
+import axios from "axios";
+import VueJwtDecode from 'vue-jwt-decode';
+import { ref} from 'vue'
 import NavBar from './components/Main/NavBar.vue';
 import FooterNav from './components/Main/FooterNav.vue';
 
+let user = ref(null);
+
+
+let token = localStorage.getItem('token')
+if (token) {
+	getUser(token)
+} else {
+	console.log("NO")
+}
+async function getUser(token) {
+	let decoded = VueJwtDecode.decode(token);
+	let response = await axios.get(`users/${decoded.sub}/`)
+	if (response.status === 200) {
+		user.value = response.data
+		console.log(response.data)
+	}
+}
 </script>
 
 <style>
@@ -24,10 +46,6 @@ import FooterNav from './components/Main/FooterNav.vue';
 	--dark-background-transparent: #33333366;
 	--main-hover: #F8F8F8;
 	--main-alert: #e13b2b;
-
-
-
-
 }
 
 body {
