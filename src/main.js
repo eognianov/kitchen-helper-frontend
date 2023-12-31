@@ -12,6 +12,7 @@ import RecipeDetails from "./components/Recipes/RecipeDetails.vue";
 import LoginUser from "./components/LoginUser/LoginUser.vue";
 import ForgotPassword from "./components/LoginUser/ForgotPassword.vue";
 import CreateAccount from "./components/LoginUser/CreateAccount.vue";
+import CheckEmail from "./components/LoginUser/CheckEmail.vue";
 
 import "vuetify/dist/vuetify.css";
 import "bootstrap/dist/css/bootstrap.css";
@@ -32,6 +33,7 @@ const router = createRouter({
         {path: '/login', component: LoginUser},
         {path: '/reset-password', component: ForgotPassword},
         {path: '/signup', component: CreateAccount},
+        {path: '/check-email', component: CheckEmail, name: 'check-email'},
     ]
 });
 

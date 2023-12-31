@@ -29,6 +29,7 @@
 							<input type="password" id="password2" class="form-control" placeholder="Repeat Password"
 										 v-model="password2">
 						</div>
+						<p class="error" :class="{show: errorFound}">{{ errorMessage }}</p>
 						<button id="btn" class="btn btn-lg btn-block form-btn font-weight-bold">Sign Up</button>
 					</form>
 					<div class="text-center pt-4 font-weight-bold">
@@ -41,38 +42,65 @@
 </template>
 
 <script setup>
-import {defineProps} from "vue";
-import axios from 'axios';
+import {ref} from 'vue'
+import {useAuthStore} from "../../stores/authStore";
+import {useRouter} from 'vue-router';
 
-const props = defineProps(['BASEURL'])
+const auth = useAuthStore()
+const router = useRouter()
 
-let username = ''
-let email = ''
-let password = ''
-let password2 = ''
-
+let username = ref('')
+let email = ref('')
+let password = ref('')
+let password2 = ref('')
+let errorFound = ref(false)
+let errorMessage = ref('')
 
 async function signUp() {
-	console.log("OK")
-	axios.post(`${props.BASEURL}/users/signup`, {
-		username: username,
-		email: email,
-		password: password
-	}, {
-		headers: {"Content-Type": "application/json"}
-	})
-			.then(response => {
-				console.log("Response Data:", response.data);
-				if (response.data.access_token) {
-					localStorage.setItem('token', response.data.access_token);
-				}
-			})
-			.catch(error => {
-				console.error("Error:", error);
-				if (error.response) {
-					console.error("Response Data:", error.response.data.detail);
-				}
-			});
+	errorFound.value = false
+	errorMessage.value = ''
+
+	if (username.value === '' || email.value === '' || password.value === '' || password2.value === '') {
+		errorFound.value = true
+		errorMessage.value = 'Please fill all fields.'
+		return;
+	}
+
+	if (username.value.length < 3 || username.value.length > 30) {
+		errorFound.value = true
+		errorMessage.value = 'Username must be between 3 and 30 characters long.'
+		return;
+	}
+
+	const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+	const isValidEmail = emailRegex.test(email.value);
+
+	if (!isValidEmail) {
+		errorFound.value = true
+		errorMessage.value = 'Please enter valid email.'
+		return;
+	}
+
+	const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&?]).{8,}$/;
+	const isValidPassword = passwordRegex.test(password.value);
+
+	if (!isValidPassword) {
+		errorFound.value = true
+		errorMessage.value = 'The password must be at least 8 characters long, contain at least one lowercase letter, one uppercase letter, one digit, and one special symbol (!@#$%^&?).'
+		return;
+	}
+	if (password.value !== password2.value) {
+		errorFound.value = true
+		errorMessage.value = "Passwords didn't match."
+		return;
+	}
+	try {
+		await auth.register(username.value, email.value, password.value)
+		router.push({name: "check-email"});
+	} catch (error) {
+		errorFound.value = true
+		errorMessage.value = error.message
+	}
 }
 
 
@@ -138,5 +166,18 @@ a {
 .loginform {
 	padding: 4rem;
 	color: var(--main-text);
+}
+
+.error {
+	display: none;
+	max-width: 360px;
+	color: var(--main-alert);
+	font-size: .8rem;
+}
+
+.show {
+	display: block;
+	margin-top: 1rem;
+	margin-bottom: 0;
 }
 </style>

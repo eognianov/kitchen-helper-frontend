@@ -60,6 +60,26 @@ export const useAuthStore = defineStore({
             localStorage.removeItem('token')
             this.user = null;
             this.logged = false
+        },
+        async register(username, email, password) {
+            try {
+                await axios.post(`/users/signup`, {
+                    username: username,
+                    email: email,
+                    password: password
+                }, {
+                    headers: {"Content-Type": "application/json"}
+                })
+            } catch (error) {
+                if (error.response) {
+                    throw new Error(error.response.data.detail);
+                } else if (error.request) {
+                    throw new Error('Something went wrong. Please try again later.');
+                } else {
+                    throw new Error('Something went wrong. Please try again later.');
+                }
+
+            }
         }
     }
 })

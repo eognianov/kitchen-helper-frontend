@@ -36,6 +36,9 @@
 					<li class="nav-item" @click="auth.logout" v-if="auth.logged">
 						<a href="#" class="nav-link">Logout</a>
 					</li>
+					<li class="nav-item" @click="auth.logout" v-if="auth.logged">
+						<a href="#" class="nav-link">Welcome: {{auth.user.username}}</a>
+					</li>
 					<li class="nav-item btn-submit-recipe" @click="toggleNavbar" v-if="auth.logged">
 						<router-link to="/create" class="nav-link">
 							<i class="fa fa-upload" aria-hidden="true"></i>
