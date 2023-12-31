@@ -1,8 +1,6 @@
 import {defineStore, acceptHMRUpdate} from 'pinia'
 import axios from "axios";
 import VueJwtDecode from 'vue-jwt-decode';
-import {ref} from "vue";
-import {tr} from "vuetify/locale";
 
 export const useAuthStore = defineStore({
     id: 'auth',
@@ -35,27 +33,25 @@ export const useAuthStore = defineStore({
                 }, {
                     headers: {"Content-Type": "multipart/form-data"}
                 })
-                localStorage.setItem('token', response.data.access_token);
-                this.logged = true
+                let token = response.data.access_token
 
+                localStorage.setItem('token', token);
+
+                if (token) {
+                    let decoded = VueJwtDecode.decode(token);
+                    let response = await axios.get(`users/${decoded.sub}/`)
+
+                    if (response.status === 200) {
+                        this.user = response.data
+                        this.logged = true;
+                    }
+                }
             } catch (error) {
                 if (error.response) {
-                    // The request was made and the server responded with a status code
-                    // that falls out of the range of 2xx
-                    // console.log(error.response.data.detail);
-                    // console.log(error.response.status);
-                    // console.log(error.response.headers);
                     throw new Error(error.response.data.detail);
                 } else if (error.request) {
-                    // The request was made but no response was received
-                    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                    // http.ClientRequest in node.js
-                    // console.log(error.request);
-                    console.log(error.request)
                     throw new Error('Something went wrong. Please try again later.');
                 } else {
-                    // Something happened in setting up the request that triggered an Error
-                    // console.log('Error', error.message);
                     throw new Error('Something went wrong. Please try again later.');
                 }
             }

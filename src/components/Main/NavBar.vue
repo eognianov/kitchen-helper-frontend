@@ -33,11 +33,6 @@
 							Login
 						</router-link>
 					</li>
-<!--					<li class="nav-item" @click="toggleNavbar" >-->
-<!--						<router-link to="/test" class="nav-link">-->
-<!--							Test-->
-<!--						</router-link>-->
-<!--					</li>-->
 					<li class="nav-item" @click="auth.logout" v-if="auth.logged">
 						<a href="#" class="nav-link">Logout</a>
 					</li>

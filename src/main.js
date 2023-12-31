@@ -1,7 +1,7 @@
 import {createApp} from 'vue';
 import App from './App.vue';
 import './axios';
-import { createPinia } from 'pinia'
+import {createPinia} from 'pinia'
 
 import {createVuetify} from "vuetify";
 import {createRouter, createWebHistory} from "vue-router";
@@ -12,8 +12,6 @@ import RecipeDetails from "./components/Recipes/RecipeDetails.vue";
 import LoginUser from "./components/LoginUser/LoginUser.vue";
 import ForgotPassword from "./components/LoginUser/ForgotPassword.vue";
 import CreateAccount from "./components/LoginUser/CreateAccount.vue";
-// import Test from "./components/Test.vue";
-
 
 import "vuetify/dist/vuetify.css";
 import "bootstrap/dist/css/bootstrap.css";
@@ -34,7 +32,6 @@ const router = createRouter({
         {path: '/login', component: LoginUser},
         {path: '/reset-password', component: ForgotPassword},
         {path: '/signup', component: CreateAccount},
-        // {path: '/test', component: Test},
     ]
 });
 
