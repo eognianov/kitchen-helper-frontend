@@ -12,7 +12,7 @@ import RecipeDetails from "./components/Recipes/RecipeDetails.vue";
 import LoginUser from "./components/LoginUser/LoginUser.vue";
 import ForgotPassword from "./components/LoginUser/ForgotPassword.vue";
 import CreateAccount from "./components/LoginUser/CreateAccount.vue";
-import Test from "./components/Test.vue";
+// import Test from "./components/Test.vue";
 
 
 import "vuetify/dist/vuetify.css";
@@ -34,10 +34,9 @@ const router = createRouter({
         {path: '/login', component: LoginUser},
         {path: '/reset-password', component: ForgotPassword},
         {path: '/signup', component: CreateAccount},
-        {path: '/test', component: Test},
+        // {path: '/test', component: Test},
     ]
 });
-
 
 app.use(veautify)
 app.use(pinia)

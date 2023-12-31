@@ -33,12 +33,12 @@
 							Login
 						</router-link>
 					</li>
-					<li class="nav-item" @click="toggleNavbar" >
-						<router-link to="/test" class="nav-link">
-							Test
-						</router-link>
-					</li>
-					<li class="nav-item" @click="$emit('logoutUser')" v-if="auth.logged">
+<!--					<li class="nav-item" @click="toggleNavbar" >-->
+<!--						<router-link to="/test" class="nav-link">-->
+<!--							Test-->
+<!--						</router-link>-->
+<!--					</li>-->
+					<li class="nav-item" @click="auth.logout" v-if="auth.logged">
 						<a href="#" class="nav-link">Logout</a>
 					</li>
 					<li class="nav-item btn-submit-recipe" @click="toggleNavbar" v-if="auth.logged">
@@ -55,12 +55,10 @@
 </template>
 
 <script setup>
-import {ref, defineProps} from 'vue';
+import {ref} from 'vue';
 import {useAuthStore} from "../../stores/authStore";
 
 const auth = useAuthStore()
-
-const props = defineProps(['user']);
 
 let isNavbarVisible = ref(false)
 

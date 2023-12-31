@@ -22,6 +22,7 @@
 									Forgot Password?
 								</router-link>
 							</div>
+							<p class="error" :class="{show: errorFound}">{{ errorMessage }}</p>
 							<button id="btn" class="btn btn-lg btn-block form-btn font-weight-bold">Login</button>
 						</form>
 						<div class="text-center pt-4 font-weight-bold">
@@ -35,43 +36,33 @@
 </template>
 
 <script setup>
-import axios from 'axios';
 import {ref} from "vue";
 import {useRouter} from 'vue-router';
+import {useAuthStore} from "@/stores/authStore";
+
+const auth = useAuthStore()
 
 const router = useRouter();
 
 let username = ref("");
 let password = ref("");
+let errorFound = ref(false)
+let errorMessage = ref('')
 
 async function login() {
+	if (username.value === '' || password.value === '') {
+		errorFound.value = true;
+		errorMessage.value = 'Please provide username and password';
+		return;
+	}
 	try {
-		const response = await axios.post(`/users/signin`, {
-			username: username.value,
-			password: password.value
-		}, {
-			headers: {"Content-Type": "multipart/form-data"}
-		})
-		localStorage.setItem('token', response.data.access_token);
-		router.push({name: "index"});
-
+		await auth.login(username.value, password.value)
 	} catch (error) {
-		if (error.response) {
-			// The request was made and the server responded with a status code
-			// that falls out of the range of 2xx
-			console.log(error.response.data);
-			console.log(error.response.status);
-			console.log(error.response.headers);
-		} else if (error.request) {
-			// The request was made but no response was received
-			// `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-			// http.ClientRequest in node.js
-			console.log(error.request);
-		} else {
-			// Something happened in setting up the request that triggered an Error
-			console.log('Error', error.message);
-		}
-		console.log(error.config);
+		errorFound.value = true;
+		errorMessage.value = error.message
+	}
+	if (auth.logged) {
+		router.push({name: "index"});
 	}
 }
 </script>
@@ -138,5 +129,13 @@ a {
 .loginform {
 	padding: 4rem;
 	color: var(--main-text);
+}
+.error {
+	display: none;
+	color: var(--main-alert);
+	font-size: .8rem;
+}
+.show {
+	display: block;
 }
 </style>

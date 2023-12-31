@@ -1,46 +1,17 @@
 <template>
-	<!--	<h1 v-if="user">Hello {{ user.username }}</h1>-->
-
-	<nav-bar :user="user" @logout-user="logoutUser"></nav-bar>
+	<nav-bar></nav-bar>
 	<router-view></router-view>
 	<footer-nav></footer-nav>
 </template>
 
 <script setup>
-import axios from "axios";
-import VueJwtDecode from 'vue-jwt-decode';
-import {ref} from 'vue'
 import NavBar from './components/Main/NavBar.vue';
 import FooterNav from './components/Main/FooterNav.vue';
+import {useAuthStore} from "@/stores/authStore";
 
-let token = ref(localStorage.getItem('token'))
-let user = ref(null);
-// import {useCounterStore} from "@/stores/counter";
-//
-// const counter = useCounterStore()
+const auth = useAuthStore()
 
-async function getUser(token) {
-	let decoded = VueJwtDecode.decode(token);
-	let response = await axios.get(`users/${decoded.sub}/`)
-	if (response.status === 200) {
-		user.value = response.data
-	}
-}
-
-if (token.value) {
-	getUser(token.value)
-}
-
-function logoutUser() {
-	localStorage.removeItem('token');
-	user.value = null;
-	token.value = null;
-}
-
-function loginUser() {
-	localStorage.getItem('token');
-	getUser(token.value)
-}
+auth.init()
 
 </script>
 
