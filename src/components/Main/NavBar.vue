@@ -28,15 +28,20 @@
 							Recipes
 						</router-link>
 					</li>
-					<li class="nav-item" @click="toggleNavbar" v-if="!props.user">
+					<li class="nav-item" @click="toggleNavbar" v-if="!auth.logged">
 						<router-link to="/login" class="nav-link">
 							Login
 						</router-link>
 					</li>
-					<li class="nav-item" @click="logout" v-if="props.user">
-						<a href="javascript:void(9)" class="nav-link">Logout</a>
+					<li class="nav-item" @click="toggleNavbar" >
+						<router-link to="/test" class="nav-link">
+							Test
+						</router-link>
 					</li>
-					<li class="nav-item btn-submit-recipe" @click="toggleNavbar" v-if="props.user">
+					<li class="nav-item" @click="$emit('logoutUser')" v-if="auth.logged">
+						<a href="#" class="nav-link">Logout</a>
+					</li>
+					<li class="nav-item btn-submit-recipe" @click="toggleNavbar" v-if="auth.logged">
 						<router-link to="/create" class="nav-link">
 							<i class="fa fa-upload" aria-hidden="true"></i>
 							Submit Recipe
@@ -46,25 +51,21 @@
 			</div>
 		</div>
 	</nav>
+
 </template>
 
 <script setup>
 import {ref, defineProps} from 'vue';
-import {useRouter} from 'vue-router';
+import {useAuthStore} from "../../stores/authStore";
 
-const router = useRouter();
+const auth = useAuthStore()
 
-const props = defineProps(['user'])
+const props = defineProps(['user']);
 
 let isNavbarVisible = ref(false)
 
 function toggleNavbar() {
 	isNavbarVisible.value = !isNavbarVisible.value
-}
-
-function logout() {
-	localStorage.removeItem('token')
-	router.push({name: "index"});
 }
 </script>
 
