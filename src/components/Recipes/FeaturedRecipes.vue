@@ -3,7 +3,7 @@
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-lg-12">
-					<h4>DEC 18, 2023</h4>
+					<h4>{{ currentDate }}</h4>
 					<h3>Recipes of the day</h3>
 				</div>
 				<div class="col-lg-8">
@@ -16,6 +16,14 @@
 
 <script setup>
 import RecipeBox from './RecipeBox.vue';
+
+const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
+const date = new Date();
+const day = date.getDate();
+const month = date.getMonth();
+const year = date.getFullYear();
+const currentDate = `${months[month]} ${day}, ${year}`
+
 </script>
 
 <style scoped>
@@ -31,10 +39,11 @@ import RecipeBox from './RecipeBox.vue';
 	margin-bottom: 40px;
 	color: var(--main-text);
 }
+
 .featured h4 {
 	font-size: 1rem;
 	text-transform: uppercase;
-	color:  var(--main-text)
+	color: var(--main-text)
 }
 
 </style>
