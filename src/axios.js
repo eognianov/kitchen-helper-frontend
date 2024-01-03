@@ -1,7 +1,17 @@
 import axios from "axios";
+import VueJwtDecode from "vue-jwt-decode";
 
-axios.defaults.baseURL = 'http://127.0.0.1:8000/api';
+const BASE_URL = import.meta.env.VITE_BASE_URL;
+
+axios.defaults.baseURL = BASE_URL;
+
 const token = localStorage.getItem('token')
+
 if (token) {
-    axios.defaults.headers.common['Authorization'] = 'Bearer ' + localStorage.getItem('token')
+    let decoded = VueJwtDecode.decode(token);
+    const currentDate = new Date();
+    const timestamp = currentDate.getTime();
+    if (timestamp >= decoded.exp) {
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
+    }
 }

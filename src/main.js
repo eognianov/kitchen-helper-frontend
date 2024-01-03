@@ -13,7 +13,6 @@ import LoginUser from "./components/LoginUser/LoginUser.vue";
 import ForgotPassword from "./components/LoginUser/ForgotPassword.vue";
 import CreateAccount from "./components/LoginUser/CreateAccount.vue";
 import CheckEmail from "./components/LoginUser/CheckEmail.vue";
-import Test from "./components/Recipes/Test.vue";
 
 import "vuetify/dist/vuetify.css";
 import "bootstrap/dist/css/bootstrap.css";
@@ -33,8 +32,7 @@ const router = createRouter({
         {path: '/login', component: LoginUser, meta: {requiresAuth: false}},
         {path: '/reset-password', component: ForgotPassword, meta: {requiresAuth: true}},
         {path: '/signup', component: CreateAccount, meta: {requiresAuth: false}},
-        {path: '/check-email', component: CheckEmail, name: 'check-email', meta: {requiresAuth: false}},
-        {path: '/test', component: Test, meta: {requiresAuth: false}},
+        {path: '/check-email', component: CheckEmail, name: 'check-email', meta: {requiresAuth: false}}
     ]
 });
 

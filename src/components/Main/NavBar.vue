@@ -18,17 +18,17 @@
 					 :class="{ 'show': isNavbarVisible }"
 					 id="navbarNavDropdown">
 				<ul class="navbar-nav">
-					<li class="nav-item" @click="toggleNavbar">
+					<li class="nav-item" @click="isNavbarVisible ? isNavbarVisible=false : null">
 						<router-link to="/" class="nav-link">
 							Home
 						</router-link>
 					</li>
-					<li class="nav-item" @click="toggleNavbar">
+					<li class="nav-item" @click="isNavbarVisible ? isNavbarVisible=false : null">
 						<router-link to="/recipes" class="nav-link">
 							Recipes
 						</router-link>
 					</li>
-					<li class="nav-item" @click="toggleNavbar" v-if="!auth.logged">
+					<li class="nav-item" @click="isNavbarVisible ? isNavbarVisible=false : null" v-if="!auth.logged">
 						<router-link to="/login" class="nav-link">
 							Login
 						</router-link>
@@ -36,10 +36,7 @@
 					<li class="nav-item" @click="auth.logout" v-if="auth.logged">
 						<a href="#" class="nav-link">Logout</a>
 					</li>
-					<li class="nav-item" @click="auth.logout" v-if="auth.logged">
-						<a href="#" class="nav-link">Welcome: {{auth.user.username}}</a>
-					</li>
-					<li class="nav-item btn-submit-recipe" @click="toggleNavbar" v-if="auth.logged">
+					<li class="nav-item btn-submit-recipe" @click="isNavbarVisible ? isNavbarVisible=false : null" v-if="auth.logged">
 						<router-link to="/create" class="nav-link">
 							<i class="fa fa-upload" aria-hidden="true"></i>
 							Submit Recipe
@@ -146,9 +143,9 @@ function toggleNavbar() {
 	color: var(--secondary-text);
 }
 
-/*.show > .navbar-nav > .nav-item > a.router-link-active {*/
-/*	border-bottom: 1px solid var(--secondary-text);*/
-/*}*/
+#navbarNavDropdown.show > .navbar-nav > .nav-item > a.router-link-active {
+	border-bottom: 1px solid var(--secondary-text);
+}
 
 @media only screen and (max-width: 992px) {
 	.navbar {

@@ -6,8 +6,7 @@ export const useAuthStore = defineStore({
     id: 'auth',
     state: () => ({
         logged: false,
-        user: null,
-        title: 'My counter title'
+        user: null
     }),
     actions: {
         async init() {
@@ -15,10 +14,14 @@ export const useAuthStore = defineStore({
                 let token = localStorage.getItem('token')
                 if (token) {
                     let decoded = VueJwtDecode.decode(token);
-                    let response = await axios.get(`users/${decoded.sub}/`)
-                    if (response.status === 200) {
-                        this.user = response.data
-                        this.logged = true;
+                    const currentDate = new Date();
+                    const timestamp = currentDate.getTime();
+                    if (timestamp >= decoded.exp) {
+                        let response = await axios.get(`users/${decoded.sub}/`)
+                        if (response.status === 200) {
+                            this.user = response.data
+                            this.logged = true;
+                        }
                     }
                 }
             } catch (error) {

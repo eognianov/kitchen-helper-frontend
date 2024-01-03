@@ -19,10 +19,7 @@ import RecipeBox from './RecipeBox.vue';
 
 const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
 const date = new Date();
-const day = date.getDate();
-const month = date.getMonth();
-const year = date.getFullYear();
-const currentDate = `${months[month]} ${day}, ${year}`
+const currentDate = `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`
 
 </script>
 
