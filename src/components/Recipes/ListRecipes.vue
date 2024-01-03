@@ -7,12 +7,15 @@
 					<h5><i class="fa fa-cutlery" aria-hidden="true"></i> List Recipes</h5>
 				</div>
 
-				<div class="col-lg-4 col-sm-6" v-for="x in 6" :key="x">
-					<recipe-box></recipe-box>
+				<div class="col-lg-4 col-sm-6" v-for="recipe in recipes" :key="recipe.id">
+					<recipe-box :recipe="recipe"></recipe-box>
 				</div>
 
 				<div class="col-lg-12 text-center">
-					<a href="#" class="btn btn-load">Load More</a>
+					<button class="btn btn-load"
+									@click="getRecipes(next_page)"
+									v-if="next_page"
+					>Load More</button>
 				</div>
 
 			</div>
@@ -22,6 +25,27 @@
 
 <script setup>
 import RecipeBox from "./RecipeBox.vue";
+import axios from "axios";
+import {ref} from 'vue';
+
+const next_page = ref(null)
+const recipes = ref([])
+
+async function getRecipes(current_url) {
+	try {
+		let response = await axios.get(current_url)
+		if (response.data.next_page) {
+			next_page.value = response.data.next_page
+		} else {
+			next_page.value = null
+		}
+		console.log(response.data.next_page)
+		recipes.value.push(...response.data.recipes)
+	} catch (error) {
+		console.log(error)
+	}
+}
+getRecipes('/recipes/?page=1&page_size=1')
 </script>
 
 <style>
