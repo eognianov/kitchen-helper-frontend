@@ -8,7 +8,7 @@
 		</router-link>
 		<h2>
 			<router-link to="/details">
-				Roast Chicken With Lemon Gravy
+				{{ name }}
 			</router-link>
 		</h2>
 		<p>Dapibus mattis a. Nec lacus nam. Volutpat molestie ipsum. Eu et fermentum malesuada et et lorem mauris
@@ -21,6 +21,12 @@
 		</div>
 	</div>
 </template>
+
+<script setup>
+import {defineProps} from 'vue'
+
+const props = defineProps(['name'])
+</script>
 
 
 <style scoped>

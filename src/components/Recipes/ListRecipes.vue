@@ -8,16 +8,16 @@
 				</div>
 
 				<div class="col-lg-4 col-sm-6" v-for="recipe in recipes" :key="recipe.id">
-					<recipe-box :recipe="recipe"></recipe-box>
+					<recipe-box :name="recipe.name"></recipe-box>
 				</div>
-
-				<div class="col-lg-12 text-center">
-					<button class="btn btn-load"
-									@click="getRecipes(next_page)"
-									v-if="next_page"
-					>Load More</button>
-				</div>
-
+<!--				<div class="col-lg-12 text-center">-->
+<!--					<button class="btn btn-load"-->
+<!--									@click="getRecipes(next_page)"-->
+<!--									v-if="next_page"-->
+<!--					>{{ targetIsVisible }}-->
+<!--					</button>-->
+<!--				</div>-->
+				<div ref="target"></div>
 			</div>
 		</div>
 	</div>
@@ -26,7 +26,8 @@
 <script setup>
 import RecipeBox from "./RecipeBox.vue";
 import axios from "axios";
-import {ref} from 'vue';
+import {ref, watch} from 'vue';
+import {useElementVisibility} from "@vueuse/core";
 
 const next_page = ref(null)
 const recipes = ref([])
@@ -39,13 +40,22 @@ async function getRecipes(current_url) {
 		} else {
 			next_page.value = null
 		}
-		console.log(response.data.next_page)
 		recipes.value.push(...response.data.recipes)
 	} catch (error) {
+		console.log(current_url)
 		console.log(error)
 	}
 }
-getRecipes('/recipes/?page=1&page_size=1')
+getRecipes('/recipes/?page=1&page_size=6')
+
+const target = ref(null)
+const targetIsVisible = useElementVisibility(target)
+
+watch(targetIsVisible,   (targetVisible) => {
+	if (targetVisible === true && next_page.value !== null) {
+		 getRecipes(next_page.value)
+	}
+})
 </script>
 
 <style>
@@ -76,13 +86,16 @@ getRecipes('/recipes/?page=1&page_size=1')
 	color: var(--main-text);
 	transition: all 0.3s ease;
 }
+
 .list .box.grid.recipes .by {
 	padding: 10px 15px;
 	font-size: 15px;
 }
+
 .list .box.grid.recipes a {
 	font-size: 1.2rem
 }
+
 .list .box.grid.recipes p {
 	font-size: .9rem
 }
