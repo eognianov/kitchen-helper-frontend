@@ -8,7 +8,7 @@
 					<div class="col-md-12">
 						<form @submit.prevent="login">
 							<h3>Login to account</h3>
-							<p>Access to the most powerfull tool in the entire design and web industry.</p>
+							<p>Unlock culinary creativity with Kitchen Helper, your go-to destination for delicious recipes that inspire and simplify your cooking journey.</p>
 							<div class="form-group mt-5">
 								<input type="text" id="username" class="form-control" placeholder="Username" v-model="username">
 							</div>
@@ -137,5 +137,9 @@ a {
 }
 .show {
 	display: block;
+}
+form p {
+	max-width: 500px;
+	font-size: .85rem;
 }
 </style>

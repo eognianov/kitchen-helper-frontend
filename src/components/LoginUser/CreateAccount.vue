@@ -7,7 +7,7 @@
 				<div class="col-md-12">
 					<form @submit.prevent="signUp">
 						<h3>Create an account</h3>
-						<p>Access to the most powerfull tool in the entire design and web industry.</p>
+						<p>Unlock culinary creativity with Kitchen Helper, your go-to destination for delicious recipes that inspire and simplify your cooking journey.</p>
 
 
 						<div class="form-group mt-5">
@@ -179,5 +179,9 @@ a {
 	display: block;
 	margin-top: 1rem;
 	margin-bottom: 0;
+}
+form p {
+	max-width: 500px;
+	font-size: .85rem;
 }
 </style>
