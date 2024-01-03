@@ -122,15 +122,8 @@
 
 </template>
 
-<script>
+<script setup>
 import ListRecipes from "./ListRecipes.vue";
-
-export default {
-	components: {
-		'list-recipes': ListRecipes,
-	},
-	name: "SearchRecipes"
-}
 </script>
 
 <style scoped>

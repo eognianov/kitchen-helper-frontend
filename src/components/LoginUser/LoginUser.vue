@@ -6,55 +6,25 @@
 				<div
 						class="col-md-12 col-lg-8 py-5 mx-2 rightcolumn d-flex flex-column align-items-center align-self-center shadow-lg">
 					<div class="col-md-12">
-
-						<h3>Login to account</h3>
-						<p>Access to the most powerfull tool in the entire design and web industry.</p>
-
-						<div class="form-group mt-5">
-							<input type="email" id="email" class="form-control" placeholder="Email address">
-						</div>
-
-						<div class="form-group">
-							<input type="password" id="password" class="form-control" placeholder="Password">
-						</div>
-
-						<div class="text-right pb-3">
-							<router-link to="/reset-password" class="font-weight-bold">
-								Forgot Password?
-							</router-link>
-						</div>
-						<input type="button" id="btn" class="btn btn-lg btn-block form-btn font-weight-bold" value="Login">
-
-						<div class="row text-center">
-							<div class="col-12 pt-5 pb-3">
-								<span>Or sign in with</span>
+						<form @submit.prevent="login">
+							<h3>Login to account</h3>
+							<p>Unlock culinary creativity with Kitchen Helper, your go-to destination for delicious recipes that inspire and simplify your cooking journey.</p>
+							<div class="form-group mt-5">
+								<input type="text" id="username" class="form-control" placeholder="Username" v-model="username">
 							</div>
 
-							<div class="col-3">
-								<div class="chip">
-									<a href="#"><i class="fa-brands fa-facebook-f"></i></a>
-								</div>
+							<div class="form-group">
+								<input type="password" id="password" class="form-control" placeholder="Password" v-model="password">
 							</div>
 
-							<div class="col-3">
-								<div class="chip">
-									<a href="#"><i class="fa-brands fa-x-twitter"></i></a>
-								</div>
+							<div class="text-right pb-3">
+								<router-link to="/reset-password" class="font-weight-bold">
+									Forgot Password?
+								</router-link>
 							</div>
-
-							<div class="col-3">
-								<div class="chip">
-									<a href="#"><i class="fa-brands fa-google"></i></a>
-								</div>
-							</div>
-
-							<div class="col-3">
-								<div class="chip">
-									<a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
-								</div>
-							</div>
-
-						</div>
+							<p class="error" :class="{show: errorFound}">{{ errorMessage }}</p>
+							<button id="btn" class="btn btn-lg btn-block form-btn font-weight-bold">Login</button>
+						</form>
 						<div class="text-center pt-4 font-weight-bold">
 							<router-link to="/signup">Create an account</router-link>
 						</div>
@@ -65,9 +35,35 @@
 	</div>
 </template>
 
-<script>
-export default {
-	name: "LoginUser"
+<script setup>
+import {ref} from "vue";
+import {useRouter} from 'vue-router';
+import {useAuthStore} from "@/stores/authStore";
+
+const auth = useAuthStore()
+
+const router = useRouter();
+
+let username = ref("");
+let password = ref("");
+let errorFound = ref(false)
+let errorMessage = ref('')
+
+async function login() {
+	if (username.value === '' || password.value === '') {
+		errorFound.value = true;
+		errorMessage.value = 'Please provide username and password';
+		return;
+	}
+	try {
+		await auth.login(username.value, password.value)
+	} catch (error) {
+		errorFound.value = true;
+		errorMessage.value = error.message
+	}
+	if (auth.logged) {
+		router.push({name: "index"});
+	}
 }
 </script>
 
@@ -133,5 +129,17 @@ a {
 .loginform {
 	padding: 4rem;
 	color: var(--main-text);
+}
+.error {
+	display: none;
+	color: var(--main-alert);
+	font-size: .8rem;
+}
+.show {
+	display: block;
+}
+form p {
+	max-width: 500px;
+	font-size: .85rem;
 }
 </style>

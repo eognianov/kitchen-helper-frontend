@@ -19,15 +19,8 @@
 	</div>
 </template>
 
-<script>
+<script setup>
 import TopRecipeBox from "./TopRecipeBox.vue";
-
-export default {
-	components: {
-		'top-recipe-box': TopRecipeBox
-	},
-	name: "TopRecipes"
-}
 </script>
 
 <style scoped>

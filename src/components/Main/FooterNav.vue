@@ -36,12 +36,6 @@
 	</footer>
 </template>
 
-<script>
-export default {
-	name: "FooterNav"
-}
-</script>
-
 <style scoped>
 footer {
 	margin-top: 90px;

@@ -163,12 +163,6 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: "CreateRecipe"
-}
-</script>
-
 <style scoped>
 .submit {
 	color: var(--main-text);

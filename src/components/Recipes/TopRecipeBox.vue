@@ -13,11 +13,6 @@
 	</div>
 </template>
 
-<script>
-export default {
-	name: "TopRecipeBox"
-}
-</script>
 
 <style scoped>
 

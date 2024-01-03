@@ -110,12 +110,6 @@
 	</div>
 </template>
 
-<script>
-export default {
-	name: "RecipeDetails"
-}
-</script>
-
 <style scoped>
 .recipe-detail {
 	color: var(--main-text);

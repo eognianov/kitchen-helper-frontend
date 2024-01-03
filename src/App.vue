@@ -4,16 +4,14 @@
 	<footer-nav></footer-nav>
 </template>
 
-<script>
+<script setup>
 import NavBar from './components/Main/NavBar.vue';
 import FooterNav from './components/Main/FooterNav.vue';
+import {useAuthStore} from "@/stores/authStore";
 
-export default {
-	components: {
-		'nav-bar': NavBar,
-		'footer-nav': FooterNav,
-	}
-}
+const auth = useAuthStore()
+
+auth.init()
 
 </script>
 
@@ -31,10 +29,6 @@ export default {
 	--dark-background-transparent: #33333366;
 	--main-hover: #F8F8F8;
 	--main-alert: #e13b2b;
-
-
-
-
 }
 
 body {
