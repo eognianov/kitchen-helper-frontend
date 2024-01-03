@@ -10,13 +10,13 @@
 				<div class="col-lg-4 col-sm-6" v-for="recipe in recipes" :key="recipe.id">
 					<recipe-box :name="recipe.name"></recipe-box>
 				</div>
-<!--				<div class="col-lg-12 text-center">-->
-<!--					<button class="btn btn-load"-->
-<!--									@click="getRecipes(next_page)"-->
-<!--									v-if="next_page"-->
-<!--					>{{ targetIsVisible }}-->
-<!--					</button>-->
-<!--				</div>-->
+				<div class="col-lg-12 text-center">
+					<button class="btn btn-load"
+									@click="getRecipes(next_page)"
+									v-if="next_page"
+					>Load More
+					</button>
+				</div>
 				<div ref="target"></div>
 			</div>
 		</div>
@@ -42,18 +42,19 @@ async function getRecipes(current_url) {
 		}
 		recipes.value.push(...response.data.recipes)
 	} catch (error) {
-		console.log(current_url)
 		console.log(error)
 	}
 }
+// initial load of recipes
 getRecipes('/recipes/?page=1&page_size=6')
 
+// load more on scroll if any
 const target = ref(null)
 const targetIsVisible = useElementVisibility(target)
 
-watch(targetIsVisible,   (targetVisible) => {
+watch(targetIsVisible, (targetVisible) => {
 	if (targetVisible === true && next_page.value !== null) {
-		 getRecipes(next_page.value)
+		getRecipes(next_page.value)
 	}
 })
 </script>
