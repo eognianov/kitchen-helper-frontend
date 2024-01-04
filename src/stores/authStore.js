@@ -16,7 +16,7 @@ export const useAuthStore = defineStore({
                     let decoded = VueJwtDecode.decode(token);
                     const currentDate = new Date();
                     const timestamp = currentDate.getTime();
-                    if (timestamp >= decoded.exp) {
+                    if (timestamp < decoded.exp * 1000) {
                         let response = await axios.get(`users/${decoded.sub}/`)
                         if (response.status === 200) {
                             this.user = response.data
