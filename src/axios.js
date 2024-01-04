@@ -11,7 +11,8 @@ if (token) {
     let decoded = VueJwtDecode.decode(token);
     const currentDate = new Date();
     const timestamp = currentDate.getTime();
-    if (timestamp >= decoded.exp) {
+
+    if (timestamp < decoded.exp * 1000) {
         axios.defaults.headers.common['Authorization'] = 'Bearer ' + token
     }
 }
