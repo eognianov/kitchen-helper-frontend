@@ -39,7 +39,7 @@
 							<div class="form-group">
 								<label>Upload your photo: </label>
 								<br>
-								<input type="file" class="form-control-file">
+								<input type="file" class="form-control-file" @change="onFileSelected">
 							</div>
 
 
@@ -48,7 +48,7 @@
 								<hr>
 								<vue-draggable-next class="box ui-sortable-handle" :list="ingredients" >
 									<div
-											class="list-group-item bg-gray-300 m-1 p-3 rounded-md text-center"
+											class="list-group-item bg-gray-300 m-1 p-3 pb-0 rounded-md text-center"
 											v-for="ingredient in ingredients"
 											:key="ingredient.id"
 									>
@@ -56,7 +56,7 @@
 											<div class="col-lg-1 col-sm-1">
 												<i class="fa fa-arrows" aria-hidden="true"></i>
 											</div>
-											<div class="col-lg-5 col-sm-5">
+											<div class="col-lg-5 col-sm-5 mb-3">
 												<input type="text" class="form-control" placeholder="Name of ingredient"
 															 v-model="ingredient.name">
 											</div>
@@ -262,10 +262,16 @@ function addInstruction() {
 function deleteInstruction(id) {
 	instructions.value = instructions.value.filter((ingredient) => ingredient.id !== id);
 }
+function onFileSelected(e) {
+	// console.log(e)
+	photo.value = e.target.files[0]
+	// console.log(photo.value)
+}
 
 function submitRecipe() {
 	const newRecipe = {
 		'name': name.value,
+		'photo': photo.value,
 		'category': selectCategory.value,
 		'summary': summary.value,
 		'calories': calories.value,
@@ -402,6 +408,9 @@ function submitRecipe() {
 }
 .submit .list-group-item {
 	background-color: var(--very-light-background);
+	margin-top: 10px !important;
+	/*border: 1px solid red;*/
+
 }
 
 </style>
