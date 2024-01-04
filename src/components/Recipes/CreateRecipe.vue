@@ -45,75 +45,98 @@
 							<div class="form-group">
 								<label>Ingredients:</label>
 								<hr>
+								<vue-draggable-next class="box ui-sortable-handle" :list="ingredients">
+									<div
+											class="list-group-item bg-gray-300 m-1 p-3 rounded-md text-center"
+											v-for="ingredient in ingredients"
+											:key="ingredient.id"
+									>
+										<div class="row">
+											<div class="col-lg-1 col-sm-1">
+												<i class="fa fa-arrows" aria-hidden="true"></i>
+											</div>
+											<div class="col-lg-5 col-sm-5">
+												<input type="text" class="form-control" placeholder="Name of ingredient"
+															 v-model="ingredient.name">
+											</div>
+											<div class="col-lg-5 col-sm-5">
+												<input type="text" class="form-control" placeholder="Notes (quantity or additional info)"
+															 v-model="ingredient.quantity">
+											</div>
+											<div class="col-lg-1 col-sm-1">
+												<i class="fa-solid fa-circle-minus minusbtn" @click="deleteIngredient(ingredient.id)" aria-hidden="true"></i>
+											</div>
+										</div>
+									</div>
+								</vue-draggable-next>
+								<!--								<div id="sortable">-->
+								<!--									<div class="box ui-sortable-handle">-->
+								<!--										<div class="row">-->
+								<!--											<div class="col-lg-1 col-sm-1">-->
+								<!--												<i class="fa fa-arrows" aria-hidden="true"></i>-->
+								<!--											</div>-->
+								<!--											<div class="col-lg-5 col-sm-5">-->
+								<!--												<input type="text" class="form-control" placeholder="Name of ingredient">-->
+								<!--											</div>-->
+								<!--											<div class="col-lg-5 col-sm-5">-->
+								<!--												<input type="text" class="form-control" placeholder="Notes (quantity or additional info)">-->
+								<!--											</div>-->
+								<!--											<div class="col-lg-1 col-sm-1">-->
+								<!--												<i class="fa-solid fa-circle-minus minusbtn" aria-hidden="true"></i>-->
+								<!--											</div>-->
+								<!--										</div>-->
+								<!--									</div>-->
 
-<!--								<div id="sortable">-->
-<!--									<div class="box ui-sortable-handle">-->
-<!--										<div class="row">-->
-<!--											<div class="col-lg-1 col-sm-1">-->
-<!--												<i class="fa fa-arrows" aria-hidden="true"></i>-->
-<!--											</div>-->
-<!--											<div class="col-lg-5 col-sm-5">-->
-<!--												<input type="text" class="form-control" placeholder="Name of ingredient">-->
-<!--											</div>-->
-<!--											<div class="col-lg-5 col-sm-5">-->
-<!--												<input type="text" class="form-control" placeholder="Notes (quantity or additional info)">-->
-<!--											</div>-->
-<!--											<div class="col-lg-1 col-sm-1">-->
-<!--												<i class="fa-solid fa-circle-minus minusbtn" aria-hidden="true"></i>-->
-<!--											</div>-->
-<!--										</div>-->
-<!--									</div>-->
+								<!--								</div>-->
 
-<!--								</div>-->
-
-								<a href="#" class="btn btn-dark">Add new ingredient</a>
+								<a @click="addIngredient" class="btn btn-dark">Add new ingredient</a>
 
 								<div class="form-group">
 									<label>Instructions:</label>
 									<hr>
-<!--									<div id="sortable2">-->
-<!--										<div class="box ui-sortable-handle">-->
-<!--											<div class="row justify-content-between">-->
-<!--												<div class="col-sm-1">-->
-<!--													<i class="fa fa-arrows" aria-hidden="true"></i>-->
-<!--												</div>-->
-<!--												<div class="col-sm-1">-->
-<!--													<i class="fa-solid fa-circle-minus minusbtn" aria-hidden="true"></i>-->
-<!--												</div>-->
-<!--											</div>-->
-<!--											<div class="row mb-3">-->
-<!--												<div class="col-lg-12 col-lg-3">-->
-<!--													<select class="form-control" name="category"-->
-<!--																	data-placeholder="Choose Category">-->
-<!--														<option value="null">-&#45;&#45;&#45;&#45;&#45;&#45;</option>-->
-<!--														<option-->
-<!--																v-for="category in INSTRUCTION_CATEGORIES"-->
-<!--																:key="category"-->
-<!--																:value="category">-->
-<!--															{{ category.toLowerCase() }}-->
-<!--														</option>-->
-<!--													</select>-->
-<!--												</div>-->
-<!--											</div>-->
-<!--											<div class="row mb-3">-->
-<!--												<div class="col-lg-12 col-lg-3">-->
-<!--													<textarea class="form-control" rows="4" required="required"></textarea>-->
-<!--												</div>-->
-<!--											</div>-->
-<!--											<div class="row mb-3">-->
-<!--												<div class="col-lg-12 col-lg-3">-->
-<!--													<input type="text" class="form-control" placeholder="Time to prepare">-->
-<!--												</div>-->
-<!--											</div>-->
+									<!--									<div id="sortable2">-->
+									<!--										<div class="box ui-sortable-handle">-->
+									<!--											<div class="row justify-content-between">-->
+									<!--												<div class="col-sm-1">-->
+									<!--													<i class="fa fa-arrows" aria-hidden="true"></i>-->
+									<!--												</div>-->
+									<!--												<div class="col-sm-1">-->
+									<!--													<i class="fa-solid fa-circle-minus minusbtn" aria-hidden="true"></i>-->
+									<!--												</div>-->
+									<!--											</div>-->
+									<!--											<div class="row mb-3">-->
+									<!--												<div class="col-lg-12 col-lg-3">-->
+									<!--													<select class="form-control" name="category"-->
+									<!--																	data-placeholder="Choose Category">-->
+									<!--														<option value="null">-&#45;&#45;&#45;&#45;&#45;&#45;</option>-->
+									<!--														<option-->
+									<!--																v-for="category in INSTRUCTION_CATEGORIES"-->
+									<!--																:key="category"-->
+									<!--																:value="category">-->
+									<!--															{{ category.toLowerCase() }}-->
+									<!--														</option>-->
+									<!--													</select>-->
+									<!--												</div>-->
+									<!--											</div>-->
+									<!--											<div class="row mb-3">-->
+									<!--												<div class="col-lg-12 col-lg-3">-->
+									<!--													<textarea class="form-control" rows="4" required="required"></textarea>-->
+									<!--												</div>-->
+									<!--											</div>-->
+									<!--											<div class="row mb-3">-->
+									<!--												<div class="col-lg-12 col-lg-3">-->
+									<!--													<input type="text" class="form-control" placeholder="Time to prepare">-->
+									<!--												</div>-->
+									<!--											</div>-->
 
-<!--											<div class="row">-->
-<!--												<div class="col-lg-12 col-lg-3">-->
-<!--													<input type="text" class="form-control" placeholder="Complexity">-->
-<!--												</div>-->
-<!--											</div>-->
-<!--										</div>-->
+									<!--											<div class="row">-->
+									<!--												<div class="col-lg-12 col-lg-3">-->
+									<!--													<input type="text" class="form-control" placeholder="Complexity">-->
+									<!--												</div>-->
+									<!--											</div>-->
+									<!--										</div>-->
 
-<!--									</div>-->
+									<!--									</div>-->
 									<a href="#" class="btn btn-dark">Add new instruction</a>
 								</div>
 							</div>
@@ -168,6 +191,7 @@
 <script setup>
 import {ref} from "vue";
 import axios from "axios";
+import {VueDraggableNext} from 'vue-draggable-next'
 
 const name = ref('')
 const categories = ref([])
@@ -178,6 +202,9 @@ const carbo = ref('')
 const fats = ref('')
 const proteins = ref('')
 const cholesterol = ref('')
+const ingredients = ref([
+	{id: '1', name: '', quantity: ''}
+])
 
 async function getRecipesCategories() {
 	let response = await axios.get(`categories/`)
@@ -207,6 +234,15 @@ const INSTRUCTION_CATEGORIES = [
 	'PRESENTATION',
 ]
 
+function addIngredient() {
+	const id = "id" + Math.random().toString(16).slice(2)
+	ingredients.value.push({id: `${id}`, name: '', quantity: ''})
+}
+
+function deleteIngredient(id) {
+	ingredients.value = ingredients.value.filter((ingredient) => ingredient.id !== id);
+}
+
 function submitRecipe() {
 	console.log('name: ' + name.value)
 	console.log('category: ' + selectCategory.value)
@@ -216,6 +252,8 @@ function submitRecipe() {
 	console.log('fats: ' + fats.value)
 	console.log('proteins: ' + proteins.value)
 	console.log('cholesterol: ' + cholesterol.value)
+	console.log(ingredients.value)
+
 }
 
 </script>
