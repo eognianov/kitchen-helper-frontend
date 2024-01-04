@@ -16,16 +16,16 @@
 						<form @submit.prevent="submitRecipe()">
 
 							<div class="form-group">
-								<label>Recipe Title</label>
+								<label>Recipe title</label>
 								<input type="text" class="form-control" v-model="name">
 							</div>
 
 							<div class="form-group">
 								<label>Choose category</label>
 
-								<select v-model="selectCategory" class="js-search-category form-control" name="category"
+								<select v-model="selectCategory" class="form-select" name="category"
 												data-placeholder="Choose Category">
-									<option value="null">-------</option>
+									<option disabled>Select category</option>
 									<option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}
 									</option>
 								</select>
@@ -37,8 +37,8 @@
 							</div>
 
 							<div class="form-group">
-								<label>Upload your photo: </label>
-								<br>
+								<label>Upload picture </label>
+								<hr>
 								<input type="file" class="form-control-file" @change="onFileSelected">
 							</div>
 
@@ -71,25 +71,6 @@
 										</div>
 									</div>
 								</vue-draggable-next>
-								<!--								<div id="sortable">-->
-								<!--									<div class="box ui-sortable-handle">-->
-								<!--										<div class="row">-->
-								<!--											<div class="col-lg-1 col-sm-1">-->
-								<!--												<i class="fa fa-arrows" aria-hidden="true"></i>-->
-								<!--											</div>-->
-								<!--											<div class="col-lg-5 col-sm-5">-->
-								<!--												<input type="text" class="form-control" placeholder="Name of ingredient">-->
-								<!--											</div>-->
-								<!--											<div class="col-lg-5 col-sm-5">-->
-								<!--												<input type="text" class="form-control" placeholder="Notes (quantity or additional info)">-->
-								<!--											</div>-->
-								<!--											<div class="col-lg-1 col-sm-1">-->
-								<!--												<i class="fa-solid fa-circle-minus minusbtn" aria-hidden="true"></i>-->
-								<!--											</div>-->
-								<!--										</div>-->
-								<!--									</div>-->
-
-								<!--								</div>-->
 
 								<a @click="addIngredient" class="btn btn-dark">Add new ingredient</a>
 
@@ -112,8 +93,9 @@
 											</div>
 											<div class="row mb-3">
 												<div class="col-lg-12 col-lg-3">
-													<select v-model="instruction.category" class="form-control" name="category"
+													<select v-model="instruction.category" class="form-select" name="category"
 																	data-placeholder="Choose Category">
+														<option disabled>Select category</option>
 														<option
 																v-for="category in INSTRUCTION_CATEGORIES"
 																:key="category"
@@ -126,7 +108,7 @@
 											<div class="row mb-3">
 												<div class="col-lg-12 col-lg-3">
 													<textarea class="form-control" rows="4" required="required"
-																		v-model="instruction.instruction"></textarea>
+																		v-model="instruction.instruction" placeholder="Short summary"></textarea>
 												</div>
 											</div>
 											<div class="row mb-3">
@@ -183,7 +165,7 @@
 							<div class="form-group row">
 								<label class="col-sm-2 col-form-label">Cholesterol</label>
 								<div class="col-sm-10">
-									<input type="text" class="form-control" v-model="cholesterol">
+									<input type="number" class="form-control" v-model="cholesterol">
 								</div>
 							</div>
 
@@ -205,7 +187,7 @@ const name = ref('')
 const categories = ref([])
 const selectCategory = ref("")
 const summary = ref("")
-const photo = ref("")
+const picture = ref("")
 const calories = ref('')
 const carbo = ref('')
 const fats = ref('')
@@ -226,6 +208,7 @@ async function getRecipesCategories() {
 }
 
 getRecipesCategories()
+
 const INSTRUCTION_CATEGORIES = [
 	'WASH AND CHOP',
 	'PREHEAT OVEN',
@@ -263,15 +246,13 @@ function deleteInstruction(id) {
 	instructions.value = instructions.value.filter((ingredient) => ingredient.id !== id);
 }
 function onFileSelected(e) {
-	// console.log(e)
-	photo.value = e.target.files[0]
-	// console.log(photo.value)
+	picture.value = e.target.files[0]
 }
 
 function submitRecipe() {
 	const newRecipe = {
 		'name': name.value,
-		'photo': photo.value,
+		'picture': picture.value,
 		'category': selectCategory.value,
 		'summary': summary.value,
 		'calories': calories.value,
@@ -286,26 +267,7 @@ function submitRecipe() {
 }
 
 </script>
-<!--{
-  "name": "string",
-  "picture": "string",
-  "summary": "string",
-  "calories": 0,
-  "carbo": 0,
-  "fats": 0,
-  "proteins": 0,
-  "cholesterol": 0,
-  "time_to_prepare": 0,
-  "category_id": 0,
-  "instructions": [
-    {
-      "instruction": "string",
-      "category": "string",
-      "time": 0,
-      "complexity": 1
-    }
-  ]
-}-->
+
 <style scoped>
 .submit {
 	color: var(--main-text);
@@ -336,7 +298,6 @@ function submitRecipe() {
 	margin-top: 0;
 }
 
-
 .submit .content .btn-submit {
 	padding: 15px;
 	color: var(--white);
@@ -350,17 +311,7 @@ function submitRecipe() {
 	border: 1px solid var(--main-text);
 }
 
-/*.submit .content .select2-container--default .select2-selection--single .select2-selection__rendered {*/
-/*  line-height: 45px;*/
-/*  color: #444*/
-/*}*/
-
-/*.submit .content .select2-container--default .select2-selection--single .select2-selection__arrow {*/
-/*  height: 490px*/
-/*}*/
-
 .submit .content .box {
-	/*background-color: var(--main-hover);*/
 	margin-bottom: 15px;
 	padding: 20px;
 	text-align: center
@@ -403,13 +354,13 @@ function submitRecipe() {
 }
 
 .submit .form-group .box {
-	/*border: 1px solid red;*/
 	padding: 0;
 }
-.submit .list-group-item {
+.submit .ui-sortable-handle>.list-group-item {
 	background-color: var(--very-light-background);
 	margin-top: 10px !important;
-	/*border: 1px solid red;*/
+	margin-left: 0 !important;
+	margin-right: 0 !important;
 
 }
 
