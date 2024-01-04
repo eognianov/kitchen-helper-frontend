@@ -36,16 +36,17 @@
 								<textarea class="form-control" rows="4" required="required" v-model="summary"></textarea>
 							</div>
 
-							<!--							<div class="form-group">-->
-							<!--								<label>Upload your photos</label>-->
-							<!--								<input type="file" class="form-control-file">-->
-							<!--							</div>-->
+							<div class="form-group">
+								<label>Upload your photo: </label>
+								<br>
+								<input type="file" class="form-control-file">
+							</div>
 
 
 							<div class="form-group">
 								<label>Ingredients:</label>
 								<hr>
-								<vue-draggable-next class="box ui-sortable-handle" :list="ingredients">
+								<vue-draggable-next class="box ui-sortable-handle" :list="ingredients" >
 									<div
 											class="list-group-item bg-gray-300 m-1 p-3 rounded-md text-center"
 											v-for="ingredient in ingredients"
@@ -64,7 +65,8 @@
 															 v-model="ingredient.quantity">
 											</div>
 											<div class="col-lg-1 col-sm-1">
-												<i class="fa-solid fa-circle-minus minusbtn" @click="deleteIngredient(ingredient.id)" aria-hidden="true"></i>
+												<i class="fa-solid fa-circle-minus minusbtn" @click="deleteIngredient(ingredient.id)"
+													 aria-hidden="true"></i>
 											</div>
 										</div>
 									</div>
@@ -94,50 +96,56 @@
 								<div class="form-group">
 									<label>Instructions:</label>
 									<hr>
-									<!--									<div id="sortable2">-->
-									<!--										<div class="box ui-sortable-handle">-->
-									<!--											<div class="row justify-content-between">-->
-									<!--												<div class="col-sm-1">-->
-									<!--													<i class="fa fa-arrows" aria-hidden="true"></i>-->
-									<!--												</div>-->
-									<!--												<div class="col-sm-1">-->
-									<!--													<i class="fa-solid fa-circle-minus minusbtn" aria-hidden="true"></i>-->
-									<!--												</div>-->
-									<!--											</div>-->
-									<!--											<div class="row mb-3">-->
-									<!--												<div class="col-lg-12 col-lg-3">-->
-									<!--													<select class="form-control" name="category"-->
-									<!--																	data-placeholder="Choose Category">-->
-									<!--														<option value="null">-&#45;&#45;&#45;&#45;&#45;&#45;</option>-->
-									<!--														<option-->
-									<!--																v-for="category in INSTRUCTION_CATEGORIES"-->
-									<!--																:key="category"-->
-									<!--																:value="category">-->
-									<!--															{{ category.toLowerCase() }}-->
-									<!--														</option>-->
-									<!--													</select>-->
-									<!--												</div>-->
-									<!--											</div>-->
-									<!--											<div class="row mb-3">-->
-									<!--												<div class="col-lg-12 col-lg-3">-->
-									<!--													<textarea class="form-control" rows="4" required="required"></textarea>-->
-									<!--												</div>-->
-									<!--											</div>-->
-									<!--											<div class="row mb-3">-->
-									<!--												<div class="col-lg-12 col-lg-3">-->
-									<!--													<input type="text" class="form-control" placeholder="Time to prepare">-->
-									<!--												</div>-->
-									<!--											</div>-->
+									<vue-draggable-next class="box ui-sortable-handle" :list="instructions">
+										<div
+												class="list-group-item bg-gray-300 m-1 p-3 rounded-md text-center"
+												v-for="instruction in instructions"
+												:key="instruction.id"
+										>
+											<div class="row justify-content-between">
+												<div class="col-sm-1">
+													<i class="fa fa-arrows" aria-hidden="true"></i>
+												</div>
+												<div class="col-sm-1">
+													<i class="fa-solid fa-circle-minus minusbtn" aria-hidden="true" @click="deleteInstruction(instruction.id)"></i>
+												</div>
+											</div>
+											<div class="row mb-3">
+												<div class="col-lg-12 col-lg-3">
+													<select v-model="instruction.category" class="form-control" name="category"
+																	data-placeholder="Choose Category">
+														<option
+																v-for="category in INSTRUCTION_CATEGORIES"
+																:key="category"
+																:value="category">
+															{{ category.toLowerCase() }}
+														</option>
+													</select>
+												</div>
+											</div>
+											<div class="row mb-3">
+												<div class="col-lg-12 col-lg-3">
+													<textarea class="form-control" rows="4" required="required"
+																		v-model="instruction.instruction"></textarea>
+												</div>
+											</div>
+											<div class="row mb-3">
+												<div class="col-lg-12 col-lg-3">
+													<input type="text" class="form-control" placeholder="Time to prepare"
+																 v-model="instruction.time">
+												</div>
+											</div>
 
-									<!--											<div class="row">-->
-									<!--												<div class="col-lg-12 col-lg-3">-->
-									<!--													<input type="text" class="form-control" placeholder="Complexity">-->
-									<!--												</div>-->
-									<!--											</div>-->
-									<!--										</div>-->
+											<div class="row">
+												<div class="col-lg-12 col-lg-3">
+													<input type="text" class="form-control" placeholder="Complexity"
+																 v-model="instruction.complexity">
+												</div>
+											</div>
+										</div>
+									</vue-draggable-next>
 
-									<!--									</div>-->
-									<a href="#" class="btn btn-dark">Add new instruction</a>
+									<a @click="addInstruction" class="btn btn-dark">Add new instruction</a>
 								</div>
 							</div>
 
@@ -189,7 +197,7 @@
 </template>
 
 <script setup>
-import {ref} from "vue";
+import {ref, toRaw} from "vue";
 import axios from "axios";
 import {VueDraggableNext} from 'vue-draggable-next'
 
@@ -197,6 +205,7 @@ const name = ref('')
 const categories = ref([])
 const selectCategory = ref("")
 const summary = ref("")
+const photo = ref("")
 const calories = ref('')
 const carbo = ref('')
 const fats = ref('')
@@ -204,6 +213,9 @@ const proteins = ref('')
 const cholesterol = ref('')
 const ingredients = ref([
 	{id: '1', name: '', quantity: ''}
+])
+const instructions = ref([
+	{id: '1', instruction: '', category: '', time: '', complexity: ''}
 ])
 
 async function getRecipesCategories() {
@@ -243,17 +255,28 @@ function deleteIngredient(id) {
 	ingredients.value = ingredients.value.filter((ingredient) => ingredient.id !== id);
 }
 
-function submitRecipe() {
-	console.log('name: ' + name.value)
-	console.log('category: ' + selectCategory.value)
-	console.log('summary: ' + summary.value)
-	console.log('calories: ' + calories.value)
-	console.log('carbo: ' + carbo.value)
-	console.log('fats: ' + fats.value)
-	console.log('proteins: ' + proteins.value)
-	console.log('cholesterol: ' + cholesterol.value)
-	console.log(ingredients.value)
+function addInstruction() {
+	const id = "id" + Math.random().toString(16).slice(2)
+	instructions.value.push({id: `${id}`, instruction: '', category: '', time: '', complexity: ''})
+}
+function deleteInstruction(id) {
+	instructions.value = instructions.value.filter((ingredient) => ingredient.id !== id);
+}
 
+function submitRecipe() {
+	const newRecipe = {
+		'name': name.value,
+		'category': selectCategory.value,
+		'summary': summary.value,
+		'calories': calories.value,
+		'carbo': carbo.value,
+		'fats': fats.value,
+		'proteins': proteins.value,
+		'cholesterol': cholesterol.value,
+		'ingredients': toRaw(ingredients.value),
+		'instructions': toRaw(instructions.value),
+	}
+	console.log(newRecipe)
 }
 
 </script>
@@ -331,7 +354,7 @@ function submitRecipe() {
 /*}*/
 
 .submit .content .box {
-	background-color: var(--main-hover);
+	/*background-color: var(--main-hover);*/
 	margin-bottom: 15px;
 	padding: 20px;
 	text-align: center
@@ -342,12 +365,12 @@ function submitRecipe() {
 }
 
 .submit .content .box .fa-arrows {
-	padding-top: 13px
+	padding-top: 10px
 }
 
 .submit .content .box .fa-circle-minus {
 	font-size: 20px;
-	padding-top: 13px
+	padding-top: 9px
 }
 
 .submit .content .box .fa-circle-minus:hover {
@@ -372,4 +395,13 @@ function submitRecipe() {
 .submit label {
 	margin-bottom: 10px;
 }
+
+.submit .form-group .box {
+	/*border: 1px solid red;*/
+	padding: 0;
+}
+.submit .list-group-item {
+	background-color: var(--very-light-background);
+}
+
 </style>
