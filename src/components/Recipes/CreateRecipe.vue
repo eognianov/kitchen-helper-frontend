@@ -54,153 +54,198 @@
 
 								<vue-draggable-next class="box ui-sortable-handle" :list="ingredients">
 									<div
-											class="list-group-item bg-gray-300 m-1 p-3 pb-0 rounded-md text-center"
+											class="list-group-item bg-gray-300 m-1 p-3 rounded-md text-center"
 											v-for="ingredient in ingredients"
 											:key="ingredient.id"
 									>
 										<div class="row">
-											<div class="col-lg-1 col-sm-1">
-												<i class="fa fa-arrows" aria-hidden="true"></i>
-											</div>
-											<div class="col-lg-5 col-sm-5 mb-3">
+											<div class="col-lg-12 col-sm-12">
+												<div class="text-left">Ingredient name</div>
 												<input type="text" class="form-control" placeholder="Name of ingredient"
 															 v-model="ingredient.name">
 											</div>
-											<div class="col-lg-5 col-sm-5">
-												<input type="text" class="form-control" placeholder="Notes (quantity or additional info)"
-															 v-model="ingredient.quantity">
+										</div>
+										<div class="row">
+											<div class="col-lg-4 col-sm-4 mt-2">
+												<div class="text-left">Measurement</div>
+												<input type="text" class="form-control"
+															 v-model="ingredient.measurement">
 											</div>
-											<div class="col-lg-1 col-sm-1">
-												<i class="fa-solid fa-circle-minus minusbtn" @click="deleteIngredient(ingredient.id)"
-													 aria-hidden="true"></i>
+											<div class="col-lg-4 col-sm-4 mt-2">
+												<div class="text-left">Category</div>
+												<input type="text" class="form-control"
+															 v-model="ingredient.category">
 											</div>
+											<div class="col-lg-4 col-sm-4 mt-2">
+												<div class="text-left">Carbohydrate</div>
+												<input type="number" min="0" class="form-control"
+															 v-model="ingredient.carbo">
+											</div>
+										</div>
+										<div class="row">
+											<div class="col-lg-4 col-sm-4 mt-2">
+												<div class="text-left">Fats</div>
+												<input type="number" min="0" class="form-control"
+															 v-model="ingredient.fats">
+											</div>
+											<div class="col-lg-4 col-sm-4 mt-2">
+												<div class="text-left">Protein</div>
+												<input type="number" min="0" class="form-control"
+															 v-model="ingredient.protein">
+											</div>
+											<div class="col-lg-4 col-sm-4 mt-2">
+												<div class="text-left">Cholesterol</div>
+												<input type="number" min="0" class="form-control"
+															 v-model="ingredient.cholesterol">
+											</div>
+										</div>
+										<div class="row justify-content-between mt-2 signs">
+											<div class="col-sm-3 text-left">
+												<i class="fa fa-arrows" aria-hidden="true">
+													<span class="alert-text"> Move</span>
+												</i>
+											</div>
+											<div class="col-sm-3 text-right pr-4">
+												<i class="fa-solid fa-circle-minus minusbtn" aria-hidden="true"
+													 @click="deleteIngredient(ingredient.id)">
+													<span class="alert-text"> Delete</span>
+												</i>
+											</div>
+
+										</div>
+							</div>
+							</vue-draggable-next>
+
+							<a @click="addIngredient" class="btn btn-dark">Add new ingredient</a>
+
+							<div class="form-group">
+								<label>Instructions:</label>
+								<hr>
+								<p class="error" :class="errors.instructions ? 'show' : null">Instructions must have a category and
+									summary. Time to prepare must be between 1 and 99 minutes. Complexity must be between 1 and 5.</p>
+
+								<vue-draggable-next class="box ui-sortable-handle" :list="instructions">
+
+									<div
+											class="list-group-item bg-gray-300 m-1 p-3 rounded-md text-center"
+											v-for="instruction in instructions"
+											:key="instruction.id"
+									>
+										<div class="row mb-3">
+											<div class="col-lg-12 col-lg-3">
+												<div class="text-left pl-1">Choose Category</div>
+												<select v-model="instruction.category" class="form-select" name="category"
+																data-placeholder="Choose Category">
+													<option disabled>Select category</option>
+													<option
+															v-for="category in INSTRUCTION_CATEGORIES"
+															:key="category"
+															:value="category">
+														{{ category.toLowerCase() }}
+													</option>
+												</select>
+											</div>
+										</div>
+										<div class="row mb-3">
+											<div class="col-lg-12 col-sm-12">
+												<div class="text-left pl-1">Short summary</div>
+												<textarea class="form-control" rows="4"
+																	v-model="instruction.instruction"></textarea>
+											</div>
+										</div>
+										<div class="row mb-3">
+											<div class="col-lg-6 col-sm-6">
+												<div class="text-left pl-1">Time to prepare</div>
+												<input type="number" min="1" max="99" class="form-control"
+															 v-model="instruction.time">
+											</div>
+											<div class="col-lg-6 col-sm-6">
+												<div class="text-left pl-1">Complexity</div>
+												<input type="number" min="1" max="5" class="form-control"
+															 v-model="instruction.complexity">
+											</div>
+										</div>
+
+										<div class="row">
+
+										</div>
+
+										<div class="row justify-content-between mt-2 signs">
+											<div class="col-sm-3 text-left">
+												<i class="fa fa-arrows" aria-hidden="true">
+													<span class="alert-text"> Move</span>
+												</i>
+											</div>
+											<div class="col-sm-3 text-right pr-4">
+												<i class="fa-solid fa-circle-minus minusbtn" aria-hidden="true"
+													 @click="deleteInstruction(instruction.id)">
+													<span class="alert-text"> Delete</span>
+												</i>
+											</div>
+
 										</div>
 									</div>
 								</vue-draggable-next>
 
-								<a @click="addIngredient" class="btn btn-dark">Add new ingredient</a>
-
-								<div class="form-group">
-									<label>Instructions:</label>
-									<hr>
-									<p class="error" :class="errors.instructions ? 'show' : null">Instructions must have a category and
-										summary. Time to prepare must be between 1 and 99 minutes. Complexity must be between 1 and 5.</p>
-
-									<vue-draggable-next class="box ui-sortable-handle" :list="instructions">
-
-										<div
-												class="list-group-item bg-gray-300 m-1 p-3 rounded-md text-center"
-												v-for="instruction in instructions"
-												:key="instruction.id"
-										>
-											<div class="row justify-content-between">
-												<div class="col-sm-1">
-													<i class="fa fa-arrows" aria-hidden="true"></i>
-												</div>
-												<div class="col-sm-1">
-													<i class="fa-solid fa-circle-minus minusbtn" aria-hidden="true"
-														 @click="deleteInstruction(instruction.id)"></i>
-												</div>
-											</div>
-											<div class="row mb-3">
-												<div class="col-lg-12 col-lg-3">
-													<div style="text-align: left">Choose Category</div>
-													<select v-model="instruction.category" class="form-select" name="category"
-																	data-placeholder="Choose Category">
-														<option disabled>Select category</option>
-														<option
-																v-for="category in INSTRUCTION_CATEGORIES"
-																:key="category"
-																:value="category">
-															{{ category.toLowerCase() }}
-														</option>
-													</select>
-												</div>
-											</div>
-											<div class="row mb-3">
-												<div class="col-lg-12 col-lg-3">
-													<div style="text-align: left">Short summary</div>
-													<textarea class="form-control" rows="4"
-																		v-model="instruction.instruction"></textarea>
-												</div>
-											</div>
-											<div class="row mb-3">
-												<div class="col-lg-12 col-lg-3">
-													<div style="text-align: left">Time to prepare</div>
-													<input type="number" min="1" max="99" class="form-control"
-																 v-model="instruction.time">
-												</div>
-											</div>
-
-											<div class="row">
-												<div class="col-lg-12 col-lg-3">
-													<div style="text-align: left">Complexity</div>
-													<input type="number" min="1" max="5" class="form-control"
-																 v-model="instruction.complexity">
-												</div>
-											</div>
-										</div>
-									</vue-draggable-next>
-
-									<a @click="addInstruction" class="btn btn-dark">Add new instruction</a>
-								</div>
+								<a @click="addInstruction" class="btn btn-dark">Add new instruction</a>
 							</div>
-
-							<div class="form-group">
-								<label>Nutrition Facts</label>
-								<hr>
-							</div>
-
-							<div class="form-group row">
-								<label class="col-sm-2 col-form-label">Calories</label>
-								<div class="col-sm-10">
-									<input type="number" min="0" value="0" class="form-control" v-model="calories"
-												 @change="onCaloriesChange">
-									<p class="error" :class="errors.calories ? 'show' : null">Calories must be a positive number.</p>
-								</div>
-							</div>
-
-							<div class="form-group row">
-								<label class="col-sm-2 col-form-label">Carbohydrate</label>
-								<div class="col-sm-10">
-									<input type="number" min="0" value="0" class="form-control" v-model="carbo" @change="onCarboChange">
-									<p class="error" :class="errors.carbo ? 'show' : null">Carbohydrates must be a positive number.</p>
-								</div>
-							</div>
-
-							<div class="form-group row">
-								<label class="col-sm-2 col-form-label">Fat</label>
-								<div class="col-sm-10">
-									<input type="number" min="0" value="0" class="form-control" v-model="fats" @change="onFatsChange">
-									<p class="error" :class="errors.fats ? 'show' : null">Fats must be a positive number.</p>
-								</div>
-							</div>
-							<div class="form-group row">
-								<label class="col-sm-2 col-form-label">Protein</label>
-								<div class="col-sm-10">
-									<input type="number" min="0" value="0" class="form-control" v-model="proteins"
-												 @change="onProteinsChange">
-									<p class="error" :class="errors.proteins ? 'show' : null">Proteins must be a positive number.</p>
-								</div>
-							</div>
-							<div class="form-group row">
-								<label class="col-sm-2 col-form-label">Cholesterol</label>
-								<div class="col-sm-10">
-									<input type="number" min="0" value="0" class="form-control" v-model="cholesterol"
-												 @change="onCholesterolChange">
-									<p class="error" :class="errors.cholesterol ? 'show' : null">Cholesterol must be a positive
-										number.</p>
-								</div>
-							</div>
-
-							<p class="error" :class="generalError ? 'show' : null">Please check the form. Some errors found.</p>
-
-							<button class="btn btn-submit" @click="submitRecipe">Submit Recipe</button>
-						</form>
 					</div>
+
+					<div class="form-group">
+						<label>Nutrition Facts</label>
+						<hr>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label">Calories</label>
+						<div class="col-sm-10">
+							<input type="number" min="0" value="0" class="form-control" v-model="calories"
+										 @change="onCaloriesChange">
+							<p class="error" :class="errors.calories ? 'show' : null">Calories must be a positive number.</p>
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label">Carbohydrate</label>
+						<div class="col-sm-10">
+							<input type="number" min="0" value="0" class="form-control" v-model="carbo" @change="onCarboChange">
+							<p class="error" :class="errors.carbo ? 'show' : null">Carbohydrates must be a positive number.</p>
+						</div>
+					</div>
+
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label">Fat</label>
+						<div class="col-sm-10">
+							<input type="number" min="0" value="0" class="form-control" v-model="fats" @change="onFatsChange">
+							<p class="error" :class="errors.fats ? 'show' : null">Fats must be a positive number.</p>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label">Protein</label>
+						<div class="col-sm-10">
+							<input type="number" min="0" value="0" class="form-control" v-model="proteins"
+										 @change="onProteinsChange">
+							<p class="error" :class="errors.proteins ? 'show' : null">Proteins must be a positive number.</p>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="col-sm-2 col-form-label">Cholesterol</label>
+						<div class="col-sm-10">
+							<input type="number" min="0" value="0" class="form-control" v-model="cholesterol"
+										 @change="onCholesterolChange">
+							<p class="error" :class="errors.cholesterol ? 'show' : null">Cholesterol must be a positive
+								number.</p>
+						</div>
+					</div>
+
+					<p class="error" :class="generalError ? 'show' : null">Please check the form. Some errors found.</p>
+
+					<button class="btn btn-submit" @click="submitRecipe">Submit Recipe</button>
+					</form>
 				</div>
 			</div>
 		</div>
+	</div>
 	</div>
 </template>
 
@@ -220,7 +265,7 @@ const fats = ref(0)
 const proteins = ref(0)
 const cholesterol = ref(0)
 const ingredients = ref([
-	{id: '1', name: '', quantity: ''}
+	{id: '1', name: '', measurement: '', category: '', carbo: 0, fats: 0, protein: 0, cholesterol: 0}
 ])
 const instructions = ref([
 	{id: '1', instruction: '', category: '', time: null, complexity: null}
@@ -257,7 +302,7 @@ const INSTRUCTION_CATEGORIES = [
 
 function addIngredient() {
 	const id = "id" + Math.random().toString(16).slice(2)
-	ingredients.value.push({id: `${id}`, name: '', quantity: ''})
+	ingredients.value.push({id: `${id}`, name: '', measurement: '', category: '', carbo: 0, fats: 0, protein: 0, cholesterol: 0})
 }
 
 function deleteIngredient(id) {
@@ -349,17 +394,26 @@ function submitRecipe() {
 		} else {
 			errors.value.instructions = false
 		}
-		// console.log(x.instruction)
-		// console.log(x.category)
-		// console.log(x.time)
-		// console.log(x.complexity)
 	})
+	toRaw(ingredients.value).forEach(ingredient => {
+		if (ingredient.name.trim() === '' && ingredient.measurement.trim() === '' && ingredient.category.trim() === ''
+				&& ingredient.carbo === 0 && ingredient.fats === 0 && ingredient.cholesterol === 0 && ingredient.protein === 0){
+			deleteIngredient(ingredient.id)
+		} else if (ingredient.name.length < 3 || ingredient.measurement.trim() === '' || ingredient.category.trim() === ''
+				|| ingredient.carbo < 0 || ingredient.fats < 0 || ingredient.cholesterol < 0 || ingredient.protein < 0){
+			errors.value.ingredients = true
+		} else {
+			errors.value.ingredients = false
+		}
+	})
+
 	if (Object.values(errors.value).includes(true)) {
 		generalError.value = true;
 		return;
 	} else {
 		generalError.value = false;
 	}
+
 	const newRecipe = {
 		'name': name.value,
 		'picture': picture.value,
@@ -468,10 +522,9 @@ function submitRecipe() {
 }
 
 .submit .ui-sortable-handle > .list-group-item {
-	background-color: var(--very-light-background);
+	background-color: #EFEFEF;
 	margin-top: 10px !important;
-	margin-left: 0 !important;
-	margin-right: 0 !important;
+
 }
 
 .submit .error {
@@ -483,6 +536,19 @@ function submitRecipe() {
 
 .submit .show {
 	display: block;
+}
+
+.submit .alert-text {
+	box-sizing: border-box;
+	font-family: Roboto, sans-serif;
+	font-weight: normal;
+	font-size: 1rem;
+}
+
+@media only screen and (max-width: 575px) {
+	.submit .signs div {
+		text-align: center !important;
+	}
 }
 
 </style>
