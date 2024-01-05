@@ -179,7 +179,7 @@
 </template>
 
 <script setup>
-import {ref, toRaw, watch} from "vue";
+import {ref, toRaw} from "vue";
 import axios from "axios";
 import {VueDraggableNext} from 'vue-draggable-next'
 
