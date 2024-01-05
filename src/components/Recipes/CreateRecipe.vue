@@ -17,36 +17,39 @@
 
 							<div class="form-group">
 								<label>Recipe title</label>
-								<input type="text" class="form-control" v-model="name">
+								<input type="text" class="form-control" v-model="name" required @change="onTitleChange">
+								<p class="error" :class="errors.title ? 'show' : null">Please enter recipe title.</p>
 							</div>
 
 							<div class="form-group">
 								<label>Choose category</label>
 
 								<select v-model="selectCategory" class="form-select" name="category"
-												data-placeholder="Choose Category">
+												data-placeholder="Choose Category" @change="onCategoryChange">
 									<option disabled>Select category</option>
 									<option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}
 									</option>
 								</select>
+								<p class="error" :class="errors.category ? 'show' : null">Please chose category.</p>
 							</div>
 
 							<div class="form-group">
 								<label>Short summary</label>
-								<textarea class="form-control" rows="4" required="required" v-model="summary"></textarea>
+								<textarea class="form-control" rows="4" v-model="summary"></textarea>
 							</div>
 
 							<div class="form-group">
 								<label>Upload picture </label>
 								<hr>
 								<input type="file" class="form-control-file" @change="onFileSelected">
+								<p class="error" :class="errors.picture ? 'show' : null">Please select a picture.</p>
 							</div>
 
 
 							<div class="form-group">
 								<label>Ingredients:</label>
 								<hr>
-								<vue-draggable-next class="box ui-sortable-handle" :list="ingredients" >
+								<vue-draggable-next class="box ui-sortable-handle" :list="ingredients">
 									<div
 											class="list-group-item bg-gray-300 m-1 p-3 pb-0 rounded-md text-center"
 											v-for="ingredient in ingredients"
@@ -88,7 +91,8 @@
 													<i class="fa fa-arrows" aria-hidden="true"></i>
 												</div>
 												<div class="col-sm-1">
-													<i class="fa-solid fa-circle-minus minusbtn" aria-hidden="true" @click="deleteInstruction(instruction.id)"></i>
+													<i class="fa-solid fa-circle-minus minusbtn" aria-hidden="true"
+														 @click="deleteInstruction(instruction.id)"></i>
 												</div>
 											</div>
 											<div class="row mb-3">
@@ -120,7 +124,7 @@
 
 											<div class="row">
 												<div class="col-lg-12 col-lg-3">
-													<input type="number"  min="1" max="120" class="form-control" placeholder="Complexity"
+													<input type="number" min="1" max="120" class="form-control" placeholder="Complexity"
 																 v-model="instruction.complexity">
 												</div>
 											</div>
@@ -139,35 +143,46 @@
 							<div class="form-group row">
 								<label class="col-sm-2 col-form-label">Calories</label>
 								<div class="col-sm-10">
-									<input type="number" class="form-control" v-model="calories">
+									<input type="number" min="0" value="0" class="form-control" v-model="calories"
+												 @change="onCaloriesChange">
+									<p class="error" :class="errors.calories ? 'show' : null">Calories must be a positive number.</p>
 								</div>
 							</div>
 
 							<div class="form-group row">
 								<label class="col-sm-2 col-form-label">Carbohydrate</label>
 								<div class="col-sm-10">
-									<input type="number" class="form-control" v-model="carbo">
+									<input type="number" min="0" value="0" class="form-control" v-model="carbo" @change="onCarboChange">
+									<p class="error" :class="errors.carbo ? 'show' : null">Carbohydrates must be a positive number.</p>
 								</div>
 							</div>
 
 							<div class="form-group row">
 								<label class="col-sm-2 col-form-label">Fat</label>
 								<div class="col-sm-10">
-									<input type="number" class="form-control" v-model="fats">
+									<input type="number" min="0" value="0" class="form-control" v-model="fats" @change="onFatsChange">
+									<p class="error" :class="errors.fats ? 'show' : null">Fats must be a positive number.</p>
 								</div>
 							</div>
 							<div class="form-group row">
 								<label class="col-sm-2 col-form-label">Protein</label>
 								<div class="col-sm-10">
-									<input type="number" class="form-control" v-model="proteins">
+									<input type="number" min="0" value="0" class="form-control" v-model="proteins"
+												 @change="onProteinsChange">
+									<p class="error" :class="errors.proteins ? 'show' : null">Proteins must be a positive number.</p>
 								</div>
 							</div>
 							<div class="form-group row">
 								<label class="col-sm-2 col-form-label">Cholesterol</label>
 								<div class="col-sm-10">
-									<input type="number" class="form-control" v-model="cholesterol">
+									<input type="number" min="0" value="0" class="form-control" v-model="cholesterol"
+												 @change="onCholesterolChange">
+									<p class="error" :class="errors.cholesterol ? 'show' : null">Cholesterol must be a positive
+										number.</p>
 								</div>
 							</div>
+
+							<p class="error" :class="genralError ? 'show' : null">Please check the form. Some errors found.</p>
 
 							<button class="btn btn-submit" @click="submitRecipe">Submit Recipe</button>
 						</form>
@@ -185,14 +200,14 @@ import {VueDraggableNext} from 'vue-draggable-next'
 
 const name = ref('')
 const categories = ref([])
-const selectCategory = ref("")
+const selectCategory = ref('')
 const summary = ref("")
 const picture = ref("")
-const calories = ref('')
-const carbo = ref('')
-const fats = ref('')
-const proteins = ref('')
-const cholesterol = ref('')
+const calories = ref(0)
+const carbo = ref(0)
+const fats = ref(0)
+const proteins = ref(0)
+const cholesterol = ref(0)
 const ingredients = ref([
 	{id: '1', name: '', quantity: ''}
 ])
@@ -242,14 +257,73 @@ function addInstruction() {
 	const id = "id" + Math.random().toString(16).slice(2)
 	instructions.value.push({id: `${id}`, instruction: '', category: '', time: null, complexity: null})
 }
+
 function deleteInstruction(id) {
 	instructions.value = instructions.value.filter((ingredient) => ingredient.id !== id);
 }
+
 function onFileSelected(e) {
 	picture.value = e.target.files[0]
+	errors.value.picture = false
 }
 
+function onTitleChange() {
+	errors.value.title = name.value.trim() === '';
+}
+
+function onCategoryChange() {
+	errors.value.category = selectCategory.value === '';
+}
+
+function onCaloriesChange() {
+	errors.value.calories = calories.value < 0;
+}
+
+function onCarboChange() {
+	errors.value.carbo = carbo.value < 0;
+}
+
+function onFatsChange() {
+	errors.value.fats = fats.value < 0;
+}
+
+function onProteinsChange() {
+	errors.value.proteins = proteins.value < 0;
+}
+
+function onCholesterolChange() {
+	errors.value.cholesterol = cholesterol.value < 0;
+}
+
+const genralError = ref(false)
+
+const errors = ref({
+	title: false,
+	category: false,
+	picture: false,
+	calories: false,
+	carbo: false,
+	fats: false,
+	proteins: false,
+	cholesterol: false,
+})
+
 function submitRecipe() {
+	errors.value.title = name.value.trim() === '';
+	errors.value.category = selectCategory.value === '';
+	errors.value.picture = !picture.value;
+	errors.value.calories = calories.value < 0;
+	errors.value.carbo = carbo.value < 0;
+	errors.value.fats = fats.value < 0;
+	errors.value.proteins = proteins.value < 0;
+	errors.value.cholesterol = cholesterol.value < 0;
+
+	if (Object.values(errors.value).includes(true)) {
+		genralError.value = true
+		return;
+	} else {
+		genralError.value = false
+	}
 	const newRecipe = {
 		'name': name.value,
 		'picture': picture.value,
@@ -356,12 +430,23 @@ function submitRecipe() {
 .submit .form-group .box {
 	padding: 0;
 }
-.submit .ui-sortable-handle>.list-group-item {
+
+.submit .ui-sortable-handle > .list-group-item {
 	background-color: var(--very-light-background);
 	margin-top: 10px !important;
 	margin-left: 0 !important;
 	margin-right: 0 !important;
+}
 
+.submit .error {
+	display: none;
+	font-size: .8rem;
+	padding-top: .3rem;
+	color: var(--main-alert);
+}
+
+.submit .show {
+	display: block;
 }
 
 </style>
