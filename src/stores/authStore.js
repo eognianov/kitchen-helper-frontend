@@ -39,11 +39,11 @@ export const useAuthStore = defineStore({
                 let token = response.data.access_token
 
                 localStorage.setItem('token', token);
-
                 if (token) {
                     let decoded = VueJwtDecode.decode(token);
-                    let response = await axios.get(`users/${decoded.sub}/`)
-
+                    let response = await axios.get(`users/${decoded.sub}`, {
+                        headers: {'Authorization': 'Bearer ' + token}
+                    })
                     if (response.status === 200) {
                         this.user = response.data
                         this.logged = true;
