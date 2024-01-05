@@ -35,7 +35,8 @@
 
 							<div class="form-group">
 								<label>Short summary</label>
-								<textarea class="form-control" rows="4" v-model="summary"></textarea>
+								<textarea class="form-control" rows="4" v-model="summary" @change="onSummaryChange"></textarea>
+								<p class="error" :class="errors.summary ? 'show' : null">Please enter some summary.</p>
 							</div>
 
 							<div class="form-group">
@@ -49,6 +50,8 @@
 							<div class="form-group">
 								<label>Ingredients:</label>
 								<hr>
+								<p class="error" :class="errors.ingredients ? 'show' : null">Some errors</p>
+
 								<vue-draggable-next class="box ui-sortable-handle" :list="ingredients">
 									<div
 											class="list-group-item bg-gray-300 m-1 p-3 pb-0 rounded-md text-center"
@@ -80,7 +83,11 @@
 								<div class="form-group">
 									<label>Instructions:</label>
 									<hr>
+									<p class="error" :class="errors.instructions ? 'show' : null">Instructions must have a category and
+										summary. Time to prepare must be between 1 and 99 minutes. Complexity must be between 1 and 5.</p>
+
 									<vue-draggable-next class="box ui-sortable-handle" :list="instructions">
+
 										<div
 												class="list-group-item bg-gray-300 m-1 p-3 rounded-md text-center"
 												v-for="instruction in instructions"
@@ -97,6 +104,7 @@
 											</div>
 											<div class="row mb-3">
 												<div class="col-lg-12 col-lg-3">
+													<div style="text-align: left">Choose Category</div>
 													<select v-model="instruction.category" class="form-select" name="category"
 																	data-placeholder="Choose Category">
 														<option disabled>Select category</option>
@@ -111,20 +119,23 @@
 											</div>
 											<div class="row mb-3">
 												<div class="col-lg-12 col-lg-3">
-													<textarea class="form-control" rows="4" required="required"
-																		v-model="instruction.instruction" placeholder="Short summary"></textarea>
+													<div style="text-align: left">Short summary</div>
+													<textarea class="form-control" rows="4"
+																		v-model="instruction.instruction"></textarea>
 												</div>
 											</div>
 											<div class="row mb-3">
 												<div class="col-lg-12 col-lg-3">
-													<input type="number" min="1" max="5" class="form-control" placeholder="Time to prepare"
+													<div style="text-align: left">Time to prepare</div>
+													<input type="number" min="1" max="99" class="form-control"
 																 v-model="instruction.time">
 												</div>
 											</div>
 
 											<div class="row">
 												<div class="col-lg-12 col-lg-3">
-													<input type="number" min="1" max="120" class="form-control" placeholder="Complexity"
+													<div style="text-align: left">Complexity</div>
+													<input type="number" min="1" max="5" class="form-control"
 																 v-model="instruction.complexity">
 												</div>
 											</div>
@@ -182,7 +193,7 @@
 								</div>
 							</div>
 
-							<p class="error" :class="genralError ? 'show' : null">Please check the form. Some errors found.</p>
+							<p class="error" :class="generalError ? 'show' : null">Please check the form. Some errors found.</p>
 
 							<button class="btn btn-submit" @click="submitRecipe">Submit Recipe</button>
 						</form>
@@ -259,7 +270,7 @@ function addInstruction() {
 }
 
 function deleteInstruction(id) {
-	instructions.value = instructions.value.filter((ingredient) => ingredient.id !== id);
+	instructions.value = instructions.value.filter((instruction) => instruction.id !== id);
 }
 
 function onFileSelected(e) {
@@ -276,26 +287,30 @@ function onCategoryChange() {
 }
 
 function onCaloriesChange() {
-	errors.value.calories = calories.value < 0;
+	errors.value.calories = calories.value < 0 || calories.value === '';
 }
 
 function onCarboChange() {
-	errors.value.carbo = carbo.value < 0;
+	errors.value.carbo = carbo.value < 0 || carbo.value === '';
 }
 
 function onFatsChange() {
-	errors.value.fats = fats.value < 0;
+	errors.value.fats = fats.value < 0 || fats.value === '';
 }
 
 function onProteinsChange() {
-	errors.value.proteins = proteins.value < 0;
+	errors.value.proteins = proteins.value < 0 || proteins.value === '';
 }
 
 function onCholesterolChange() {
-	errors.value.cholesterol = cholesterol.value < 0;
+	errors.value.cholesterol = cholesterol.value < 0 || cholesterol.value === '';
 }
 
-const genralError = ref(false)
+function onSummaryChange() {
+	errors.value.summary = summary.value.trim() === '';
+}
+
+const generalError = ref(false)
 
 const errors = ref({
 	title: false,
@@ -306,23 +321,44 @@ const errors = ref({
 	fats: false,
 	proteins: false,
 	cholesterol: false,
+	instructions: false,
+	ingredients: false,
+	summary: false
 })
 
 function submitRecipe() {
 	errors.value.title = name.value.trim() === '';
+	errors.value.summary = summary.value.trim() === ''
 	errors.value.category = selectCategory.value === '';
 	errors.value.picture = !picture.value;
-	errors.value.calories = calories.value < 0;
-	errors.value.carbo = carbo.value < 0;
-	errors.value.fats = fats.value < 0;
-	errors.value.proteins = proteins.value < 0;
-	errors.value.cholesterol = cholesterol.value < 0;
+	errors.value.calories = calories.value < 0 || calories.value === '';
+	errors.value.carbo = carbo.value < 0 || carbo.value === '';
+	errors.value.fats = fats.value < 0 || fats.value === '';
+	errors.value.proteins = proteins.value < 0 || proteins.value === '';
+	errors.value.cholesterol = cholesterol.value < 0 || cholesterol.value === '';
 
+
+	toRaw(instructions.value).forEach(instruction => {
+		if (instruction.instruction === '' && instruction.category === '' && instruction.time === null && instruction.complexity === null) {
+			deleteInstruction(instruction.id)
+		} else if (instruction.instruction === '' || instruction.category === ''
+				|| instruction.time === null || instruction.complexity === null
+				|| instruction.time < 1 || instruction.time >= 100
+				|| instruction.complexity < 1 || instruction.complexity > 5) {
+			errors.value.instructions = true
+		} else {
+			errors.value.instructions = false
+		}
+		// console.log(x.instruction)
+		// console.log(x.category)
+		// console.log(x.time)
+		// console.log(x.complexity)
+	})
 	if (Object.values(errors.value).includes(true)) {
-		genralError.value = true
+		generalError.value = true;
 		return;
 	} else {
-		genralError.value = false
+		generalError.value = false;
 	}
 	const newRecipe = {
 		'name': name.value,
