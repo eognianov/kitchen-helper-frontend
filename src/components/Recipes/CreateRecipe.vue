@@ -113,14 +113,14 @@
 											</div>
 											<div class="row mb-3">
 												<div class="col-lg-12 col-lg-3">
-													<input type="text" class="form-control" placeholder="Time to prepare"
+													<input type="number" min="1" max="5" class="form-control" placeholder="Time to prepare"
 																 v-model="instruction.time">
 												</div>
 											</div>
 
 											<div class="row">
 												<div class="col-lg-12 col-lg-3">
-													<input type="text" class="form-control" placeholder="Complexity"
+													<input type="number"  min="1" max="120" class="form-control" placeholder="Complexity"
 																 v-model="instruction.complexity">
 												</div>
 											</div>
@@ -179,7 +179,7 @@
 </template>
 
 <script setup>
-import {ref, toRaw} from "vue";
+import {ref, toRaw, watch} from "vue";
 import axios from "axios";
 import {VueDraggableNext} from 'vue-draggable-next'
 
@@ -197,7 +197,7 @@ const ingredients = ref([
 	{id: '1', name: '', quantity: ''}
 ])
 const instructions = ref([
-	{id: '1', instruction: '', category: '', time: '', complexity: ''}
+	{id: '1', instruction: '', category: '', time: null, complexity: null}
 ])
 
 async function getRecipesCategories() {
@@ -240,7 +240,7 @@ function deleteIngredient(id) {
 
 function addInstruction() {
 	const id = "id" + Math.random().toString(16).slice(2)
-	instructions.value.push({id: `${id}`, instruction: '', category: '', time: '', complexity: ''})
+	instructions.value.push({id: `${id}`, instruction: '', category: '', time: null, complexity: null})
 }
 function deleteInstruction(id) {
 	instructions.value = instructions.value.filter((ingredient) => ingredient.id !== id);
