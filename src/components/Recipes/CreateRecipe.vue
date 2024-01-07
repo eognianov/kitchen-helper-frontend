@@ -17,7 +17,7 @@
 
               <div class="form-group">
                 <label>Recipe title</label>
-                <input type="text" class="form-control" v-model="name" required @change="onTitleChange">
+                <input type="text" class="form-control" v-model="name" @change="status.checkTitle">
                 <p class="error" :class="errors.title ? 'show' : null">Please enter recipe title.</p>
               </div>
 
@@ -25,7 +25,7 @@
                 <label>Choose category</label>
 
                 <select v-model="selectCategory" class="form-select" name="category"
-                        data-placeholder="Choose Category" @change="onCategoryChange">
+                        data-placeholder="Choose Category" @change="status.checkCategory()">
                   <option disabled>Select category</option>
                   <option v-for="category in categories" :key="category.id" :value="category.id">{{ category.name }}
                   </option>
@@ -35,14 +35,14 @@
 
               <div class="form-group">
                 <label>Short summary</label>
-                <textarea class="form-control" rows="4" v-model="summary" @change="onSummaryChange"></textarea>
+                <textarea class="form-control" rows="4" v-model="summary" @change="status.checkSummary()"></textarea>
                 <p class="error" :class="errors.summary ? 'show' : null">Please enter some summary.</p>
               </div>
 
               <div class="form-group">
                 <label>Upload picture </label>
                 <hr>
-                <input type="file" class="form-control-file" @change="onFileSelected">
+                <input type="file" class="form-control-file" @change="status.checkPicture">
                 <p class="error" :class="errors.picture ? 'show' : null">Please select a picture.</p>
               </div>
 
@@ -67,27 +67,27 @@
                       <div class="col-lg-3 col-sm-3">
                         <div class="text-left p-1">Category</div>
                         <select v-model="ingredient.category" class="form-select" name="category"
-                                    data-placeholder="Choose Category">
-                              <option disabled>Select category</option>
-                              <option
-                                  v-for="category in INGREDIENT_CATEGORIES"
-                                  :key="category"
-                                  :value="category">
-                                {{ category.toLowerCase() }}
-                              </option>
+                                data-placeholder="Choose Category">
+                          <option disabled>Select category</option>
+                          <option
+                              v-for="category in INGREDIENT_CATEGORIES"
+                              :key="category"
+                              :value="category">
+                            {{ category.toLowerCase() }}
+                          </option>
                         </select>
                       </div>
                       <div class="col-lg-3 col-sm-3">
                         <div class="text-left p-1">Measurement</div>
                         <select v-model="ingredient.measurement" class="form-select" name="measurment"
-                                    data-placeholder="Choose Measurment">
-                              <option disabled>Select category</option>
-                              <option
-                                  v-for="unit in INGREDIENT_MEASUREMENT_UNITS"
-                                  :key="unit"
-                                  :value="unit">
-                                {{ unit.toLowerCase() }}
-                              </option>
+                                data-placeholder="Choose Measurment">
+                          <option disabled>Select category</option>
+                          <option
+                              v-for="unit in INGREDIENT_MEASUREMENT_UNITS"
+                              :key="unit"
+                              :value="unit">
+                            {{ unit.toLowerCase() }}
+                          </option>
                         </select>
                       </div>
                     </div>
@@ -205,7 +205,7 @@
                 <label class="col-sm-2 col-form-label">Calories</label>
                 <div class="col-sm-10">
                   <input type="number" min="0" value="0" class="form-control" v-model="calories"
-                         @change="onCaloriesChange">
+                         @change="status.checkCalories">
                   <p class="error" :class="errors.calories ? 'show' : null">Calories must be a positive number.</p>
                 </div>
               </div>
@@ -213,7 +213,8 @@
               <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Carbohydrate</label>
                 <div class="col-sm-10">
-                  <input type="number" min="0" value="0" class="form-control" v-model="carbo" @change="onCarboChange">
+                  <input type="number" min="0" value="0" class="form-control" v-model="carbo"
+                         @change="status.checkCarbo">
                   <p class="error" :class="errors.carbo ? 'show' : null">Carbohydrates must be a positive number.</p>
                 </div>
               </div>
@@ -221,7 +222,7 @@
               <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Fat</label>
                 <div class="col-sm-10">
-                  <input type="number" min="0" value="0" class="form-control" v-model="fats" @change="onFatsChange">
+                  <input type="number" min="0" value="0" class="form-control" v-model="fats" @change="status.checkFats">
                   <p class="error" :class="errors.fats ? 'show' : null">Fats must be a positive number.</p>
                 </div>
               </div>
@@ -229,7 +230,7 @@
                 <label class="col-sm-2 col-form-label">Protein</label>
                 <div class="col-sm-10">
                   <input type="number" min="0" value="0" class="form-control" v-model="proteins"
-                         @change="onProteinsChange">
+                         @change="status.checkProteins">
                   <p class="error" :class="errors.proteins ? 'show' : null">Proteins must be a positive number.</p>
                 </div>
               </div>
@@ -237,7 +238,7 @@
                 <label class="col-sm-2 col-form-label">Cholesterol</label>
                 <div class="col-sm-10">
                   <input type="number" min="0" value="0" class="form-control" v-model="cholesterol"
-                         @change="onCholesterolChange">
+                         @change="status.checkCholesterol">
                   <p class="error" :class="errors.cholesterol ? 'show' : null">Cholesterol must be a positive
                     number.</p>
                 </div>
@@ -305,39 +306,38 @@ const INSTRUCTION_CATEGORIES = [
   'PRESENTATION',
 ];
 const INGREDIENT_MEASUREMENT_UNITS = [
-    'KG',
-    'GRAM',
-    'LITER',
-    'MILLILITER',
-    'TEASPOON',
-    'TABLESPOON',
-    'CUP',
-    'PINCH',
-    'PIECE',
-    'OUNCE',
-    'POUND',
-    'FLUID OUNCE',
-    'GALLON',
-    'QUART',
-    'PINT'
+  'KG',
+  'GRAM',
+  'LITER',
+  'MILLILITER',
+  'TEASPOON',
+  'TABLESPOON',
+  'CUP',
+  'PINCH',
+  'PIECE',
+  'OUNCE',
+  'POUND',
+  'FLUID OUNCE',
+  'GALLON',
+  'QUART',
+  'PINT'
 ]
-
 const INGREDIENT_CATEGORIES = [
-    'PANTRY ESSENTIALS',
-    'VEGETABLES AND GREENS',
-    'FRUITS',
-    'MEAT AND POULTRY',
-    'SEAFOOD',
-    'DAIRY',
-    'SPICES AND SEASONINGS',
-    'GRAINS AND PASTA',
-    'CONDIMENTS',
-    'BAKING INGREDIENTS',
-    'BEVERAGES',
-    'NUTS AND SEEDS',
-    'SWEETENERS',
-    'SNACKS',
-    'MISCELLANEOUS',
+  'PANTRY ESSENTIALS',
+  'VEGETABLES AND GREENS',
+  'FRUITS',
+  'MEAT AND POULTRY',
+  'SEAFOOD',
+  'DAIRY',
+  'SPICES AND SEASONINGS',
+  'GRAINS AND PASTA',
+  'CONDIMENTS',
+  'BAKING INGREDIENTS',
+  'BEVERAGES',
+  'NUTS AND SEEDS',
+  'SWEETENERS',
+  'SNACKS',
+  'MISCELLANEOUS',
 ]
 
 function addIngredient() {
@@ -367,41 +367,73 @@ function deleteInstruction(id) {
   instructions.value = instructions.value.filter((instruction) => instruction.id !== id);
 }
 
-function onFileSelected(e) {
-  picture.value = e.target.files[0]
-  errors.value.picture = false
-}
+const status = {
+  checkTitle: () => {
+    errors.value.title = name.value.trim() === ''
+  },
+  checkCategory: () => {
+    errors.value.category = selectCategory.value === ''
+  },
+  checkSummary: () => {
+    errors.value.summary = summary.value.trim() === '';
+  },
+  checkCalories: () => {
+    errors.value.calories = calories.value < 0 || calories.value === '';
+  },
+  checkCarbo: () => {
+    errors.value.carbo = carbo.value < 0 || carbo.value === '';
+  },
+  checkFats: () => {
+    errors.value.fats = fats.value < 0 || fats.value === '';
+  },
+  checkProteins: () => {
+    errors.value.proteins = proteins.value < 0 || proteins.value === '';
+  },
+  checkCholesterol: () => {
+    errors.value.cholesterol = cholesterol.value < 0 || cholesterol.value === '';
+  },
+  checkPicture: (e) => {
+    picture.value = e.target.files[0];
+    errors.value.picture = false
+  },
+  checkPicture2: () => {
+    errors.value.picture = !picture.value;
+  },
+  checkInstructions: () => {
+    toRaw(instructions.value).forEach(instruction => {
+      if (instruction.instruction === ''
+          && instruction.category === ''
+          && instruction.time === null
+          && instruction.complexity === null) {
+        deleteInstruction(instruction.id)
+      } else if (instruction.instruction === '' || instruction.category === ''
+          || instruction.time === null || instruction.complexity === null
+          || instruction.time < 1 || instruction.time >= 100
+          || instruction.complexity < 1 || instruction.complexity > 5) {
+        errors.value.instructions = true
+      } else {
+        errors.value.instructions = false
+      }
+    })
+  },
+  checkIngredients: () => {
+    toRaw(ingredients.value).forEach(ingredient => {
+      if (ingredient.name.trim() === '' && ingredient.measurement.trim() === ''
+          && ingredient.category.trim() === '' && ingredient.carbo === 0
+          && ingredient.fats === 0 && ingredient.cholesterol === 0
+          && ingredient.protein === 0) {
+        deleteIngredient(ingredient.id)
+      } else if (ingredient.name.length < 3 || ingredient.measurement.trim() === ''
+          || ingredient.category.trim() === ''
+          || ingredient.carbo < 0 || ingredient.fats < 0
+          || ingredient.cholesterol < 0 || ingredient.protein < 0) {
+        errors.value.ingredients = true
+      } else {
+        errors.value.ingredients = false
+      }
+    })
 
-function onTitleChange() {
-  errors.value.title = name.value.trim() === '';
-}
-
-function onCategoryChange() {
-  errors.value.category = selectCategory.value === '';
-}
-
-function onCaloriesChange() {
-  errors.value.calories = calories.value < 0 || calories.value === '';
-}
-
-function onCarboChange() {
-  errors.value.carbo = carbo.value < 0 || carbo.value === '';
-}
-
-function onFatsChange() {
-  errors.value.fats = fats.value < 0 || fats.value === '';
-}
-
-function onProteinsChange() {
-  errors.value.proteins = proteins.value < 0 || proteins.value === '';
-}
-
-function onCholesterolChange() {
-  errors.value.cholesterol = cholesterol.value < 0 || cholesterol.value === '';
-}
-
-function onSummaryChange() {
-  errors.value.summary = summary.value.trim() === '';
+  }
 }
 
 const generalError = ref(false)
@@ -421,40 +453,18 @@ const errors = ref({
 })
 
 function submitRecipe() {
-  errors.value.title = name.value.trim() === '';
-  errors.value.summary = summary.value.trim() === ''
-  errors.value.category = selectCategory.value === '';
-  errors.value.picture = !picture.value;
-  errors.value.calories = calories.value < 0 || calories.value === '';
-  errors.value.carbo = carbo.value < 0 || carbo.value === '';
-  errors.value.fats = fats.value < 0 || fats.value === '';
-  errors.value.proteins = proteins.value < 0 || proteins.value === '';
-  errors.value.cholesterol = cholesterol.value < 0 || cholesterol.value === '';
+  status.checkTitle();
+  status.checkCategory();
+  status.checkSummary();
+  status.checkPicture2();
+  status.checkCalories();
+  status.checkCarbo();
+  status.checkFats();
+  status.checkProteins();
+  status.checkCholesterol();
+  status.checkInstructions();
+  status.checkIngredients()
 
-
-  toRaw(instructions.value).forEach(instruction => {
-    if (instruction.instruction === '' && instruction.category === '' && instruction.time === null && instruction.complexity === null) {
-      deleteInstruction(instruction.id)
-    } else if (instruction.instruction === '' || instruction.category === ''
-        || instruction.time === null || instruction.complexity === null
-        || instruction.time < 1 || instruction.time >= 100
-        || instruction.complexity < 1 || instruction.complexity > 5) {
-      errors.value.instructions = true
-    } else {
-      errors.value.instructions = false
-    }
-  })
-  toRaw(ingredients.value).forEach(ingredient => {
-    if (ingredient.name.trim() === '' && ingredient.measurement.trim() === '' && ingredient.category.trim() === ''
-        && ingredient.carbo === 0 && ingredient.fats === 0 && ingredient.cholesterol === 0 && ingredient.protein === 0) {
-      deleteIngredient(ingredient.id)
-    } else if (ingredient.name.length < 3 || ingredient.measurement.trim() === '' || ingredient.category.trim() === ''
-        || ingredient.carbo < 0 || ingredient.fats < 0 || ingredient.cholesterol < 0 || ingredient.protein < 0) {
-      errors.value.ingredients = true
-    } else {
-      errors.value.ingredients = false
-    }
-  })
 
   if (Object.values(errors.value).includes(true)) {
     generalError.value = true;
