@@ -5,6 +5,9 @@ const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 axios.defaults.baseURL = BASE_URL;
 
+// Access-Control-Allow-Origin: *
+axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
+
 const token = localStorage.getItem('token')
 
 if (token) {

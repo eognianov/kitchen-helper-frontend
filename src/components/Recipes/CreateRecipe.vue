@@ -66,13 +66,29 @@
                       </div>
                       <div class="col-lg-3 col-sm-3">
                         <div class="text-left p-1">Category</div>
-                        <input type="text" class="form-control"
-                               v-model="ingredient.category">
+                        <select v-model="ingredient.category" class="form-select" name="category"
+                                    data-placeholder="Choose Category">
+                              <option disabled>Select category</option>
+                              <option
+                                  v-for="category in INGREDIENT_CATEGORIES"
+                                  :key="category"
+                                  :value="category">
+                                {{ category.toLowerCase() }}
+                              </option>
+                        </select>
                       </div>
                       <div class="col-lg-3 col-sm-3">
                         <div class="text-left p-1">Measurement</div>
-                        <input type="text" class="form-control"
-                               v-model="ingredient.measurement">
+                        <select v-model="ingredient.measurement" class="form-select" name="measurment"
+                                    data-placeholder="Choose Measurment">
+                              <option disabled>Select category</option>
+                              <option
+                                  v-for="unit in INGREDIENT_MEASUREMENT_UNITS"
+                                  :key="unit"
+                                  :value="unit">
+                                {{ unit.toLowerCase() }}
+                              </option>
+                        </select>
                       </div>
                     </div>
                     <div class="row">
@@ -229,7 +245,7 @@
 
               <p class="error" :class="generalError ? 'show' : null">Please check the form. Some errors found.</p>
 
-              <button class="btn btn-submit" @click="submitRecipe">Submit Recipe</button>
+              <button class="btn btn-submit">Submit Recipe</button>
             </form>
           </div>
         </div>
@@ -287,6 +303,41 @@ const INSTRUCTION_CATEGORIES = [
   'SEASONING',
   'PLATING',
   'PRESENTATION',
+];
+const INGREDIENT_MEASUREMENT_UNITS = [
+    'KG',
+    'GRAM',
+    'LITER',
+    'MILLILITER',
+    'TEASPOON',
+    'TABLESPOON',
+    'CUP',
+    'PINCH',
+    'PIECE',
+    'OUNCE',
+    'POUND',
+    'FLUID OUNCE',
+    'GALLON',
+    'QUART',
+    'PINT'
+]
+
+const INGREDIENT_CATEGORIES = [
+    'PANTRY ESSENTIALS',
+    'VEGETABLES AND GREENS',
+    'FRUITS',
+    'MEAT AND POULTRY',
+    'SEAFOOD',
+    'DAIRY',
+    'SPICES AND SEASONINGS',
+    'GRAINS AND PASTA',
+    'CONDIMENTS',
+    'BAKING INGREDIENTS',
+    'BEVERAGES',
+    'NUTS AND SEEDS',
+    'SWEETENERS',
+    'SNACKS',
+    'MISCELLANEOUS',
 ]
 
 function addIngredient() {
