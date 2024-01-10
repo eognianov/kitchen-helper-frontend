@@ -26,15 +26,20 @@
 <script setup>
 import RecipeBox from "./RecipeBox.vue";
 import axios from "axios";
-import {ref, watch} from 'vue';
+import {ref, watch, onMounted} from 'vue';
 import {useElementVisibility} from "@vueuse/core";
+import {useAuthStore} from "@/stores/authStore";
+
+const auth = useAuthStore()
 
 const next_page = ref(null)
 const recipes = ref([])
 
-async function getRecipes(current_url) {
-	try {
-		let response = await axios.get(current_url)
+async function getRecipes(current_utl){
+  try {
+		let response = await axios.get(current_utl, {
+      headers: {'Authorization': 'Bearer ' + auth.token}
+    })
 		if (response.data.next_page) {
 			next_page.value = response.data.next_page
 		} else {
@@ -45,8 +50,10 @@ async function getRecipes(current_url) {
 		console.log(error)
 	}
 }
-// initial load of recipes
-getRecipes('/recipes/?page=1&page_size=6')
+
+onMounted(  () => {
+  getRecipes('/recipes/?page=1&page_size=6')
+})
 
 // load more on scroll if any
 const target = ref(null)

@@ -11,23 +11,28 @@ export const useAuthStore = defineStore({
     }),
     actions: {
         async init() {
-            try {
-                let token = localStorage.getItem('token')
-                if (token) {
-                    let decoded = VueJwtDecode.decode(token);
-                    const currentDate = new Date();
-                    const timestamp = currentDate.getTime();
+            let token = localStorage.getItem('token')
+
+            if (token) {
+                let decoded = VueJwtDecode.decode(token);
+                const currentDate = new Date();
+                const timestamp = currentDate.getTime();
+                try {
                     if (timestamp < decoded.exp * 1000) {
-                        let response = await axios.get(`users/${decoded.sub}/`)
+                        this.token = token
+                        let response = await axios.get(`users/${decoded.sub}/`,
+                            {headers: {'Authorization': 'Bearer ' + token}}
+                        )
                         if (response.status === 200) {
                             this.user = response.data
                             this.logged = true;
-                            this.token = token
                         }
+                    } else {
+                        localStorage.removeItem('token')
                     }
+                } catch (error) {
+                    console.log(error)
                 }
-            } catch (error) {
-                console.log(error)
             }
         },
         async login(username, password) {

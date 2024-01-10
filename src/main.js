@@ -13,7 +13,6 @@ import LoginUser from "./components/LoginUser/LoginUser.vue";
 import ForgotPassword from "./components/LoginUser/ForgotPassword.vue";
 import CreateAccount from "./components/LoginUser/CreateAccount.vue";
 import CheckEmail from "./components/LoginUser/CheckEmail.vue";
-import TestDrag from "./components/TestDrag.vue";
 
 import "vuetify/dist/vuetify.css";
 import "bootstrap/dist/css/bootstrap.css";
@@ -34,7 +33,6 @@ const router = createRouter({
         {path: '/reset-password', component: ForgotPassword, meta: {requiresAuth: true}},
         {path: '/signup', component: CreateAccount, meta: {requiresAuth: false}},
         {path: '/check-email', component: CheckEmail, name: 'check-email', meta: {requiresAuth: false}},
-        {path: '/test', component: TestDrag, meta: {requiresAuth: false}}
     ]
 });
 
