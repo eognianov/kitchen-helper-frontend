@@ -6,7 +6,8 @@ export const useAuthStore = defineStore({
     id: 'auth',
     state: () => ({
         logged: false,
-        user: null
+        user: null,
+        token: null
     }),
     actions: {
         async init() {
@@ -21,6 +22,7 @@ export const useAuthStore = defineStore({
                         if (response.status === 200) {
                             this.user = response.data
                             this.logged = true;
+                            this.token = token
                         }
                     }
                 }
@@ -47,6 +49,7 @@ export const useAuthStore = defineStore({
                     if (response.status === 200) {
                         this.user = response.data
                         this.logged = true;
+                        this.token = token
                     }
                 }
             } catch (error) {
@@ -62,7 +65,8 @@ export const useAuthStore = defineStore({
         logout() {
             localStorage.removeItem('token')
             this.user = null;
-            this.logged = false
+            this.logged = false;
+            this.token = null
         },
         async register(username, email, password) {
             try {
