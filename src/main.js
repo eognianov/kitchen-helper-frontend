@@ -32,7 +32,7 @@ const router = createRouter({
         {path: '/login', component: LoginUser, meta: {requiresAuth: false}},
         {path: '/reset-password', component: ForgotPassword, meta: {requiresAuth: true}},
         {path: '/signup', component: CreateAccount, meta: {requiresAuth: false}},
-        {path: '/check-email', component: CheckEmail, name: 'check-email', meta: {requiresAuth: false}}
+        {path: '/check-email', component: CheckEmail, name: 'check-email', meta: {requiresAuth: false}},
     ]
 });
 

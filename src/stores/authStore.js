@@ -6,26 +6,33 @@ export const useAuthStore = defineStore({
     id: 'auth',
     state: () => ({
         logged: false,
-        user: null
+        user: null,
+        token: null
     }),
     actions: {
         async init() {
-            try {
-                let token = localStorage.getItem('token')
-                if (token) {
-                    let decoded = VueJwtDecode.decode(token);
-                    const currentDate = new Date();
-                    const timestamp = currentDate.getTime();
+            let token = localStorage.getItem('token')
+
+            if (token) {
+                let decoded = VueJwtDecode.decode(token);
+                const currentDate = new Date();
+                const timestamp = currentDate.getTime();
+                try {
                     if (timestamp < decoded.exp * 1000) {
-                        let response = await axios.get(`users/${decoded.sub}/`)
+                        this.token = token
+                        let response = await axios.get(`users/${decoded.sub}/`,
+                            {headers: {'Authorization': 'Bearer ' + token}}
+                        )
                         if (response.status === 200) {
                             this.user = response.data
                             this.logged = true;
                         }
+                    } else {
+                        localStorage.removeItem('token')
                     }
+                } catch (error) {
+                    console.log(error)
                 }
-            } catch (error) {
-                console.log(error)
             }
         },
         async login(username, password) {
@@ -39,14 +46,15 @@ export const useAuthStore = defineStore({
                 let token = response.data.access_token
 
                 localStorage.setItem('token', token);
-
                 if (token) {
                     let decoded = VueJwtDecode.decode(token);
-                    let response = await axios.get(`users/${decoded.sub}/`)
-
+                    let response = await axios.get(`users/${decoded.sub}`, {
+                        headers: {'Authorization': 'Bearer ' + token}
+                    })
                     if (response.status === 200) {
                         this.user = response.data
                         this.logged = true;
+                        this.token = token
                     }
                 }
             } catch (error) {
@@ -62,7 +70,8 @@ export const useAuthStore = defineStore({
         logout() {
             localStorage.removeItem('token')
             this.user = null;
-            this.logged = false
+            this.logged = false;
+            this.token = null
         },
         async register(username, email, password) {
             try {
