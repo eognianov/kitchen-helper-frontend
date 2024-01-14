@@ -28,7 +28,7 @@ const router = createRouter({
         {path: '/', component: IndexPage, name: 'index', meta: {requiresAuth: false}},
         {path: '/recipes', component: SearchRecipes, meta: {requiresAuth: false}},
         {path: '/create', component: CreateRecipe, meta: {requiresAuth: true}},
-        {path: '/details', component: RecipeDetails, meta: {requiresAuth: false}},
+        {path: '/recipes/:id', component: RecipeDetails, meta: {requiresAuth: false}},
         {path: '/login', component: LoginUser, meta: {requiresAuth: false}},
         {path: '/reset-password', component: ForgotPassword, meta: {requiresAuth: true}},
         {path: '/signup', component: CreateAccount, meta: {requiresAuth: false}},

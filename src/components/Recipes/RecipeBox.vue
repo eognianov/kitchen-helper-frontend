@@ -3,12 +3,12 @@
 		<div class="by">
 			<i class="fa fa-user" aria-hidden="true"></i> Gerina Amy
 		</div>
-		<router-link to="/details">
+		<router-link :to="'/recipes/' + id">
 			<img src="/images/P1560722.JPG?url" alt="">
 		</router-link>
 		<h2>
-			<router-link to="/details">
-				{{ name }}
+			<router-link to="/recipes/ + {{id}}">
+				{{ name }} {{ recipe.name}}
 			</router-link>
 		</h2>
 		<p>Dapibus mattis a. Nec lacus nam. Volutpat molestie ipsum. Eu et fermentum malesuada et et lorem mauris
@@ -25,7 +25,7 @@
 <script setup>
 import {defineProps} from 'vue'
 
-const props = defineProps(['name'])
+const props = defineProps(['name', 'id', 'recipe'])
 </script>
 
 
