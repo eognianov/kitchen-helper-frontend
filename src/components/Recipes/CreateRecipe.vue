@@ -57,7 +57,8 @@
               <div class="form-group">
                 <label>Ingredients:</label>
                 <hr>
-                <p class="error" :class="errors.ingredients ? 'show' : null">Please select valid ingredient and quantity must be a positive number. </p>
+                <p class="error" :class="errors.ingredients ? 'show' : null">Please select valid ingredient and quantity
+                  must be a positive number. </p>
 
                 <vue-draggable-next class="box ui-sortable-handle" :list="ingredients">
                   <div
@@ -192,6 +193,14 @@
       </div>
     </div>
   </div>
+  <CreateIngredient
+      :isModalOpen="isModalOpen"
+      :ingredients="ingredientsList"
+      @hideModal="hideModal"
+      @addNewIngredient="addNewIngredient"
+    >
+
+  </CreateIngredient>
 </template>
 
 <script setup>
@@ -199,9 +208,21 @@ import {ref, toRaw} from "vue";
 import axios from "axios";
 import {VueDraggableNext} from 'vue-draggable-next';
 import {useAuthStore} from "@/stores/authStore";
-import IngredientBox from './IngredientBox.vue'
+import IngredientBox from './IngredientBox.vue';
+import CreateIngredient from './CreateIngredient.vue';
 
 const auth = useAuthStore()
+
+
+const isModalOpen = ref(false)
+
+function hideModal() {
+  isModalOpen.value = false
+}
+
+function addNewIngredient(ingr) {
+  ingredientsList.value.push(ingr)
+}
 
 const name = ref('')
 const categories = ref([])
@@ -256,23 +277,7 @@ const INSTRUCTION_CATEGORIES = [
   'PLATING',
   'PRESENTATION',
 ];
-const INGREDIENT_CATEGORIES = [
-  'PANTRY ESSENTIALS',
-  'VEGETABLES AND GREENS',
-  'FRUITS',
-  'MEAT AND POULTRY',
-  'SEAFOOD',
-  'DAIRY',
-  'SPICES AND SEASONINGS',
-  'GRAINS AND PASTA',
-  'CONDIMENTS',
-  'BAKING INGREDIENTS',
-  'BEVERAGES',
-  'NUTS AND SEEDS',
-  'SWEETENERS',
-  'SNACKS',
-  'MISCELLANEOUS',
-]
+
 
 function uniqueID() {
   return "id" + Math.random().toString(16).slice(2)
@@ -295,7 +300,7 @@ function deleteInstruction(id) {
 }
 
 function createIngredient() {
-  console.log("create ingredient")
+  isModalOpen.value = true
 }
 
 async function uploadPicture(e) {
@@ -379,9 +384,8 @@ async function submitRecipe() {
   const newIngredients = []
 
   toRaw(ingredients.value).forEach(ingredient => {
-      newIngredients.push({ingredient_id: ingredient.pk, quantity: ingredient.quantity})
-    })
-
+    newIngredients.push({ingredient_id: ingredient.pk, quantity: ingredient.quantity})
+  })
 
 
   const response = await axios.post(`/recipes`, {
@@ -528,6 +532,5 @@ async function submitRecipe() {
   justify-content: space-between;
   margin-top: 10px;
 }
-
 
 </style>
