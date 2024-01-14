@@ -131,6 +131,8 @@ function resetIngredient() {
   cholesterol.value = 0
   selectMeasurement.value = ''
   selectCategory.value = ''
+  generalError.value = false;
+  errorMessage.value = '';
 }
 
 async function addIngredient() {
@@ -236,14 +238,16 @@ const INGREDIENT_MEASUREMENT_UNITS = [
   font-size: 20px;
   cursor: pointer;
 }
-.error{
-  display: none;
-}
+
 .show {
-  display: block;
   color: var(--main-alert);
   font-size: .8rem;
   margin-bottom: 0;
+}
+
+.btn-dark:hover {
+  background-color: var(--main-hover);
+  color: var(--main-text);
 }
 
 @media only screen and (max-width: 768px) {
