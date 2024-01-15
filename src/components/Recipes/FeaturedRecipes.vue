@@ -18,9 +18,10 @@
 
 <script setup>
 import BigRecipeBox from './BigRecipeBox.vue';
-import axios from "axios";
+// import axios from "axios";
 import {onMounted, ref} from "vue";
 import {useAuthStore} from "@/stores/authStore";
+import {getRecipes} from './helepers'
 
 const auth = useAuthStore()
 
@@ -30,21 +31,9 @@ const currentDate = `${months[date.getMonth()]} ${date.getDate()}, ${date.getFul
 
 const recipe = ref(null)
 
-async function getRecipes(current_utl) {
-	try {
-		let response = await axios.get(current_utl, {
-			headers: {'Authorization': 'Bearer ' + auth.token}
-		})
-		if (response.status === 200) {
-			recipe.value = response.data.recipes[0]
-		}
-	} catch (error) {
-		console.log(error)
-	}
-}
-
-onMounted(() => {
-	getRecipes('/recipes/?page=1&page_size=1&sort=id:desc')
+onMounted(async  () => {
+	const recipes = await getRecipes('/recipes/?page=1&page_size=1&sort=id:desc', auth.token)
+	recipe.value = recipes[0]
 })
 
 </script>

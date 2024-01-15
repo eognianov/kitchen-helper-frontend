@@ -17,12 +17,12 @@
 import axios from "axios";
 import {onMounted, ref} from "vue";
 import {useAuthStore} from "@/stores/authStore";
-import {getImageById} from "./helepers";
+import {getImageById, getRecipes} from "./helepers";
 
 const auth = useAuthStore()
 const props = defineProps(['recipeUrl'])
 
-const recipe = ref({'summary': '', 'name': '', id: 1, })
+const recipe = ref({'summary': '', 'name': '', id: 1,})
 const imageUrl = ref(null)
 
 async function getRecipeTopRecipe(current_utl) {
@@ -40,8 +40,13 @@ async function getRecipeTopRecipe(current_utl) {
 	}
 }
 
-onMounted(() => {
-	getRecipeTopRecipe(props.recipeUrl)
+onMounted(async () => {
+	// getRecipeTopRecipe(props.recipeUrl)
+	const recipes = await getRecipes(props.recipeUrl, auth.token)
+	recipe.value = recipes[0]
+	if (recipe.value) {
+		imageUrl.value = await getImageById(recipe.value.picture)
+	}
 })
 
 // console.log(props.recipeUrl)

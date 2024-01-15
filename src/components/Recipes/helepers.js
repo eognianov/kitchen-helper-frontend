@@ -37,3 +37,17 @@ export async function getImageById(id, token) {
         return null
     }
 }
+
+export async function getRecipes(current_utl, token) {
+	try {
+		let response = await axios.get(current_utl, {
+			headers: {'Authorization': 'Bearer ' + token}
+		})
+		if (response.status === 200) {
+			return response.data.recipes
+		}
+	} catch (error) {
+		console.log(error)
+        return null
+	}
+}
