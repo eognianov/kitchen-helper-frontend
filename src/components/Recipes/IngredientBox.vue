@@ -10,7 +10,7 @@
     </select>
   </div>
   <div class="col-sm-5" style=" display: flex; flex-direction: row" >
-      <input type="number" class="form-control" v-model="current_quantity"
+      <input type="number" step="0.001" class="form-control" v-model="current_quantity"
              placeholder="Quantity" style="width: 75%">
       <div class="col-sm-1" style="box-sizing: border-box;width: 30%; padding: 8px" >{{ measurement }}</div>
   </div>

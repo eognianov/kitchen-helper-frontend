@@ -1,18 +1,53 @@
 <template>
 	<div class="box clearfix">
-		<router-link to="/details">
-			<img src="/images/P1560722.JPG?url" alt="">
+		<router-link :to="'/recipes/' + recipe.id">
+			<img :src="imageUrl" :alt="recipe.name">
 		</router-link>
 
 		<h3>
-			<router-link to="/details">
-				Cinnamon Baked Doughnuts
+			<router-link :to="'/recipes/' + recipe.id">
+				{{ recipe.name }}
 			</router-link>
 		</h3>
-		<p>Lorem ipsum dolor sit amet, adipiscing elit...</p>
+		<p>{{ recipe.summary.slice(0, 50) }}{{ recipe.summary.length > 50 ? "..." : null }}</p>
 	</div>
 </template>
+<script setup>
 
+import axios from "axios";
+import {onMounted, ref} from "vue";
+import {useAuthStore} from "@/stores/authStore";
+import {getImageById} from "./helepers";
+
+const auth = useAuthStore()
+const props = defineProps(['recipeUrl'])
+
+const recipe = ref({'summary': '', 'name': '', id: 1, })
+const imageUrl = ref(null)
+
+async function getRecipeTopRecipe(current_utl) {
+	try {
+		let response = await axios.get(current_utl, {
+			headers: {'Authorization': 'Bearer ' + auth.token}
+		})
+
+		if (response.status === 200) {
+			recipe.value = response.data.recipes[0]
+			imageUrl.value = await getImageById(response.data.recipes[0].picture)
+		}
+	} catch (error) {
+		console.log(error)
+	}
+}
+
+onMounted(() => {
+	getRecipeTopRecipe(props.recipeUrl)
+})
+
+// console.log(props.recipeUrl)
+
+
+</script>
 
 <style scoped>
 
@@ -39,12 +74,14 @@
 	margin-bottom: 0;
 	padding-left: 120px;
 	color: var(--main-text);
+	height: 90px;
 }
 
 .top .box img {
 	float: left;
 	width: 100px;
 	height: 100px;
-	border-radius: 6px
+	border-radius: 6px;
+	object-fit: cover;
 }
 </style>

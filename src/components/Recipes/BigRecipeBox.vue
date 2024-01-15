@@ -73,17 +73,12 @@ onMounted(async () => {
 	text-transform: capitalize;
 }
 
-.box.grid.recipes p {
-	height: 40px;
-}
-
 .box.grid.recipes h2 a {
 	color: var(--main-text)
 }
 
 .box.grid.recipes img {
 	width: 100%;
-	height: 300px;
 	margin-bottom: 30px;
 	object-fit: cover;
 
@@ -106,42 +101,6 @@ onMounted(async () => {
 	background-color: var(--main-hover);
 	color: var(--main-text);
 	transition: all 0.3s ease;
-}
-
-@media only screen and (max-width: 1400px) {
-	.box.grid.recipes p {
-		height: 60px;
-	}
-}
-@media only screen and (max-width: 1200px) {
-	.box.grid.recipes p {
-		height: 80px;
-	}
-}
-@media only screen and (max-width: 990px) {
-	.box.grid.recipes p {
-		height: 60px;
-	}
-}
-@media only screen and (max-width: 768px) {
-	.box.grid.recipes p {
-		height: 80px;
-	}
-}
-@media only screen and (max-width: 575px) {
-	.box.grid.recipes p {
-		height: 40px;
-	}
-}
-@media only screen and (max-width: 433px) {
-	.box.grid.recipes p {
-		height: 60px;
-	}
-}
-@media only screen and (max-width: 321px) {
-	.box.grid.recipes p {
-		height: 80px;
-	}
 }
 
 </style>

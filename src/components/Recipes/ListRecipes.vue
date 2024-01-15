@@ -8,7 +8,7 @@
 				</div>
 
 				<div class="col-lg-4 col-sm-6" v-for="recipe in recipes" :key="recipe.id">
-					<recipe-box :name="recipe.name" :id="recipe.id" :recipe="recipe"></recipe-box>
+					<recipe-box :recipe="recipe"></recipe-box>
 				</div>
 				<div class="col-lg-12 text-center">
 					<button class="btn btn-load"
