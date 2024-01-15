@@ -9,9 +9,11 @@ export async function getUserById(id, token) {
         })
         if (response.status === 200) {
             return response.data
+        } else {
+            return {'username': `Anonymous`}
         }
     } catch (e) {
-        return null
+        return {'username': `${id}`}
     }
 }
 
