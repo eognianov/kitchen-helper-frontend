@@ -38,73 +38,76 @@
     const userId = ref(route.params.id);
     const user = ref({});
     const roles = ref({});
+    const selectedRoles = ref([]);
 
     onMounted(() => {
-    if (userId) {
-        axios.get(`/users/${userId.value}`, {
-        headers: {
-            "Content-Type": "application/json",
-            'Authorization': 'Bearer ' + auth.token
-        }
-        })
-        .then(response => {
-            user.value = response.data;
-        })
-        .catch(error => {
-            console.error('Error fetching user details:', error);
-        });
-
-        axios.get('/roles', {
+        if (userId) {
+            axios.get(`/users/${userId.value}`, {
             headers: {
-            "Content-Type": "application/json",
-            'Authorization': 'Bearer ' + auth.token
+                "Content-Type": "application/json",
+                'Authorization': 'Bearer ' + auth.token
             }
-        })
+            })
             .then(response => {
-            roles.value = response.data;
+                user.value = response.data;
+                selectedRoles.value = user.value.roles.map(role => role.id);
             })
             .catch(error => {
-            console.error('Error fetching user data:', error);
+                console.error('Error fetching user details:', error);
             });
-    }
+
+            axios.get('/roles', {
+                headers: {
+                "Content-Type": "application/json",
+                'Authorization': 'Bearer ' + auth.token
+                }
+            })
+                .then(response => {
+                roles.value = response.data;
+                })
+                .catch(error => {
+                console.error('Error fetching user data:', error);
+                });
+        }
     });
 
     const handleCheckboxClick = (event, roleId) => {
-    const isChecked = event.target.checked;
-    if (isChecked) {
-        makeRequest(roleId, true);
-    } else {
-        makeRequest(roleId, false);
-    }
+        const isChecked = event.target.checked;
+        if (isChecked) {
+            makeRequest(roleId, true);
+        } else {
+            makeRequest(roleId, false);
+        }
     };
 
     const makeRequest = async (roleId, isChecked) => {
 
-    try {
-        if (isChecked) {
-        await axios.post(
-            `/users/${user.value.id}/roles/${roleId}`, {
-            headers: {
-                "Content-Type": "application/json",
-                'Authorization': 'Bearer ' + auth.token
-        }
+        try {
+            if (isChecked) {
+            await axios.post(
+                `/users/${user.value.id}/roles/${roleId}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    'Authorization': 'Bearer ' + auth.token
             }
-        );
-        toast.success(`Role ${roleId} added successfully to user ${user.value.id}.`);
-        } else {
-        await axios.delete(
-            `/users/${user.value.id}/roles/${roleId}`, {
-            headers: {
-                "Content-Type": "application/json",
-                'Authorization': 'Bearer ' + auth.token
-        }
+                }
+            );
+            toast.success(`Role ${roleId} added successfully to user ${user.value.id}.`);
+            } else {
+            await axios.delete(
+                `/users/${user.value.id}/roles/${roleId}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    'Authorization': 'Bearer ' + auth.token
             }
-        );
-        toast.error(`Role ${roleId} removed successfully from user ${user.value.id}.`);
+                }
+            );
+            toast.error(`Role ${roleId} removed successfully from user ${user.value.id}.`);
+            }
+        } catch (error) {
+            toast.error(error.message)
+            selectedRoles.value = user.value.roles.map(role => role.id);
         }
-    } catch (error) {
-        toast.error(error.message)
-    }
     };
 </script>
 
