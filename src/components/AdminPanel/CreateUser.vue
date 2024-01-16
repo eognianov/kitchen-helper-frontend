@@ -67,7 +67,7 @@
 
     try {
         const response = await axios.post(
-        '/signin',
+        '/users/signup',
         {
             username: username.value,
             email: email.value,
