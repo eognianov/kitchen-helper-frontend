@@ -185,11 +185,12 @@
     }
 
     .btn-save:hover {
+        color: #fff;
         background-color: #0056b3;
         border-color: #004080;
     }
 
-    input {
+    input.form-control {
         width: fit-content;
         max-width: 280px;
     }
