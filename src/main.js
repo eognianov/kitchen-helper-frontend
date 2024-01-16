@@ -16,7 +16,9 @@ import CheckEmail from "./components/LoginUser/CheckEmail.vue";
 import AdminMainPage from "./components/AdminPanel/AdminMainPage.vue";
 import Users from "./components/AdminPanel/Users.vue";
 import UserDetails from "./components/AdminPanel/UserDetails.vue";
-import Roles from './components/AdminPanel/Roles.vue'
+import Roles from './components/AdminPanel/Roles.vue';
+import CreateRole from './components/AdminPanel/CreateRole.vue';
+import CreateUser from './components/AdminPanel/CreateUser.vue';
 
 import "vuetify/dist/vuetify.css";
 import "bootstrap/dist/css/bootstrap.css";
@@ -45,6 +47,8 @@ const router = createRouter({
               { path: 'users', component: Users, name: 'admin-users' },
               { path: 'users/:id', component: UserDetails, name: 'admin-user-details' },
               { path: 'roles', component: Roles, name: 'admin-roles' },
+              { path: 'roles/add', component: CreateRole, name: 'admin-create-role'},
+              { path: 'users/add', component: CreateUser, name: 'admin-create-user'},
             ],
             meta: {requiresAuth: true}
           },
