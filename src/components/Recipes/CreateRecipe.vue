@@ -370,12 +370,12 @@ const errors = ref({
 })
 
 async function submitRecipe() {
-	status.checkTitle();
-	status.checkCategory();
-	status.checkSummary();
-	status.checkServes();
-	status.checkInstructions();
-	status.checkIngredients();
+	// status.checkTitle();
+	// status.checkCategory();
+	// status.checkSummary();
+	// status.checkServes();
+	// status.checkInstructions();
+	// status.checkIngredients();
 
 
 	if (Object.values(errors.value).includes(true)) {
@@ -389,7 +389,6 @@ async function submitRecipe() {
 	toRaw(ingredients.value).forEach(ingredient => {
 		newIngredients.push({ingredient_id: ingredient.pk, quantity: ingredient.quantity})
 	})
-
 
 	const response = await axios.post(`/recipes`, {
 		name: name.value,

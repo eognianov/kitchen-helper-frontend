@@ -149,6 +149,7 @@ onMounted( () => {
 	font-weight: 700;
 	margin-bottom: 10px;
 	color: var(--main-text);
+	text-transform: capitalize;
 }
 
 .recipe-detail .by {

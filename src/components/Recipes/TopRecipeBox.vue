@@ -68,6 +68,7 @@ onMounted(async () => {
 	font-size: 1.2rem;
 	font-weight: 700;
 	padding-left: 120px;
+	text-transform: capitalize;
 }
 
 .top .box h3 a {
