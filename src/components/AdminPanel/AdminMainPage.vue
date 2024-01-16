@@ -27,11 +27,14 @@
 <script setup>
     import { ref, onMounted } from 'vue';
     import VueJwtDecode from 'vue-jwt-decode';
+    import { useRouter } from 'vue-router';
+    
+    const router = useRouter();
 
     onMounted(() => {
-        let decoded = VueJwtDecode.decode(localStorage.getItem('token'));
+        const decoded = VueJwtDecode.decode(localStorage.getItem('token'));
         if (!decoded.roles) {
-            router.push('/login');
+            router.push('/');
         }
         if (window.location.pathname.includes('admin')) {
             document.querySelector('#app > footer').style.display = 'none';

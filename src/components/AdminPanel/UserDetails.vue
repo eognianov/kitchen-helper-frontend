@@ -1,27 +1,32 @@
 <template>
     <div>
-    <h2>User Details</h2>
-    <div>
-        <p><strong>User ID:</strong> {{ user.id }}</p>
-        <p><strong>Username:</strong> {{ user.username }} </p>
-        <p><strong>Email:</strong> {{ user.email }}</p>
-        <p><strong>Roles:</strong></p>
-    </div>
+        <h2>User Details</h2>
+        <div>
+            <p><strong>User ID:</strong> {{ user.id }}</p>
+            <p><strong>Username:</strong> {{ user.username }} </p>
+            <p><strong>Email:</strong> </p>
+            <input v-model="editedEmail" class="form-control" />
+            <p><strong>Roles:</strong></p>
+        </div>
     </div>
     <ul class="list-group">
-    <li v-for="role in roles" :key="role.id" class="list-group-item">
-        <input
-        v-model="selectedRoles"
-        class="form-check-input me-1"
-        type="checkbox"
-        :value="role.id"
-        :id="`roleCheckbox${role.id}`"
-        :checked="user.roles.some(userRole => userRole.id === role.id)"
-        @click="handleCheckboxClick($event, role.id)"
-        />
-        <label :for="`roleCheckbox${role.id}`" class="form-check-label stretched-link">{{ role.name }}</label>
-    </li>
+        <li v-for="role in roles" :key="role.id" class="list-group-item">
+            <input
+            v-model="selectedRoles"
+            class="form-check-input me-1"
+            type="checkbox"
+            :value="role.id"
+            :id="`roleCheckbox${role.id}`"
+            :checked="user.roles.some(userRole => userRole.id === role.id)"
+            @click="handleCheckboxClick($event, role.id)"
+            />
+            <label :for="`roleCheckbox${role.id}`" class="form-check-label stretched-link">{{ role.name }}</label>
+        </li>
     </ul>
+    <div class="buttons">
+        <button @click="handleSaveClick(user.id)" class="btn btn-save btn-sm">Save</button>
+        <button @click="handleDeleteClick(user.id)" class="btn btn-danger btn-sm">Delete</button>
+    </div>
 </template>
   
 <script setup>
@@ -39,6 +44,7 @@
     const user = ref({});
     const roles = ref({});
     const selectedRoles = ref([]);
+    const editedEmail = ref('');
 
     onMounted(() => {
         if (userId) {
@@ -51,6 +57,7 @@
             .then(response => {
                 user.value = response.data;
                 selectedRoles.value = user.value.roles.map(role => role.id);
+                editedEmail.value = user.value.email;
             })
             .catch(error => {
                 console.error('Error fetching user details:', error);
@@ -109,6 +116,43 @@
             selectedRoles.value = user.value.roles.map(role => role.id);
         }
     };
+
+    const handleDeleteClick = async (userId) => {
+        try {
+            await axios.delete(
+                `/users/${userId}`, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        'Authorization': 'Bearer ' + auth.token
+                    }
+                }
+            );
+            toast.error(`User ${userId} deleted successfully.`);
+        } catch (error) {
+            toast.error(error.message);
+        }
+    };
+
+    const handleSaveClick = async (userId) => {
+        console.log(editedEmail.value);
+        try {
+            await axios.patch(
+                `/users/${userId}`, {
+                    field: 'email',
+                    value: editedEmail.value
+                }, {
+                    headers: {
+                        "Content-Type": "application/json",
+                        'Authorization': 'Bearer ' + auth.token
+                    }
+                }
+            );
+            toast.update(`User ${userId} updated successfully.`);
+        } catch (error) {
+            toast.error(error.message);
+            editedEmail.value = user.value.email;
+        }
+    };
 </script>
 
 <style scoped>
@@ -120,5 +164,35 @@
     overflow-y: auto;
     overflow-x: auto;
     }
+
+    .buttons {
+        display: flex;
+        align-items: center;
+    }
+
+    .btn-danger {
+        margin-top: 20px;
+        padding: 6px 24px;
+    }
+
+    .btn-save {
+        margin-top: 20px;
+        margin-right: 12px;
+        color: #fff;
+        background-color: #007bff;
+        border-color: #007bff;
+        padding: 6px 24px;
+    }
+
+    .btn-save:hover {
+        background-color: #0056b3;
+        border-color: #004080;
+    }
+
+    input {
+        width: fit-content;
+        max-width: 280px;
+    }
+
 </style>
   
