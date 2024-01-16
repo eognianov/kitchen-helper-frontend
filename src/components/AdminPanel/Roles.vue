@@ -1,20 +1,22 @@
 <template>
     <h2>Roles</h2>
-    <table class="table table-striped table-hover role-table-container">
-        <thead>
-        <tr>
-            <th scope="col">Role Id</th>
-            <th scope="col">Role name</th>
-            <th scope="col">Users</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-for="(role, index) in items" :key="index">
-            <th scope="row">{{ role.id }}</th>
-            <td>{{ role.name }}</td>
-        </tr>
-        </tbody>
-    </table>
+    <div class="table-wrapper">
+        <table class="table table-striped table-hover role-table-container">
+            <thead>
+            <tr>
+                <th scope="col">Role Id</th>
+                <th scope="col">Role name</th>
+                <th scope="col">Users</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="(role, index) in items" :key="index">
+                <th scope="row">{{ role.id }}</th>
+                <td>{{ role.name }}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </template>
   
 <script setup>
@@ -42,8 +44,34 @@
 </script>
   
 <style scoped>
-    .role-table-container {
-        max-height: 40vh;
+    .table-wrapper {
+        height: 700px;
+        width: 100%;
         overflow-y: auto;
+        overflow-x: auto;
     }
+
+    @media screen and (max-height: 768px) {
+        .table-wrapper {
+        height: 450px;
+        }
+    }
+
+    @media screen and (max-height: 640px) {
+        .table-wrapper {
+        height: 300px;
+        }
+    }
+    @media screen and (max-height: 460px) {
+        .table-wrapper {
+        height: 200px;
+        }
+    }
+
+    @media screen and (max-height: 300px) {
+        .table-wrapper {
+        height: 140px;
+        }
+    }
+
 </style>

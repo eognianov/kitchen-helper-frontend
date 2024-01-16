@@ -57,6 +57,7 @@
 
     .admin-container ul {
         width: 18%;
+        width: fit-content;
         position: sticky;
         top: 92px;
         overflow-y: auto;
@@ -68,6 +69,12 @@
 
     .admin-container ul li:first-child {
         margin-top: 1rem;
+    }
+
+    .admin-container ul li {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
     }
 
     footer {
