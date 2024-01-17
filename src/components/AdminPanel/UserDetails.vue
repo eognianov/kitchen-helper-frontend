@@ -89,24 +89,23 @@
 
     const makeRequest = async (roleId, isChecked) => {
 
-        try {
-            if (isChecked) {
-            await axios.post(
-                `/users/${user.value.id}/roles/${roleId}`, {
-                headers: {
+        const headers = {
                     "Content-Type": "application/json",
                     'Authorization': 'Bearer ' + auth.token
             }
+
+        try {
+            if (isChecked) {
+            await axios.post(
+                `/users/${user.value.id}/roles`, roleId, {
+                headers: headers
                 }
             );
             toast.success(`Role ${roleId} added successfully to user ${user.value.id}.`);
             } else {
             await axios.delete(
                 `/users/${user.value.id}/roles/${roleId}`, {
-                headers: {
-                    "Content-Type": "application/json",
-                    'Authorization': 'Bearer ' + auth.token
-            }
+                headers: headers
                 }
             );
             toast.error(`Role ${roleId} removed successfully from user ${user.value.id}.`);
@@ -118,23 +117,23 @@
     };
 
     const handleDeleteClick = async (userId) => {
-        try {
-            await axios.delete(
-                `/users/${userId}`, {
-                    headers: {
-                        "Content-Type": "application/json",
-                        'Authorization': 'Bearer ' + auth.token
-                    }
-                }
-            );
-            toast.error(`User ${userId} deleted successfully.`);
-        } catch (error) {
-            toast.error(error.message);
-        }
+        // try {
+        //     await axios.delete(
+        //         `/users/${userId}`, {
+        //             headers: {
+        //                 "Content-Type": "application/json",
+        //                 'Authorization': 'Bearer ' + auth.token
+        //             }
+        //         }
+        //     );
+        //     toast.error(`User ${userId} deleted successfully.`);
+        // } catch (error) {
+        //     toast.error(error.message);
+        // }
+        toast.warning('Work in progres.')
     };
 
     const handleSaveClick = async (userId) => {
-        console.log(editedEmail.value);
         try {
             await axios.patch(
                 `/users/${userId}`, {
@@ -147,7 +146,7 @@
                     }
                 }
             );
-            toast.update(`User ${userId} updated successfully.`);
+            toast.success(`User ${userId} updated successfully.`);
         } catch (error) {
             toast.error(error.message);
             editedEmail.value = user.value.email;
