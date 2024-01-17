@@ -68,9 +68,7 @@ router.beforeEach((to, from, next) => {
             next();
         }
 
-    };
-
-    if (to.matched.some(record => record.meta.requiresAuth)) {
+    } else if (to.matched.some(record => record.meta.requiresAuth)) {
         if (!localStorage.getItem('token')) {
             next('/login')
         } else {
