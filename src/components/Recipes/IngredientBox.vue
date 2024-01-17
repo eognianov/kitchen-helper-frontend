@@ -1,5 +1,5 @@
 <template>
-	<div class="col-sm-5">
+	<div class="col-sm-5 mb-2">
 		<section class="dropdown-wrapper">
 			<div class="dropdown-popover">
 				<input class="form-control input-name" type="text" v-model="searchQuery"
@@ -17,7 +17,7 @@
 		</section>
 	</div>
 
-	<div class="col-sm-5" style="display: flex; flex-direction: row">
+	<div class="col-sm-5 mb-2" style="display: flex; flex-direction: row">
 		<input type="number" step="0.001" class="form-control" v-model="current_quantity"
 					 placeholder="Quantity" style="width: 75%" @focus="isVisible=false">
 		<div class="col-sm-1" style="box-sizing: border-box;width: 30%; padding: 8px">{{ measurement }}</div>

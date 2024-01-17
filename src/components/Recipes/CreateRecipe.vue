@@ -370,12 +370,12 @@ const errors = ref({
 })
 
 async function submitRecipe() {
-	// status.checkTitle();
-	// status.checkCategory();
-	// status.checkSummary();
-	// status.checkServes();
-	// status.checkInstructions();
-	// status.checkIngredients();
+	status.checkTitle();
+	status.checkCategory();
+	status.checkSummary();
+	status.checkServes();
+	status.checkInstructions();
+	status.checkIngredients();
 
 
 	if (Object.values(errors.value).includes(true)) {
