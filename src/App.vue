@@ -19,6 +19,7 @@ auth.init()
 :root {
 	--white: #FFFFFF;
 	--main-color: #FBB040;
+	--secondary-color: #bfd73f;
 	--main-text: #333333;
 	--secondary-text: #727272;
 	--light-text: #DDD;

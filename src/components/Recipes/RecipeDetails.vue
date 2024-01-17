@@ -1,42 +1,39 @@
 <template>
-	<div class="recipe-detail">
+	<div class="recipe-detail" v-if="recipe">
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-lg-12 text-center">
-					<h1>Roast Chicken With Lemon Gravy</h1>
-					<div class="by"><i class="fa fa-user" aria-hidden="true"></i> Gerina Amy</div>
+					<h1>{{ recipe.name }}</h1>
+					<div class="by"><i class="fa fa-user" aria-hidden="true"></i> {{ user ? user.username : 'Unknown' }}</div>
 				</div>
 				<div class="col-lg-8">
-					<img src="/images/P1560722.JPG?url" alt="">
+					<img :src='imageUrl' :alt="recipe.name">
 					<div class="info">
 						<div class="row">
 							<div class="col-lg-4 col-sm-4">
 								<p>Serves:</p>
-								<p><strong><i class="fa fa-users" aria-hidden="true"></i> 4 people</strong>
+								<p><strong><i class="fa fa-users" aria-hidden="true"></i> {{ recipe.serves }} people</strong>
 								</p>
 							</div>
 							<div class="col-lg-4 col-sm-4">
 								<p>Time to prepare:</p>
-								<p><strong><i class="fa fa-clock-o" aria-hidden="true"></i> 1 Hour</strong>
+								<p><strong><i class="fa fa-clock-o" aria-hidden="true"></i> {{ recipe.time_to_prepare }} minutes
+								</strong>
 								</p>
 							</div>
 							<div class="col-lg-4 col-sm-4">
 								<p>Complexity:</p>
-								<p><strong><i class="fa fa-clock-o" aria-hidden="true"></i> 5</strong>
+								<p><strong><i class="fa fa-clock-o" aria-hidden="true"></i> {{ recipe.complexity }}</strong>
 								</p>
 							</div>
 						</div>
 					</div>
 
 
-					<p>Lorem ipsum dolor sit amet, usu eu vocibus laboramus appellantur, pro no natum ullum omittam. Mei vitae
-						utinam complectitur eu. Te usu cibo vulputate. Id propriae adipisci pro. Legere nominati ut mel, natum
-						libris at vix.</p>
+					<p>{{ recipe.summary }}</p>
 
 					<div class="tag">
-						<a href="#">Chicken</a>
-						<a href="#">Lemon</a>
-						<a href="#">Sayur</a>
+						<a href="#">{{ recipe.category.name }}</a>
 					</div>
 
 					<div class="ingredient-direction">
@@ -44,30 +41,15 @@
 							<div class="col-lg-6 col-sm-6">
 								<h3>Ingredients</h3>
 								<ul class="ingredients p-3">
-									<li>3 Slice Chicken</li>
-									<li>2 cubes beef bouillon, crumbled</li>
-									<li>2 pounds cubed beef stew meat</li>
-									<li>3 tablespoons vegetable oil</li>
-									<li>1 large onion, chopped</li>
-									<li>1 teaspoon dried rosemary</li>
-									<li>1/2 teaspoon ground black pepper</li>
+									<li v-for="ingredient in recipe.ingredients" :key="ingredient">{{ ingredient.quantity }} {{ingredient.measurement}}
+										{{ ingredient.name }}
+									</li>
 								</ul>
 							</div>
 							<div class="col-lg-6 col-sm-6">
 								<h3>Instructions</h3>
 								<ol class="directions">
-									<li>Mei latine maluisset constituam ut. Eum vero vocibus at, minim debet deterruisset cum ei. Soluta
-										virtute tibique cu quo, his vivendo suscipit ea. Legere fabulas pro ea.
-									</li>
-									<li>An unum soluta eos, audire meliore te nam. Mundi choro sensibus ut vim, ut sed errem ludus
-										tractatos, eu vix fierent definiebas. Ad est autem appareat. Vim ne latine interpretaris, eum
-										sensibus mediocritatem cu.
-									</li>
-									<li>Est an etiam cetero fierent. At sit primis evertitur. Est prima electram voluptatum ne. Nec id
-										atqui contentiones mediocritatem, ut mel enim soleat audire, tecripta consequat ea.
-									</li>
-									<li>Vidit mutat periculis sed ex, ex mel nihil suscipiantur. Brute noster aeterno et eum, mea et idque
-										primis repudiare.
+									<li v-for="instruction in recipe.instructions" :key="instruction.id">{{ instruction.instruction }}
 									</li>
 								</ol>
 							</div>
@@ -79,41 +61,85 @@
 						<h3>Nutrition Facts</h3>
 						<div>
 							<p>Calories:</p>
-							<p><strong>632 kcal</strong>
+							<p><strong>{{ recipe.calories }} kcal</strong>
 							</p>
 						</div>
 						<div>
 							<p>Carbohydrate:</p>
-							<p><strong>37 g</strong>
+							<p><strong>{{ recipe.carbo }} g</strong>
 							</p>
 						</div>
 						<div>
 							<p>Fat:</p>
-							<p><strong>92 g</strong>
+							<p><strong>{{ recipe.fats }} g</strong>
 							</p>
 						</div>
 						<div>
 							<p>Protein:</p>
-							<p><strong>63 g</strong>
+							<p><strong>{{ recipe.proteins }} g</strong>
 							</p>
 						</div>
 						<div>
 							<p>Cholesterol:</p>
-							<p><strong>0 mg</strong>
+							<p><strong>{{ recipe.cholesterol }} mg</strong>
 							</p>
 						</div>
-
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+	<div class="recipe-detail" v-if="recipeNotFound">
+		<h2 class="text-center">Recipe not found</h2>
+	</div>
 </template>
+
+<script setup>
+import {useRoute} from "vue-router";
+import {ref, onMounted} from "vue";
+import axios from "axios";
+import {useAuthStore} from "@/stores/authStore";
+import {getUserById, getImageById} from "./helepers";
+
+const auth = useAuthStore()
+const route = useRoute()
+
+const recipe = ref(null)
+const recipeNotFound = ref(false)
+const user = ref(null)
+const imageUrl = ref(null)
+
+async function getRecipeById() {
+	try {
+		const response = await axios.get(`/recipes/${route.params.id}`, {
+			headers: {
+				"Content-Type": "application/json",
+				'Authorization': 'Bearer ' + auth.token
+			}
+		})
+		if (response.status === 200) {
+			recipe.value = response.data
+			user.value = await getUserById(recipe.value.created_by, auth.token)
+			imageUrl.value = await getImageById(recipe.value.picture, auth.token)
+		}
+	} catch (e) {
+		recipeNotFound.value = true
+	}
+}
+
+
+onMounted( () => {
+	getRecipeById();
+})
+
+
+</script>
 
 <style scoped>
 .recipe-detail {
 	color: var(--main-text);
 }
+
 .recipe-detail {
 	padding: 70px 0
 }
@@ -123,6 +149,7 @@
 	font-weight: 700;
 	margin-bottom: 10px;
 	color: var(--main-text);
+	text-transform: capitalize;
 }
 
 .recipe-detail .by {
@@ -137,7 +164,9 @@
 }
 
 .recipe-detail img {
-	width: 100%
+	width: 100%;
+	height: 500px;
+	object-fit: cover;
 }
 
 
@@ -251,13 +280,13 @@
 }
 
 .recipe-detail .nutrition-facts p {
-  color: var(--main-text);
+	color: var(--main-text);
 	font-size: .8rem;
 }
 
 .recipe-detail .nutrition-facts p strong {
 	font-size: 1rem;
-  color: var(--main-text)
+	color: var(--main-text)
 }
 
 .recipe-detail .nutrition-facts div {
