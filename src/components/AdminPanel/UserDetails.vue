@@ -5,7 +5,10 @@
             <p><strong>User ID:</strong> {{ user.id }}</p>
             <p><strong>Username:</strong> {{ user.username }} </p>
             <p><strong>Email:</strong> </p>
-            <input v-model="editedEmail" class="form-control" />
+            <div class="input-save">
+                <input v-model="editedEmail" class="form-control" />
+                <button @click="handleSaveClick(user.id)" class="btn btn-save btn-sm">Save</button>
+            </div>
             <p><strong>Roles:</strong></p>
         </div>
     </div>
@@ -24,7 +27,6 @@
         </li>
     </ul>
     <div class="buttons">
-        <button @click="handleSaveClick(user.id)" class="btn btn-save btn-sm">Save</button>
         <button @click="handleDeleteClick(user.id)" class="btn btn-danger btn-sm">Delete</button>
     </div>
 </template>
@@ -175,8 +177,6 @@
     }
 
     .btn-save {
-        margin-top: 20px;
-        margin-right: 12px;
         color: #fff;
         background-color: #007bff;
         border-color: #007bff;
@@ -192,6 +192,13 @@
     input.form-control {
         width: fit-content;
         max-width: 280px;
+        margin-right: 12px;
+    }
+
+    div.input-save {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
     }
 
 </style>
