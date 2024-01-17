@@ -2,6 +2,7 @@ import {createApp} from 'vue';
 import App from './App.vue';
 import './axios';
 import {createPinia} from 'pinia'
+import VueJwtDecode from 'vue-jwt-decode';
 
 import {createVuetify} from "vuetify";
 import {createRouter, createWebHistory} from "vue-router";
@@ -50,12 +51,25 @@ const router = createRouter({
               { path: 'roles/add', component: CreateRole, name: 'admin-create-role'},
               { path: 'users/add', component: CreateUser, name: 'admin-create-user'},
             ],
-            meta: {requiresAuth: true}
-          },
+            meta: {requiresAdminAuth: true},
+        },
     ]
 });
 
 router.beforeEach((to, from, next) => {
+
+    if (to.matched.some(record => record.meta.requiresAdminAuth)) {
+        const token = localStorage.getItem('token');
+        const decoded = token ? VueJwtDecode.decode(token) : null;
+
+        if (!token || !decoded || !decoded.roles) {
+            next('/');
+        } else {
+            next();
+        }
+
+    };
+
     if (to.matched.some(record => record.meta.requiresAuth)) {
         if (!localStorage.getItem('token')) {
             next('/login')
@@ -65,6 +79,7 @@ router.beforeEach((to, from, next) => {
     } else {
         next()
     }
+
 })
 
 app.use(veautify)
