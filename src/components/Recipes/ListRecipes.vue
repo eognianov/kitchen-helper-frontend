@@ -12,8 +12,8 @@
 				</div>
 				<div class="col-lg-12 text-center">
 					<button class="btn btn-load"
-									@click="getRecipes(next_page)"
-									v-if="next_page"
+									@click="nextPage"
+									v-if="recipeStore.next_page"
 					>Load More
 					</button>
 				</div>
@@ -25,43 +25,28 @@
 
 <script setup>
 import RecipeBox from "./RecipeBox.vue";
-import axios from "axios";
-import {ref, watch, onMounted} from 'vue';
+import {ref, watch} from 'vue';
 import {useElementVisibility} from "@vueuse/core";
+import {useRecipeStore} from "@/stores/recipeStore";
 import {useAuthStore} from "@/stores/authStore";
 
-const auth = useAuthStore()
+const recipeStore = useRecipeStore();
+const auth = useAuthStore();
 
-const next_page = ref(null)
-const recipes = ref([])
+const recipes = ref(recipeStore.recipes)
 
-async function getRecipes(current_utl){
-  try {
-		let response = await axios.get(current_utl, {
-      headers: {'Authorization': 'Bearer ' + auth.token}
-    })
-		if (response.data.next_page) {
-			next_page.value = response.data.next_page
-		} else {
-			next_page.value = null
-		}
-		recipes.value.push(...response.data.recipes)
-	} catch (error) {
-		console.log(error)
-	}
-}
-
-onMounted(  () => {
-  getRecipes('/recipes/?page=1&page_size=6')
-})
 
 // load more on scroll if any
 const target = ref(null)
 const targetIsVisible = useElementVisibility(target)
 
+function nextPage() {
+	recipeStore.nextPage(auth.token)
+}
+
 watch(targetIsVisible, (targetVisible) => {
-	if (targetVisible === true && next_page.value !== null) {
-		getRecipes(next_page.value)
+	if (targetVisible === true && recipeStore.next_page !== null) {
+		nextPage()
 	}
 })
 </script>
