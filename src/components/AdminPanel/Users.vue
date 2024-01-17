@@ -87,5 +87,13 @@
         color: #CADA2C;
         font-weight: 700;
     }
+
+    .table-wrapper {
+        width: 100%;
+        height: min(70vh, 700px);
+        overflow-y: auto;
+        overflow-y: auto;
+    }
+    
 </style>
   

@@ -20,6 +20,8 @@ import UserDetails from "./components/AdminPanel/UserDetails.vue";
 import Roles from './components/AdminPanel/Roles.vue';
 import CreateRole from './components/AdminPanel/CreateRole.vue';
 import CreateUser from './components/AdminPanel/CreateUser.vue';
+import Recipes from './components/AdminPanel/Recipes.vue';
+import RecipeDetailsAdmin from './components/AdminPanel/RecipeDetailsAdmin.vue';
 
 import "vuetify/dist/vuetify.css";
 import "bootstrap/dist/css/bootstrap.css";
@@ -50,6 +52,8 @@ const router = createRouter({
               { path: 'roles', component: Roles, name: 'admin-roles' },
               { path: 'roles/add', component: CreateRole, name: 'admin-create-role'},
               { path: 'users/add', component: CreateUser, name: 'admin-create-user'},
+              { path: 'recipes', component: Recipes, name: 'admin-recipes'},
+              { path: 'recipes/:id', component: RecipeDetailsAdmin, name: 'admin-recipe-details'},
             ],
             meta: {requiresAdminAuth: true},
         },

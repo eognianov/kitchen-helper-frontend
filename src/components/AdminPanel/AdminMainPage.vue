@@ -15,6 +15,13 @@
             <router-link to="/admin/roles/add" class="nav-link add-link">+</router-link>
         </li>
         <hr>
+        <li class="nav-item" @click="goToRecipes">
+            <router-link to="/admin/recipes" class="nav-link">
+                <span class="clickable-text">Recipes</span>
+            </router-link>
+            <router-link to="/admin/recipes" class="nav-link add-link">+</router-link>
+        </li>
+        <hr>
         </ul>
 
         <div class="content">
@@ -71,11 +78,9 @@
     }
 
     .content {
-        margin-top: 2rem;
+        margin-top: 1.5rem;
         width: 80%;
         height: min(70vh, 700px);
-        overflow-y: auto;
-        overflow-x: auto;
     }
 
     hr {
