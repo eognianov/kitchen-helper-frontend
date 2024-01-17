@@ -1,10 +1,10 @@
 <template>
 	<div class="box grid recipes">
 		<div class="by">
-			<i class="fa fa-user" aria-hidden="true"></i> {{ user }}
+			<i class="fa fa-user" aria-hidden="true"></i> {{ recipe.created_by }}
 		</div>
 		<router-link :to="'/recipes/' + recipe.id">
-			<img :src="imageUrl" :alt="recipe.name">
+			<img :src="recipe.picture" :alt="recipe.name">
 		</router-link>
 		<h2>
 			<router-link :to="'/recipes/' + recipe.id">
@@ -19,22 +19,9 @@
 </template>
 
 <script setup>
-import {defineProps, ref, onMounted} from 'vue'
-import {getUserById, getImageById} from "./helepers.js"
-import {useAuthStore} from "@/stores/authStore";
-
-const auth = useAuthStore()
+import {defineProps} from 'vue'
 
 const props = defineProps(['recipe'])
-const user = ref(null)
-const imageUrl = ref(null)
-
-onMounted(async () => {
-	const new_user = await getUserById(props.recipe.created_by, auth.token)
-	const image_url = await getImageById(props.recipe.picture, auth.token)
-	user.value = new_user.username
-	imageUrl.value = image_url
-})
 </script>
 
 

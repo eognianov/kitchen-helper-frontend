@@ -13,6 +13,7 @@ import {useRecipeStore } from "@/stores/recipeStore";
 
 const recipeStore = useRecipeStore();
 const auth = useAuthStore()
+
 recipeStore.init(auth.token)
 
 </script>

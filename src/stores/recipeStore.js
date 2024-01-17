@@ -1,11 +1,14 @@
 import {defineStore, acceptHMRUpdate} from 'pinia'
 import axios from "axios";
-import {getRecipes} from "../components/Recipes/helepers";
 
 export const useRecipeStore = defineStore({
     id: 'recipe',
     state: () => ({
         recipes: [],
+        recipeOfTheDay: [],
+        topBreakfast: [],
+        topLunch: [],
+        topDinner: [],
         page_size: 6,
         page: 1,
         previous_page: null,
@@ -81,7 +84,40 @@ export const useRecipeStore = defineStore({
                 return null
             }
         },
+        async getOneRecipe(url, token) {
+            try {
+                let response = await axios.get(url, {
+                    headers: {'Authorization': 'Bearer ' + token}
+                })
+                if (response.status === 200) {
+                    const OneRecipe = response.data.recipes[0]
+                    OneRecipe.picture = await this.getImageById(OneRecipe.picture, token)
+                    const user = await this.getUserById(OneRecipe.created_by, token)
+                    OneRecipe.created_by = user.username
+                    return OneRecipe
+                }
+            } catch (error) {
+                console.log(error)
+                return null
+            }
+        },
         async init(token) {
+            if (this.recipeOfTheDay.length === 0) {
+                const url = '/recipes/?page=1&page_size=1&sort=id:desc'
+                this.recipeOfTheDay.push(await this.getOneRecipe(url, token))
+            }
+            if (this.topBreakfast.length === 0) {
+                const url = 'recipes/?page=1&page_size=1&filters=category:4&sort=id:desc'
+                this.topBreakfast.push(await this.getOneRecipe(url, token))
+            }
+            if (this.topLunch.length === 0) {
+                const url = 'recipes/?page=1&page_size=1&filters=category:2&sort=id:desc'
+                this.topLunch.push(await this.getOneRecipe(url, token))
+            }
+            if (this.topDinner.length === 0) {
+                const url = 'recipes/?page=1&page_size=1&filters=category:3&sort=id:desc'
+                this.topDinner.push(await this.getOneRecipe(url, token))
+            }
             if (this.recipes.length === 0) {
                 let new_url = this.constructUrl()
                 await this.getRecipes(new_url, token)
@@ -123,7 +159,7 @@ export const useRecipeStore = defineStore({
                     return {'username': `Anonymous`}
                 }
             } catch (e) {
-                return {'username': `${id}`}
+                return {'username': 'Anonymous'}
             }
         }
     }
