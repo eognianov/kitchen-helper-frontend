@@ -29,7 +29,7 @@
 
     onMounted(() => {
         if (window.location.pathname.includes('admin')) {
-            document.querySelector('#app > footer').style.display = 'none';
+            document.querySelector('#app > footer').remove();
         }
         });
 </script>
@@ -44,22 +44,20 @@
         justify-content: space-between;
         position: fixed;
         width: 100%;
+        height: 100%;
     }
 
     .admin-container div {
-        width: 80%;
+        margin-left: 14px;
     }
 
     .admin-container ul {
         width: 18%;
-        width: fit-content;
         position: sticky;
-        top: 92px;
         overflow-y: auto;
-        height: 100vh;
         background-color: var(--dark-background);
-        margin-bottom: -90px;
-        min-width: 80px;
+        margin-bottom: 0;
+        top: 0;
     }
 
     .admin-container ul li:first-child {
@@ -72,18 +70,12 @@
         justify-content: space-between;
     }
 
-    footer {
-        display: none;
-    }
-
-    @media screen and (max-width: 300px) {
-        .admin-container ul {
-            top: 150px;
-        }
-    }
-
     .content {
         margin-top: 2rem;
+        width: 80%;
+        height: min(70vh, 700px);
+        overflow-y: auto;
+        overflow-x: auto;
     }
 
     hr {

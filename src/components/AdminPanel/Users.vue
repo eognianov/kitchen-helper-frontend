@@ -1,38 +1,44 @@
 <template>
-    <h2>Users</h2>
-    <div class="table-wrapper">
-        <table class="table table-striped table-hover user-table-container">
-        <thead>
-            <tr>
-            <th scope="col">User Id</th>
-            <th scope="col">Username</th>
-            <th scope="col">Email</th>
-            <th scope="col">Roles</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="(user, index) in items" :key="index">
-            <th scope="row">{{ user.id }}</th>
-            <td class="username">
-                <router-link :to="{ name: 'admin-user-details', params: { id: user.id } }" class="nav-link">
-                {{ user.username }}
-                </router-link>
-            </td>
-            <td>{{ user.email }}</td>
-            <td>{{ user.roles.map(role => (role.name)).join(', ') }}</td>
-            </tr>
-        </tbody>
-        </table>
+    <div>
+        <h2>Users</h2>
+        <div class="search-container">
+            <input type="text" v-model="searchQuery" placeholder="Search for user..." />
+        </div>
+        <div class="table-wrapper">
+            <table class="table table-striped table-hover user-table-container">
+                <thead>
+                    <tr>
+                        <th scope="col">User Id</th>
+                        <th scope="col">Username</th>
+                        <th scope="col">Email</th>
+                        <th scope="col">Roles</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="(user, index) in filteredItems" :key="index">
+                        <th scope="row">{{ user.id }}</th>
+                        <td class="username">
+                        <router-link :to="{ name: 'admin-user-details', params: { id: user.id } }" class="nav-link">
+                            {{ user.username }}
+                        </router-link>
+                        </td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.roles.map(role => role.id).join(', ') }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </template>
   
 <script setup>
-    import { ref, onMounted } from 'vue';
+    import { ref, onMounted, computed } from 'vue';
     import axios from 'axios';
     import { useAuthStore } from "@/stores/authStore";
 
     const auth = useAuthStore();
     const items = ref([]);
+    const searchQuery = ref('');
 
     onMounted(() => {
     axios.get('/users/all', {
@@ -41,48 +47,45 @@
         'Authorization': 'Bearer ' + auth.token
         }
     })
-        .then(response => {
+    .then(response => {
         items.value = response.data;
-        })
-        .catch(error => {
+    })
+    .catch(error => {
         console.error('Error fetching user data:', error);
+    });
+    });
+
+    const filteredItems = computed(() => {
+        return items.value.filter(user => {
+            const lowerSearchQuery = searchQuery.value.toLowerCase();
+            return Object.values(user).some(value => {
+                if (value !== null && typeof value !== 'undefined') {
+                    const stringValue = String(value).toLowerCase();
+                    return stringValue.includes(lowerSearchQuery);
+                }
+                return false;
+            });
         });
     });
 </script>
   
 <style scoped>
-    .table-wrapper {
-        height: 700px;
-        width: 100%;
-        overflow-y: auto;
-        overflow-x: auto;
+    .search-container {
+        margin-bottom: 12px;
     }
 
-    @media screen and (max-height: 768px) {
-        .table-wrapper {
-        height: 450px;
-        }
+    .search-container > input {
+        border: 2px solid gray;
+        border-radius: 4px;
     }
 
-    @media screen and (max-height: 640px) {
-        .table-wrapper {
-        height: 300px;
-        }
-    }
-    @media screen and (max-height: 460px) {
-        .table-wrapper {
-        height: 200px;
-        }
-    }
-
-    @media screen and (max-height: 300px) {
-        .table-wrapper {
-        height: 140px;
-        }
+    .search-container > input:focus {
+        outline: none;
     }
 
     .username a {
-      color: #CADA2C;
-      font-weight: 700;
+        color: #CADA2C;
+        font-weight: 700;
     }
 </style>
+  
