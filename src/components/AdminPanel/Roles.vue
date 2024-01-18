@@ -95,17 +95,14 @@
     }
 
     .nav-link {
-      color: #CADA2C;
-      font-weight: 700;
-    }
-
-    .nav-link {
+        color: #CADA2C;
+        font-weight: 700;
         display: inline-block;
         width: fit-content;
     }
 
     .table-wrapper {
-        width: 100%;
+        width: 99%;
         height: 85vh;
         overflow-y: auto;
         overflow-x: auto;

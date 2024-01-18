@@ -19,7 +19,7 @@
             <router-link to="/admin/recipes" class="nav-link">
                 <span class="clickable-text">Recipes</span>
             </router-link>
-            <router-link to="/admin/recipes" class="nav-link add-link">+</router-link>
+            <router-link to="/admin/recipes/create" class="nav-link add-link">+</router-link>
         </li>
         <hr>
         </ul>
@@ -40,8 +40,10 @@
         }
     });
     onUnmounted(() => {
-        const footer = document.createElement('footer');
-        document.querySelector('#app').appendChild(footer);
+        if (!window.location.pathname.includes('admin')) {
+            const footer = document.createElement('footer');
+            document.querySelector('#app').appendChild(footer);
+        }
     });
 </script>
 
@@ -90,6 +92,13 @@
         margin-top: 1.5rem;
         width: 80%;
         height: min(70vh, 700px);
+    }
+
+    .submit {
+        width: 99%;
+        height: 85vh;
+        overflow-y: auto;
+
     }
 
     hr {

@@ -52,6 +52,11 @@
                 <p><strong>Serves:</strong> {{ recipe.serves }} </p>
                 <p><strong>Calories:</strong> {{ recipe.calories }} </p>
                 <p><strong>Carbo:</strong> {{ recipe.carbo }} </p>
+                <p><strong>Fats:</strong> {{ recipe.fats }} </p>
+                <p><strong>Proteins:</strong> {{ recipe.proteins }} </p>
+                <p><strong>Cholesterol:</strong> {{ recipe.cholesterol }} </p>
+                <p><strong>Complexity:</strong> {{ recipe.complexity }} </p>
+                <p><strong>Time To Prepare:</strong> {{ recipe.time_to_prepare }} </p>
             </div>
         </div>
         <hr>
@@ -60,6 +65,7 @@
             <ul class="list-group">
                 <li v-for="ingredient in ingredients" :key="ingredient.id" class="list-group-item">
                     <span>{{ ingredient.name }}</span>
+                    <span @click="handleRemoveIngredient(ingredient.id)" class="remove-element">x</span>
                 </li>
             </ul>
             <hr>
@@ -67,6 +73,7 @@
             <ul class="list-group">
                 <li v-for="instruction in instructions" :key="instruction.id" class="list-group-item">
                     <span>{{ instruction.instruction }}</span>
+                    <span @click="handleRemoveInsruction(instruction.id)" class="remove-element">x</span>
                 </li>
             </ul>
             <hr>
@@ -104,7 +111,6 @@
             }
             })
             .then(response => {
-                console.log(response.data);
                 recipe.value = response.data;
                 ingredients = response.data.ingredients;
                 instructions = response.data.instructions;
@@ -116,11 +122,18 @@
     });
 
     const handleDeleteClick = async (userId) => {
-        toast.warning('Work in progres.')
+        toast.warning('Work in progres...')
     };
 
     const handleSaveClick = async (userId) => {
-        toast.warning('Work in progres.')
+        toast.warning('Work in progres...')
+    };
+
+    const handleRemoveIngredient = async (ingredientId) => {
+        toast.warning('Work in progres...')
+    };
+    const handleRemoveInstruction = async (instructionId) => {
+        toast.warning('Work in progres...')
     };
 </script>
 
@@ -181,6 +194,24 @@
         font-weight: 700;
         display: inline-block;
         margin-left: 10px;
+    }
+
+    .list-group-item {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .remove-element {
+        color: #bb2d3b;
+        cursor: pointer;
+        height: 24px;
+        width: 24px;
+        padding: 4px;
+    }
+
+    .recipe-details img {
+        max-width: 250px;
+        max-height: 200px;
     }
 
 </style>

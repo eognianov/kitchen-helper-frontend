@@ -54,6 +54,7 @@ const router = createRouter({
               { path: 'users/add', component: CreateUser, name: 'admin-create-user'},
               { path: 'recipes', component: Recipes, name: 'admin-recipes'},
               { path: 'recipes/:id', component: RecipeDetailsAdmin, name: 'admin-recipe-details'},
+              { path: 'recipes/create', component: CreateRecipe, name: 'admin-create-recipe'},
             ],
             meta: {requiresAdminAuth: true},
         },
