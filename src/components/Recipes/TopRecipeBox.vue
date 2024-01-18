@@ -11,9 +11,10 @@
 		<p>{{ recipe.summary.slice(0, 50) }}{{ recipe.summary.length > 50 ? "..." : null }}</p>
 	</div>
 </template>
+
 <script setup>
 
-const props = defineProps(['recipe'])
+defineProps(['recipe'])
 
 </script>
 

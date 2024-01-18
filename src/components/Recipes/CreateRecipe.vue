@@ -79,40 +79,6 @@
 												</i>
 											</div>
 										</div>
-										<!--										<div class="row">-->
-										<!--											<div class="col-lg-1 col-sm-1">-->
-										<!--												<i class="fa fa-arrows" aria-hidden="true">-->
-										<!--												</i>-->
-										<!--											</div>-->
-										<!--											<div class="col-lg-4 col-md-4 col-sm-4">-->
-										<!--												&lt;!&ndash;                        <input type="text" class="form-control"&ndash;&gt;-->
-										<!--												&lt;!&ndash;                               v-model="ingredient.name" placeholder="Ingredient category">&ndash;&gt;-->
-										<!--												<select v-model="ingredient.category" class="form-select" name="category"-->
-										<!--																data-placeholder="Choose Category">-->
-										<!--													<option disabled>Select category</option>-->
-										<!--													<option-->
-										<!--															v-for="category in INGREDIENT_CATEGORIES"-->
-										<!--															:key="category"-->
-										<!--															:value="category">-->
-										<!--														{{ category.toLowerCase() }}-->
-										<!--													</option>-->
-										<!--												</select>-->
-										<!--											</div>-->
-
-										<!--											<div class="col-lg-4 col-md-4 col-sm-4">-->
-										<!--												<input type="text" class="form-control"-->
-										<!--															 v-model="ingredient.name" placeholder="Ingredient name">-->
-										<!--											</div>-->
-										<!--											<div class="col-sm-2">-->
-										<!--												<input type="number" class="form-control"-->
-										<!--															 v-model="ingredient.quantity" placeholder="Quantity">-->
-										<!--											</div>-->
-										<!--											<div class="col-lg-1 col-sm-1">-->
-										<!--												<i class="fa-solid fa-circle-minus minusbtn" aria-hidden="true"-->
-										<!--													 @click="deleteIngredient(ingredient.id)">-->
-										<!--												</i>-->
-										<!--											</div>-->
-										<!--										</div>-->
 									</div>
 								</vue-draggable-next>
 

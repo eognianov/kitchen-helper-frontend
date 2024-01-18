@@ -23,7 +23,6 @@ const recipeStore = useRecipeStore();
 
 const recipes = ref(recipeStore.recipeOfTheDay)
 
-
 const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
 const date = new Date();
 const currentDate = `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`

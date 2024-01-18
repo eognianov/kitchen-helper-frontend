@@ -27,7 +27,7 @@
 </template>
 
 <script setup>
-import {defineProps, ref, watch, computed} from 'vue'
+import {ref, watch, computed} from 'vue'
 
 const props = defineProps(['ingredientList', 'ingredient']);
 const selectedIngredient = ref("")
