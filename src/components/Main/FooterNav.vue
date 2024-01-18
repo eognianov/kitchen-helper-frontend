@@ -4,7 +4,7 @@
 			<div class="row">
 				<div class="col-lg-10 col-sm-12 mt-6 about">
 					<h5>About</h5>
-					<p>Kitchen Helper is an innovative project developed for <b>Soft-Uni Intern and Team Lead Academy</b>,
+					<p>Kitchen Helper is an innovative project developed for <b>SoftUni Intern and Team Lead Academy</b>,
 						designed to revolutionize the culinary experience.
 						This cutting-edge application is a recipe hub powered by an advanced <b>AI generator</b>,
 						offering users a seamless and enhanced search functionality based on ingredients.

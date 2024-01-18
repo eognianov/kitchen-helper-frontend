@@ -62,7 +62,7 @@
 
 								<vue-draggable-next class="box ui-sortable-handle" :list="ingredients">
 									<div
-											class="list-group-item bg-gray-300 pt-3 pl-3 pr-3 pb-3 rounded-md text-center"
+											class="list-group-item bg-gray-300 pt-3 pl-3 pr-3 pb-1 rounded-md text-center"
 											v-for="ingredient in ingredients"
 											:key="ingredient.id"
 									>
