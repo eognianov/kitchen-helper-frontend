@@ -62,7 +62,7 @@
 
 								<vue-draggable-next class="box ui-sortable-handle" :list="ingredients">
 									<div
-											class="list-group-item bg-gray-300 pt-3 pl-3 pr-3 pb-3 rounded-md text-center"
+											class="list-group-item bg-gray-300 pt-3 pl-3 pr-3 pb-1 rounded-md text-center"
 											v-for="ingredient in ingredients"
 											:key="ingredient.id"
 									>
@@ -79,45 +79,17 @@
 												</i>
 											</div>
 										</div>
-										<!--										<div class="row">-->
-										<!--											<div class="col-lg-1 col-sm-1">-->
-										<!--												<i class="fa fa-arrows" aria-hidden="true">-->
-										<!--												</i>-->
-										<!--											</div>-->
-										<!--											<div class="col-lg-4 col-md-4 col-sm-4">-->
-										<!--												&lt;!&ndash;                        <input type="text" class="form-control"&ndash;&gt;-->
-										<!--												&lt;!&ndash;                               v-model="ingredient.name" placeholder="Ingredient category">&ndash;&gt;-->
-										<!--												<select v-model="ingredient.category" class="form-select" name="category"-->
-										<!--																data-placeholder="Choose Category">-->
-										<!--													<option disabled>Select category</option>-->
-										<!--													<option-->
-										<!--															v-for="category in INGREDIENT_CATEGORIES"-->
-										<!--															:key="category"-->
-										<!--															:value="category">-->
-										<!--														{{ category.toLowerCase() }}-->
-										<!--													</option>-->
-										<!--												</select>-->
-										<!--											</div>-->
-
-										<!--											<div class="col-lg-4 col-md-4 col-sm-4">-->
-										<!--												<input type="text" class="form-control"-->
-										<!--															 v-model="ingredient.name" placeholder="Ingredient name">-->
-										<!--											</div>-->
-										<!--											<div class="col-sm-2">-->
-										<!--												<input type="number" class="form-control"-->
-										<!--															 v-model="ingredient.quantity" placeholder="Quantity">-->
-										<!--											</div>-->
-										<!--											<div class="col-lg-1 col-sm-1">-->
-										<!--												<i class="fa-solid fa-circle-minus minusbtn" aria-hidden="true"-->
-										<!--													 @click="deleteIngredient(ingredient.id)">-->
-										<!--												</i>-->
-										<!--											</div>-->
-										<!--										</div>-->
 									</div>
 								</vue-draggable-next>
-
-								<a @click="addIngredient" class="btn btn-dark">Add new ingredient</a>
-								<a @click="createIngredient" class="btn btn-dark ml-2">Create new ingredient</a>
+								<div class="row">
+									<div class="col-lg-3 col-md-5 col-sm-12" >
+										<a @click="addIngredient" class="btn btn-dark">Add new ingredient</a>
+									</div>
+									<div class="col-lg-6 col-md-2 col-sm-2 mt-2"></div>
+									<div class="col-lg-3 col-md-5 col-sm-12 d-flex justify-content-lg-end justify-content-md-end justify-content-sm-start">
+										<a @click="createIngredient" class="btn btn-dark ">Create new ingredient</a>
+									</div>
+								</div>
 
 								<div class="form-group">
 									<label>Instructions:</label>

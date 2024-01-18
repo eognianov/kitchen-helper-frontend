@@ -6,10 +6,8 @@
 					<h4>{{ currentDate }}</h4>
 					<h3>Recipe of the day</h3>
 				</div>
-				<div class="col-lg-8">
-					<div v-if="recipe">
-						<big-recipe-box :recipe="recipe"></big-recipe-box>
-					</div>
+				<div class="col-lg-8" v-for="recipe in recipes" :key="recipe.id">
+						<big-recipe-box  :recipe="recipe"></big-recipe-box>
 				</div>
 			</div>
 		</div>
@@ -18,24 +16,16 @@
 
 <script setup>
 import BigRecipeBox from './BigRecipeBox.vue';
-// import axios from "axios";
-import {onMounted, ref} from "vue";
-import {useAuthStore} from "@/stores/authStore";
-import {getRecipes} from './helepers'
+import {ref} from "vue";
+import {useRecipeStore} from "@/stores/recipeStore";
 
-const auth = useAuthStore()
+const recipeStore = useRecipeStore();
+
+const recipes = ref(recipeStore.recipeOfTheDay)
 
 const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
 const date = new Date();
 const currentDate = `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`
-
-const recipe = ref(null)
-
-onMounted(async  () => {
-	const recipes = await getRecipes('/recipes/?page=1&page_size=1&sort=id:desc', auth.token)
-	recipe.value = recipes[0]
-})
-
 </script>
 
 <style scoped>

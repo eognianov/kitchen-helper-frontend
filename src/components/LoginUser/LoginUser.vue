@@ -39,8 +39,10 @@
 import {ref} from "vue";
 import {useRouter} from 'vue-router';
 import {useAuthStore} from "@/stores/authStore";
+import {useRecipeStore} from "@/stores/recipeStore";
 
-const auth = useAuthStore()
+const auth = useAuthStore();
+const recipeStore = useRecipeStore();
 
 const router = useRouter();
 
@@ -62,6 +64,7 @@ async function login() {
 		errorMessage.value = error.message
 	}
 	if (auth.logged) {
+		recipeStore.recipes = []
 		router.push({name: "index"});
 	}
 }
