@@ -75,9 +75,13 @@ footer p, footer ul li a {
 	transition: all 0.3s ease;
 }
 
+footer ul li a {
+	font-weight: 800;
+}
+
 footer ul li a:hover {
 	cursor: pointer;
-	font-weight: bold;
+	font-size: 1.1rem;
 	color: var(--secondary-color);
 	transition: all 0.3s ease;
 }
@@ -92,10 +96,14 @@ footer ul li {
 
 footer ul li p {
 	font-size: .8rem;
+	font-weight: normal;
 }
 
 footer .about {
-	line-height: 1.8;
+	line-height: 1.7;
+}
+footer .about b{
+	font-weight: 800;
 }
 
 footer .fa-regular {
