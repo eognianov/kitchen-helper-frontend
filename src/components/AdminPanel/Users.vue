@@ -23,14 +23,7 @@
                         </router-link>
                         </td>
                         <td>{{ user.email }}</td>
-                        <td>
-                            <span v-for="(roleId, index) in user.roles.map(role => role.id)" :key="index">
-                                <router-link :to="{ name: 'admin-user-details', params: { id: roleId } }" class="nav-link">
-                                    {{ roleId }}
-                                </router-link>
-                                {{ index < user.roles.length - 1 ? ', ' : '' }}
-                            </span>     
-                        </td>
+                        <td><td>{{ user.roles.map(role => role.id).join(', ') }}</td></td>
                     </tr>
                 </tbody>
             </table>
