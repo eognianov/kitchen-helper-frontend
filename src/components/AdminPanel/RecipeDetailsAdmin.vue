@@ -40,7 +40,7 @@
                         {{ recipe.deleted_by }}
                     </router-link>
                 </p>
-                <p><strong>Published On:</strong> {{ recipe.published_on }} </p>
+                <p><strong>Deleted On:</strong> {{ recipe.deleted_on }} </p>
                 <hr>
                 <p><strong>Category:</strong> {{ recipe.serves }} </p>
                 <hr>
