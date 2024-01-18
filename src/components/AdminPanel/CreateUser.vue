@@ -130,5 +130,14 @@
     .show {
     display: block;
     }
+
+    div.container-fluid.user-form .justify-content-center {
+        width: 50vw;
+    }
+
+    div.container-fluid.user-form .justify-content-center button {
+        margin-top: 18px;
+    }
+    
 </style>
   

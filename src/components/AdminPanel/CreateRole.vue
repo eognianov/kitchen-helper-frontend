@@ -103,4 +103,13 @@
     .show {
     display: block;
     }
+
+    div.container.d-flex.justify-content-center > div {
+        width: 35vw;
+    }
+
+    div.container.d-flex.justify-content-center div button {
+        margin-top: 18px;
+    }
+    
 </style>
