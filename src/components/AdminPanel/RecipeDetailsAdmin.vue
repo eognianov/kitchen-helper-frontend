@@ -132,7 +132,7 @@
     const handleRemoveIngredient = async (ingredientId) => {
         toast.warning('Work in progres...')
     };
-    const handleRemoveInstruction = async (instructionId) => {
+    const handleRemoveInsruction = async (instructionId) => {
         toast.warning('Work in progres...')
     };
 </script>
