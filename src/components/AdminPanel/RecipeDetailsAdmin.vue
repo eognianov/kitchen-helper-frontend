@@ -1,31 +1,80 @@
 <template>
-    <div  class="recipe-detais">
+    <div  class="recipe-details">
         <div>
             <h2>Recipe Details</h2>
+            <hr>
             <div>
                 <p><strong>Recipe ID:</strong> {{ recipe.id }}</p>
+                <hr>
                 <p><strong>Name:</strong> {{ recipe.name }} </p>
-                <p><strong>Created By:</strong> {{ recipe.created_by }} </p>
+                <hr>
+                <p>
+                    <strong>Created By:</strong> 
+                    <router-link :to="{ name: 'admin-user-details', params: { id: recipe.created_by } }" class="nav-link">
+                        {{ recipe.created_by }}
+                    </router-link>
+                </p>
                 <p><strong>Created On:</strong> {{ recipe.created_on }} </p>
+                <hr>
+                <p>
+                    <strong>Updated By:</strong> 
+                    <router-link :to="{ name: 'admin-user-details', params: { id: recipe.updated_by } }" class="nav-link">
+                        {{ recipe.updated_by }}
+                    </router-link>
+                </p>
+                <p><strong>Updated On:</strong> {{ recipe.updated_on }} </p>
+                <hr>
+                <p><strong>Is Published:</strong> {{ recipe.is_published }} </p>
+                <p>
+                    <strong>Published By:</strong> 
+                    <router-link :to="{ name: 'admin-user-details', params: { id: recipe.published_by } }" class="nav-link">
+                        {{ recipe.published_by }}
+                    </router-link>
+                </p>
+                <p><strong>Published On:</strong> {{ recipe.published_on }} </p>
+                <hr>
+                <p><strong>Is Deleted:</strong> {{ recipe.is_deleted }} </p>
+                <p>
+                    <strong>Deleted By:</strong> 
+                    <router-link :to="{ name: 'admin-user-details', params: { id: recipe.deleted_by } }" class="nav-link">
+                        {{ recipe.deleted_by }}
+                    </router-link>
+                </p>
+                <p><strong>Published On:</strong> {{ recipe.published_on }} </p>
+                <hr>
+                <p><strong>Category:</strong> {{ recipe.serves }} </p>
+                <hr>
                 <p><strong>Picture:</strong></p>
                 <img v-if="recipe.picture" :src="recipe.picture" alt="Recipe Image" />
                 <p v-else>No picture available</p>
+                <hr>
                 <p><strong>Summary:</strong> {{ recipe.summary }} </p>
                 <p><strong>Serves:</strong> {{ recipe.serves }} </p>
                 <p><strong>Calories:</strong> {{ recipe.calories }} </p>
                 <p><strong>Carbo:</strong> {{ recipe.carbo }} </p>
-                <p><strong>Category:</strong> {{ recipe.serves }} </p>
             </div>
         </div>
+        <hr>
         <div>
+            <p><strong>Ingredients:</strong></p>
             <ul class="list-group">
-            <li v-for="ingredient in ingredients" :key="ingredient.id" class="list-group-item">
-                <span>{{ ingredient.name }}</span>
-            </li>
+                <li v-for="ingredient in ingredients" :key="ingredient.id" class="list-group-item">
+                    <span>{{ ingredient.name }}</span>
+                </li>
             </ul>
+            <hr>
+            <p><strong>Instructions:</strong></p>
+            <ul class="list-group">
+                <li v-for="instruction in instructions" :key="instruction.id" class="list-group-item">
+                    <span>{{ instruction.instruction }}</span>
+                </li>
+            </ul>
+            <hr>
             <div class="buttons">
-                <button @click="handleDeleteClick(user.id)" class="btn btn-danger btn-sm">Delete</button>
+                <button @click="handleSaveClick(recipe.id)" class="btn btn-save btn-sm">Save</button>
+                <button @click="handleDeleteClick(recipe.id)" class="btn btn-danger btn-sm">Delete</button>
             </div>
+            <hr>
         </div>
     </div>
 </template>
@@ -78,7 +127,8 @@
 <style scoped>
 
     .recipe-details {
-        display: flex;
+        height: 85vh;
+        overflow-y: auto;
     }
 
     .list-group {
@@ -93,11 +143,12 @@
     .buttons {
         display: flex;
         align-items: center;
+        justify-content: space-between;
     }
 
     .btn-danger {
-        margin-top: 20px;
         padding: 6px 24px;
+        margin-right: 10px;
     }
 
     .btn-save {
@@ -123,6 +174,13 @@
         display: flex;
         align-items: center;
         flex-wrap: wrap;
+    }
+
+    .nav-link {
+        color: #CADA2C;
+        font-weight: 700;
+        display: inline-block;
+        margin-left: 10px;
     }
 
 </style>

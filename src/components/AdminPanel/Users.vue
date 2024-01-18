@@ -1,10 +1,10 @@
 <template>
-    <div>
+    <div class="table-wrapper">
         <h2>Users</h2>
         <div class="search-container">
             <input type="text" v-model="searchQuery" placeholder="Search for user..." />
         </div>
-        <div class="table-wrapper">
+        <div>
             <table class="table table-striped table-hover user-table-container">
                 <thead>
                     <tr>
@@ -90,9 +90,9 @@
 
     .table-wrapper {
         width: 100%;
-        height: min(70vh, 700px);
+        height: 85vh;
         overflow-y: auto;
-        overflow-y: auto;
+        overflow-x: auto;
     }
     
 </style>

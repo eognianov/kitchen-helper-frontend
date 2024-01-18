@@ -32,16 +32,25 @@
 
 
 <script setup>
-    import { ref, onMounted } from 'vue';
+    import { ref, onMounted, onUnmounted } from 'vue';
 
     onMounted(() => {
         if (window.location.pathname.includes('admin')) {
             document.querySelector('#app > footer').remove();
         }
-        });
+    });
+    onUnmounted(() => {
+        const footer = document.createElement('footer');
+        document.querySelector('#app').appendChild(footer);
+    });
 </script>
 
 <style scoped>
+
+    body {
+        height: 100vh;
+    }
+
     h2 {
         text-align: center;
         color: #CADA2C;

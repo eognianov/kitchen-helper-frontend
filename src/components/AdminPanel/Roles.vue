@@ -1,10 +1,10 @@
 <template>
-    <div>
+    <div class="table-wrapper">
         <h2>Roles</h2>
         <div class="search-container">
             <input type="text" v-model="searchQuery" placeholder="Search for role..." />
         </div>
-        <div class="table-wrapper">
+        <div>
             <table class="table table-striped table-hover role-table-container">
                 <thead>
                     <tr>
@@ -17,7 +17,14 @@
                     <tr v-for="(role, index) in filteredItems" :key="index">
                         <th scope="row">{{ role.id }}</th>
                         <td class="role-name">{{ role.name }}</td>
-                        <td>{{ role.users.map(user => (user.id)).join(', ') }}</td>
+                        <td>
+                            <span v-for="(userId, index) in role.users.map(user => user.id)" :key="index">
+                                <router-link :to="{ name: 'admin-user-details', params: { id: userId } }" class="nav-link">
+                                    {{ userId }}
+                                </router-link>
+                                {{ index < role.users.length - 1 ? ', ' : '' }}
+                            </span>    
+                        </td>
                         <td><button @click="handleDeleteClick(role.id)" class="btn btn-danger btn-sm">Delete</button></td>
                     </tr>
                 </tbody>
@@ -87,16 +94,21 @@
         outline: none;
     }
 
-    .role-name {
+    .nav-link {
       color: #CADA2C;
       font-weight: 700;
     }
 
+    .nav-link {
+        display: inline-block;
+        width: fit-content;
+    }
+
     .table-wrapper {
         width: 100%;
-        height: min(70vh, 700px);
+        height: 85vh;
         overflow-y: auto;
-        overflow-y: auto;
+        overflow-x: auto;
     }
     
 </style>

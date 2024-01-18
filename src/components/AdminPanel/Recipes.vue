@@ -1,10 +1,10 @@
 <template>
-    <div>
+    <div class="table-wrapper">
         <h2>Recipes</h2>
         <div class="search-container">
             <input type="text" v-model="searchQuery" placeholder="Search for recipe..." />
         </div>
-        <div class="table-wrapper">
+        <div>
             <table class="table table-striped table-hover user-table-container">
                 <thead>
                     <tr>
@@ -24,7 +24,11 @@
                                 {{ recipe.name }}
                             </router-link>
                         </td>
-                        <td>{{ recipe.created_by }}</td>
+                        <td>
+                            <router-link :to="{ name: 'admin-user-details', params: { id: recipe.created_by } }" class="nav-link">
+                                {{ recipe.created_by }}
+                            </router-link>    
+                        </td>
                         <td>{{ recipe.is_published }}</td>
                     </tr>
                 </tbody>
@@ -85,14 +89,15 @@
         outline: none;
     }
 
-    .recipe-name a {
+    .nav-link {
         color: #CADA2C;
         font-weight: 700;
     }
 
     .table-wrapper {
         width: 100%;
-        height: min(70vh, 700px);
+        height: 85vh;
         overflow-y: auto;
+        overflow-x: auto;
     }
 </style>
