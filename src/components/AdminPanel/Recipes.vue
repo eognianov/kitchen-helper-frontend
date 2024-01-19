@@ -8,15 +8,15 @@
             <table class="table table-striped table-hover user-table-container">
                 <thead>
                     <tr>
-                        <th scope="col">Recipe Id</th>
-                        <th scope="col">Category</th>
-                        <th scope="col">Recipe Name</th>
-                        <th scope="col">Created By</th>
-                        <th scope="col">Is Published</th>
+                        <th>Recipe Id</th>
+                        <th>Category</th>
+                        <th>Recipe Name</th>
+                        <th>Created By</th>
+                        <th>Is Published</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(recipe, index) in filteredItems" :key="index">
+                    <tr v-for="(recipe, index) in items" :key="index">
                         <th scope="row">{{ recipe.id }}</th>
                         <td scope="row">{{ recipe.category.name }}</td>
                         <td class="recipe-name">
@@ -34,47 +34,55 @@
                 </tbody>
             </table>
         </div>
+        <div class="pagination">
+            <button @click="requestPage(prevPage)" :disabled="prevPage ? false : true">Previous</button>
+            <span>Page {{ currentPage }} of {{ totalPages }}</span>
+            <button @click="requestPage(nextPage)" :disabled="nextPage ? false : true">Next</button>
+        </div>
     </div>
 </template>
   
 <script setup>
-    import { ref, onMounted, computed } from 'vue';
+    import { ref, onMounted } from 'vue';
     import axios from 'axios';
     import { useAuthStore } from "@/stores/authStore";
 
     const auth = useAuthStore();
     const items = ref([]);
     const searchQuery = ref('');
+    const currentPage = ref(1);
+    const totalPages = ref(0);
+    const prevPage = ref('');
+    const nextPage = ref('');
 
     onMounted(() => {
-        axios.get('/recipes', {
+        requestPage('/recipes')
+    });
+
+
+    const requestPage  = (url, action) => {
+        
+        axios.get(
+            url, {
             headers: {
                 "Content-Type": "application/json",
                 'Authorization': 'Bearer ' + auth.token
             }
         })
         .then(response => {
+            totalPages.value = response.data.total_pages;
             items.value = response.data.recipes;
+            prevPage.value = response.data.previous_page;
+            nextPage.value = response.data.next_page;
+            currentPage.value = response.data.page_number;
         })
         .catch(error => {
             console.error('Error fetching recipe data:', error);
         });
-    });
-
-    const filteredItems = computed(() => {
-        return items.value.filter(recipe => {
-            const lowerSearchQuery = searchQuery.value.toLowerCase();
-            return Object.values(recipe).some(value => {
-                if (value !== null && typeof value !== 'undefined') {
-                    const stringValue = String(value).toLowerCase();
-                    return stringValue.includes(lowerSearchQuery);
-                }
-                return false;
-            });
-        });
-    });
+    };
+    
 </script>
-  
+
 <style scoped>
     .search-container {
         margin-bottom: 12px;
@@ -100,4 +108,27 @@
         overflow-y: auto;
         overflow-x: auto;
     }
+
+    .pagination {
+        margin-top: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-right: 24px
+    }
+
+    .pagination button {
+        cursor: pointer;
+        padding: 5px 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background-color: #f8f8f8;
+        color: #333;
+    }
+
+    .pagination button:disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+    }
+
 </style>
