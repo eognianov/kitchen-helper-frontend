@@ -8,10 +8,13 @@
 import NavBar from './components/Main/NavBar.vue';
 import FooterNav from './components/Main/FooterNav.vue';
 import {useAuthStore} from "@/stores/authStore";
+import {useRecipeStore } from "@/stores/recipeStore";
 
 const auth = useAuthStore()
+const recipeStore = useRecipeStore()
 
 auth.init()
+recipeStore.init(auth.token)
 
 </script>
 

@@ -5,44 +5,47 @@ export const useRecipeStore = defineStore({
     id: 'recipe',
     state: () => ({
         recipes: [],
+        categories: [],
+        ingredients: [],
         recipeOfTheDay: [],
         topBreakfast: [],
         topLunch: [],
         topDinner: [],
-        page_size: 6,
-        page: 1,
+        page_size: null,
+        page_number: null,
         previous_page: null,
         next_page: null,
         total_pages: null,
         total_items: null,
-        sort_expression: '',
-        filter_expression: '',
         filters: {
             category: null,
-            complexity: null,
-            time_to_prepare: null,
             created_by: null,
             period: null,
             ingredient: null,
             title: null,
             summary: null,
             any: null,
+            deleted: null,
+            published: null,
         },
         sort: {
             id: null,
             name: null,
             created_by: null,
-            time_to_prepare: null,
             created_on: null,
             updated_on: null,
-            complexity: null,
             'category.name': null,
             'category.id': null,
         }
-
     }),
     actions: {
         constructUrl() {
+            let pagination = ''
+            let filter_expression = ''
+            let sort_expression = ''
+            if (this.page && this.page_size) {
+                pagination = `page=${this.page}&page_size=${this.page_size}`
+            }
             let sort_f = []
             for (const key in this.sort) {
                 const value = this.sort[key];
@@ -51,7 +54,11 @@ export const useRecipeStore = defineStore({
                 }
             }
             if (sort_f.length > 0) {
-                this.sort_expression = `&sort=${sort_f.join(",")}`
+                if (pagination !== ''){
+                    sort_expression = `&sort=${sort_f.join(",")}`
+                } else {
+                    sort_expression = `sort=${sort_f.join(",")}`
+                }
             }
             let filter_f = []
             for (const key in this.filters) {
@@ -61,9 +68,13 @@ export const useRecipeStore = defineStore({
                 }
             }
             if (filter_f.length > 0) {
-                this.filter_expression = `&filters=${filter_f.join(",")}`
+                if (pagination !== '' || sort_expression !== ''){
+                    filter_expression = `&filters=${filter_f.join(",")}`
+                } else {
+                    filter_expression = `filters=${filter_f.join(",")}`
+                }
             }
-            return `/recipes/?page=${this.page}&page_size=${this.page_size}${this.sort_expression}${this.filter_expression}`
+            return `/recipes/?${pagination}${sort_expression}${filter_expression}`
         },
         async getRecipes(url, token) {
             try {
@@ -78,6 +89,11 @@ export const useRecipeStore = defineStore({
                         this.recipes.push(item)
                     }
                     this.next_page = response.data.next_page
+                    this.previous_page = response.data.previous_page
+                    this.total_pages = response.data.total_pages
+                    this.total_items = response.data.total_items
+                    this.page_number = response.data.page_number
+                    this.page_size = response.data.page_size
                 }
             } catch (error) {
                 console.log(error)
@@ -101,7 +117,38 @@ export const useRecipeStore = defineStore({
                 return null
             }
         },
+        async getCategories() {
+            try {
+                let response = await axios.get('/categories/')
+                if (response.status === 200) {
+                    this.categories = response.data
+                }
+            } catch (error) {
+                console.log(error)
+                return null
+            }
+        },
+        async getIngredients(token) {
+            try {
+                let response = await axios.get('ingredients/',
+                    {
+                        headers: {'Authorization': 'Bearer ' + token}
+                    })
+                if (response.status === 200) {
+                    this.ingredients = response.data
+                }
+            } catch (error) {
+                console.log(error)
+                return null
+            }
+        },
         async init(token) {
+            if (this.categories.length === 0) {
+                await this.getCategories()
+            }
+            if (this.ingredients.length === 0 && token) {
+                await this.getIngredients(token)
+            }
             if (this.recipeOfTheDay.length === 0) {
                 const url = '/recipes/?page=1&page_size=1&sort=id:desc'
                 this.recipeOfTheDay.push(await this.getOneRecipe(url, token))
@@ -119,12 +166,17 @@ export const useRecipeStore = defineStore({
                 this.topDinner.push(await this.getOneRecipe(url, token))
             }
             if (this.recipes.length === 0) {
+                this.page = 1
+                this.page_size = 6
                 let new_url = this.constructUrl()
                 await this.getRecipes(new_url, token)
             }
         },
         async nextPage(token) {
             await this.getRecipes(this.next_page, token)
+        },
+        async previousPage(token) {
+            await this.getRecipes(this.previous_page, token)
         },
         async getImageById(id, token) {
             try {
