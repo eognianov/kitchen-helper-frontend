@@ -22,9 +22,7 @@ export const useRecipeStore = defineStore({
             created_by: null,
             period: null,
             ingredient: null,
-            title: null,
-            summary: null,
-            any: null,
+            search: null,
             deleted: null,
             published: null,
         },
@@ -43,38 +41,42 @@ export const useRecipeStore = defineStore({
             let pagination = ''
             let filter_expression = ''
             let sort_expression = ''
+
             if (this.page && this.page_size) {
-                pagination = `page=${this.page}&page_size=${this.page_size}`
+                pagination = `?page=${this.page}&page_size=${this.page_size}`
             }
-            let sort_f = []
+
+            let sort_conditions = []
             for (const key in this.sort) {
                 const value = this.sort[key];
                 if (value !== null) {
-                    sort_f.push(`${key}:${value}`)
+                    sort_conditions.push(`${key}:${value}`)
                 }
             }
-            if (sort_f.length > 0) {
-                if (pagination !== ''){
-                    sort_expression = `&sort=${sort_f.join(",")}`
+            if (sort_conditions.length > 0) {
+                if (pagination !== '') {
+                    sort_expression = `&sort=${sort_conditions.join(",")}`
                 } else {
-                    sort_expression = `sort=${sort_f.join(",")}`
+                    sort_expression = `?sort=${sort_conditions.join(",")}`
                 }
             }
-            let filter_f = []
+
+            let filter_conditions = []
             for (const key in this.filters) {
                 const value = this.filters[key];
                 if (value !== null) {
-                    filter_f.push(`${key}:${value}`)
+                    filter_conditions.push(`${key}:${value}`)
                 }
             }
-            if (filter_f.length > 0) {
-                if (pagination !== '' || sort_expression !== ''){
-                    filter_expression = `&filters=${filter_f.join(",")}`
+            if (filter_conditions.length > 0) {
+                if (pagination !== '' || sort_expression !== '') {
+                    filter_expression = `&filters=${filter_conditions.join(",")}`
                 } else {
-                    filter_expression = `filters=${filter_f.join(",")}`
+                    filter_expression = `?filters=${filter_conditions.join(",")}`
                 }
             }
-            return `/recipes/?${pagination}${sort_expression}${filter_expression}`
+
+            return `/recipes/${pagination}${sort_expression}${filter_expression}`
         },
         async getRecipes(url, token) {
             try {
@@ -122,7 +124,9 @@ export const useRecipeStore = defineStore({
                 let response = await axios.get('/categories/')
                 if (response.status === 200) {
                     this.categories = response.data
+                    return response.data
                 }
+
             } catch (error) {
                 console.log(error)
                 return null
@@ -136,6 +140,7 @@ export const useRecipeStore = defineStore({
                     })
                 if (response.status === 200) {
                     this.ingredients = response.data
+                    return response.data
                 }
             } catch (error) {
                 console.log(error)
@@ -171,6 +176,11 @@ export const useRecipeStore = defineStore({
                 let new_url = this.constructUrl()
                 await this.getRecipes(new_url, token)
             }
+        },
+        async searchTrigger(token) {
+            const url = this.constructUrl()
+            console.log(url)
+            await this.getRecipes(url, token)
         },
         async nextPage(token) {
             await this.getRecipes(this.next_page, token)
