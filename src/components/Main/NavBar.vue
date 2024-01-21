@@ -31,10 +31,7 @@
           <li class="nav-item" @click="isNavbarVisible ? isNavbarVisible=false : null" v-if="!auth.logged">
 
           </li>
-          <li class="nav-item" @click="logout" v-if="auth.logged">
-            <a href="#" class="nav-link">Logout</a>
-          </li>
-          <li class="nav-item btn-submit-recipe" @click="isNavbarVisible ? isNavbarVisible=false : null">
+          <li class="nav-item btn-submit-recipe d-flex" @click="isNavbarVisible ? isNavbarVisible=false : null">
             <router-link v-if="auth.logged" to="/create" class="nav-link">
               <i class="fa fa-upload" aria-hidden="true"></i>
               Submit Recipe
@@ -43,6 +40,12 @@
               <i class="fa fa-user" aria-hidden="true"></i>
               Login
             </router-link>
+            <div @click="logout" class="ml-2" v-if="auth.logged">
+              <a href="#" class="nav-link">
+                <i class="fa fa-right-from-bracket" aria-hidden="true"></i>
+                Logout
+              </a>
+            </div>
           </li>
         </ul>
       </div>
