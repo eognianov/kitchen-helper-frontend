@@ -281,7 +281,7 @@ async function uploadPicture(e) {
 	if (image !== undefined) {
 		const fd = new FormData();
 		fd.append('file', image, image.name)
-		const response = await axios.post('/images', fd, {
+		const response = await axios.post('/images/', fd, {
 			headers: {'Authorization': 'Bearer ' + auth.token}
 		})
 		picture.value = response.data.id
