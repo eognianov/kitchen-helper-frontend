@@ -11,7 +11,7 @@
 					</p>
 					<p>
 						The robust back-end of Kitchen Helper is built on a foundation of powerful technologies,
-						including <b>FastAPI, Nginx, Uvicorn, Celery, and PostgreSQL.</b>
+						including <b>FastAPI, Nginx, Uvicorn, Celery, PostgreSQL and gRPC.</b>
 						These components work together seamlessly to ensure efficient data processing,
 						storage, and retrieval. On the front-end, we've leveraged the capabilities of
 						<b>Vue.js, Axios, Pinia, and Bootstrap </b>to create a user-friendly interface
@@ -27,7 +27,7 @@
 					<h5>Team</h5>
 					<ul class="row">
 						<li class="col-lg-12 col-sm-6">
-							<a href="https://github.com/eognianov" target="_blank">Emilian Ognianov </a>
+							<a href="https://github.com/eognianov" target="_blank">Emiliyan Ognyanov </a>
 							<p>Team Leader</p>
 						</li>
 						<li class="col-lg-12 col-sm-6">
