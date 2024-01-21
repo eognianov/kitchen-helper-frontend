@@ -72,9 +72,6 @@ export const useRecipeStore = defineStore({
                 })
                 if (response.status === 200) {
                     for (const item of response.data.recipes) {
-                        item.picture = await this.getImageById(item.picture, token)
-                        const user = await this.getUserById(item.created_by, token)
-                        item.created_by = user.username
                         this.recipes.push(item)
                     }
                     this.next_page = response.data.next_page
@@ -91,9 +88,7 @@ export const useRecipeStore = defineStore({
                 })
                 if (response.status === 200) {
                     const OneRecipe = response.data.recipes[0]
-                    OneRecipe.picture = await this.getImageById(OneRecipe.picture, token)
-                    const user = await this.getUserById(OneRecipe.created_by, token)
-                    OneRecipe.created_by = user.username
+
                     return OneRecipe
                 }
             } catch (error) {
@@ -126,42 +121,6 @@ export const useRecipeStore = defineStore({
         async nextPage(token) {
             await this.getRecipes(this.next_page, token)
         },
-        async getImageById(id, token) {
-            try {
-                const response = await axios.get(`/images/${id}`, {
-                    headers: {
-                        'Authorization': 'Bearer ' + token
-                    }
-                })
-                if (response.status === 200) {
-                    if (response.data.in_cloudinary === false) {
-                        const url = response.data.url.replaceAll("\\", '/')
-                        return `http://127.0.0.1:8000/${url}`
-                    } else {
-                        return response.data.url
-                    }
-
-                }
-            } catch (e) {
-                return null
-            }
-        },
-        async getUserById(id, token) {
-            try {
-                const response = await axios.get(`/users/${id}`, {
-                    headers: {
-                        'Authorization': 'Bearer ' + token
-                    }
-                })
-                if (response.status === 200) {
-                    return response.data
-                } else {
-                    return {'username': `Anonymous`}
-                }
-            } catch (e) {
-                return {'username': 'Anonymous'}
-            }
-        }
     }
 })
 
