@@ -20,7 +20,7 @@ export const useAuthStore = defineStore({
                 try {
                     if (timestamp < decoded.exp * 1000) {
                         this.token = token
-                        let response = await axios.get(`users/${decoded.sub}/`,
+                        let response = await axios.get(`/users/${decoded.sub}`,
                             {headers: {'Authorization': 'Bearer ' + token}}
                         )
                         if (response.status === 200) {
@@ -48,7 +48,7 @@ export const useAuthStore = defineStore({
                 localStorage.setItem('token', token);
                 if (token) {
                     let decoded = VueJwtDecode.decode(token);
-                    let response = await axios.get(`users/${decoded.sub}`, {
+                    let response = await axios.get(`/users/${decoded.sub}`, {
                         headers: {'Authorization': 'Bearer ' + token}
                     })
                     if (response.status === 200) {
