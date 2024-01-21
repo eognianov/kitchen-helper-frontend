@@ -38,17 +38,6 @@
 							<a href="https://github.com/VelinIliev" target="_blank">Velin Iliev</a>
 							<p>Front-end, Back-end</p>
 						</li>
-						<li class="col-lg-12 col-sm-6">
-							<a href="https://github.com/MDeyanov" target="_blank">Martin Deyanov</a>
-							<p>Back-end</p>
-						</li>
-						<li class="col-lg-12 col-sm-6">
-							<a href="https://github.com/VelinIliev" target="_blank">Alexander Zashev</a>
-							<p>Back-end</p>
-						</li>
-						<li class="col-lg-12 col-sm-6">
-							<a href="https://github.com/Javor18" target="_blank">Javor Mirchev</a>
-						</li>
 					</ul>
 				</div>
 			</div>
