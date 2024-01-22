@@ -41,7 +41,8 @@
 							<div class="col-lg-6 col-sm-6">
 								<h3>Ingredients</h3>
 								<ul class="ingredients p-3">
-									<li v-for="ingredient in recipe.ingredients" :key="ingredient">{{ ingredient.quantity }} {{ingredient.measurement}}
+									<li v-for="ingredient in recipe.ingredients" :key="ingredient">{{ ingredient.quantity }}
+										{{ ingredient.measurement }}
 										{{ ingredient.name }}
 									</li>
 								</ul>
@@ -99,11 +100,11 @@ import {useRoute} from "vue-router";
 import {ref, onMounted} from "vue";
 import axios from "axios";
 import {useAuthStore} from "@/stores/authStore";
-import {getUserById, getImageById} from "./helepers";
-
+import {useRecipeStore} from "@/stores/recipeStore";
 
 
 const auth = useAuthStore()
+const recipeStore = useRecipeStore();
 const route = useRoute()
 
 const recipe = ref(null)
@@ -121,8 +122,8 @@ async function getRecipeById() {
 		})
 		if (response.status === 200) {
 			recipe.value = response.data
-			user.value = await getUserById(recipe.value.created_by, auth.token)
-			imageUrl.value = await getImageById(recipe.value.picture, auth.token)
+			user.value = await recipeStore.getUserById(recipe.value.created_by, auth.token)
+			imageUrl.value = await recipeStore.getImageById(recipe.value.picture, auth.token)
 		}
 	} catch (e) {
 		recipeNotFound.value = true
@@ -130,7 +131,7 @@ async function getRecipeById() {
 }
 
 
-onMounted( () => {
+onMounted(() => {
 	getRecipeById();
 })
 

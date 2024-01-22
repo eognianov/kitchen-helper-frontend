@@ -196,13 +196,13 @@ export const useRecipeStore = defineStore({
                     }
                 })
                 if (response.status === 200) {
+
                     if (response.data.in_cloudinary === false) {
                         const url = response.data.url.replaceAll("\\", '/')
-                        return `http://127.0.0.1:8000/${url}`
+                        return `http://127.0.0.1:8000${url}`
                     } else {
                         return response.data.url
                     }
-
                 }
             } catch (e) {
                 return null
