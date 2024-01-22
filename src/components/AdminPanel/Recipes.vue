@@ -16,7 +16,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr v-for="(recipe, index) in items" :key="index">
+                    <tr v-for="(recipe, index) in filteredItems" :key="index">
                         <th scope="row">{{ recipe.id }}</th>
                         <td scope="row">{{ recipe.category.name }}</td>
                         <td class="recipe-name">
@@ -35,15 +35,32 @@
             </table>
         </div>
         <div class="pagination">
-            <button @click="requestPage(prevPage)" :disabled="prevPage ? false : true">Previous</button>
-            <span>Page {{ currentPage }} of {{ totalPages }}</span>
-            <button @click="requestPage(nextPage)" :disabled="nextPage ? false : true">Next</button>
+            <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                <li class="page-item">
+                    <button @click="requestPage(prevPage)" :disabled="prevPage ? false : true" class="page-link">Previous</button>
+                </li>
+                <li v-for="pageNumber in visiblePages" :key="pageNumber" class="page-item">
+                    <button
+                        @click="requestPage(`/recipes?page=${pageNumber}`)"
+                        :class="{ active: pageNumber === currentPage }"
+                        class="page-link"
+                        :disabled="pageNumber === currentPage"
+                    >
+                        {{ pageNumber }}
+                    </button>
+                </li>
+                <li class="page-item">
+                    <button @click="requestPage(nextPage)" :disabled="nextPage ? false : true" class="page-link">Next</button>
+                </li>
+                </ul>
+            </nav>
         </div>
     </div>
 </template>
   
 <script setup>
-    import { ref, onMounted } from 'vue';
+    import { ref, onMounted, computed, watch } from 'vue';
     import axios from 'axios';
     import { useAuthStore } from "@/stores/authStore";
 
@@ -80,6 +97,42 @@
             console.error('Error fetching recipe data:', error);
         });
     };
+
+    const visiblePages = computed(() => {
+        const totalVisiblePages = 10;
+        const totalAvailablePages = totalPages.value;
+
+        if (totalAvailablePages <= totalVisiblePages) {
+            return Array.from({ length: totalAvailablePages }, (_, index) => index + 1);
+        }
+
+        const startPage = Math.max(1, currentPage.value - 9);
+        const endPage = Math.min(totalAvailablePages, startPage + totalVisiblePages - 1);
+
+        const pages = [];
+        for (let i = startPage; i <= endPage; i++) {
+            pages.push(i);
+        }
+
+        return pages;
+    });
+
+    const filteredItems = computed(() => {
+        return items.value.filter(role => {
+            const lowerSearchQuery = searchQuery.value.toLowerCase();
+            return Object.values(role).some(value => {
+                if (value !== null && typeof value !== 'undefined') {
+                    const stringValue = String(value).toLowerCase();
+                    return stringValue.includes(lowerSearchQuery);
+                }
+                return false;
+            });
+        });
+    });
+
+    watch(searchQuery, () => {
+        const searchUrl = `/recipes?page=${currentPage.value}&search=${encodeURIComponent(searchQuery)}`;
+    });
     
 </script>
 
@@ -103,8 +156,8 @@
     }
 
     .table-wrapper {
-        width: 100%;
-        height: 85vh;
+        width: 99%;
+        height: 82vh;
         overflow-y: auto;
         overflow-x: auto;
     }
@@ -127,7 +180,7 @@
     }
 
     .pagination button:disabled {
-        cursor: not-allowed;
+        cursor: default;
         opacity: 0.5;
     }
 
