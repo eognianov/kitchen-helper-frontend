@@ -1,10 +1,10 @@
 <template>
 	<div class="box grid recipes">
 		<div class="by">
-			<i class="fa fa-user" aria-hidden="true"></i> {{ recipe.created_by }}
+			<i class="fa fa-user" aria-hidden="true"></i> {{ user ? user.username : 'Unknown'  }}
 		</div>
 		<router-link :to="'/recipes/' + recipe.id">
-			<img :src="recipe.picture" :alt="recipe.name">
+			<img :src="imageUrl" :alt="recipe.name">
 		</router-link>
 		<h2>
 			<router-link :to="'/recipes/' + recipe.id">
@@ -19,7 +19,24 @@
 </template>
 
 <script setup>
-defineProps(['recipe'])
+import {ref} from "vue";
+import {useRecipeStore} from "@/stores/recipeStore";
+import {useAuthStore} from "@/stores/authStore";
+
+const props = defineProps(['recipe'])
+
+const recipeStore = useRecipeStore();
+const auth =useAuthStore()
+
+const imageUrl = ref(null)
+const user = ref(null)
+
+async function getImageAndUser() {
+	imageUrl.value = await recipeStore.getImageById(props.recipe.picture)
+	user.value = await recipeStore.getUserById(props.recipe.created_by, auth.token)
+}
+getImageAndUser();
+
 </script>
 
 
@@ -98,31 +115,37 @@ defineProps(['recipe'])
 		height: 60px;
 	}
 }
+
 @media only screen and (max-width: 1200px) {
 	.box.grid.recipes p {
 		height: 80px;
 	}
 }
+
 @media only screen and (max-width: 990px) {
 	.box.grid.recipes p {
 		height: 60px;
 	}
 }
+
 @media only screen and (max-width: 768px) {
 	.box.grid.recipes p {
 		height: 80px;
 	}
 }
+
 @media only screen and (max-width: 575px) {
 	.box.grid.recipes p {
 		height: 40px;
 	}
 }
+
 @media only screen and (max-width: 433px) {
 	.box.grid.recipes p {
 		height: 60px;
 	}
 }
+
 @media only screen and (max-width: 321px) {
 	.box.grid.recipes p {
 		height: 80px;

@@ -1,7 +1,7 @@
 <template>
 	<div class="box clearfix">
 		<router-link :to="'/recipes/' + recipe.id">
-			<img :src="recipe.picture" :alt="recipe.name">
+			<img :src="imageUrl" :alt="recipe.name">
 		</router-link>
 		<h3>
 			<router-link :to="'/recipes/' + recipe.id">
@@ -13,8 +13,20 @@
 </template>
 
 <script setup>
+import {ref} from "vue";
+import {useRecipeStore} from "@/stores/recipeStore";
 
-defineProps(['recipe'])
+const props = defineProps(['recipe'])
+
+const recipeStore = useRecipeStore();
+
+const imageUrl = ref(null)
+
+async function getImage() {
+	imageUrl.value = await recipeStore.getImageById(props.recipe.picture)
+}
+
+getImage();
 
 </script>
 

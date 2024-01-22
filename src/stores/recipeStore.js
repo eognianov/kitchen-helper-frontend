@@ -85,9 +85,9 @@ export const useRecipeStore = defineStore({
                 })
                 if (response.status === 200) {
                     for (const item of response.data.recipes) {
-                        item.picture = await this.getImageById(item.picture, token)
-                        const user = await this.getUserById(item.created_by, token)
-                        item.created_by = user.username
+                        // item.picture = await this.getImageById(item.picture, token)
+                        // const user = await this.getUserById(item.created_by, token)
+                        // item.created_by = user.username
                         this.recipes.push(item)
                     }
                     this.next_page = response.data.next_page
@@ -108,11 +108,11 @@ export const useRecipeStore = defineStore({
                     headers: {'Authorization': 'Bearer ' + token}
                 })
                 if (response.status === 200) {
-                    const OneRecipe = response.data.recipes[0]
-                    OneRecipe.picture = await this.getImageById(OneRecipe.picture, token)
-                    const user = await this.getUserById(OneRecipe.created_by, token)
-                    OneRecipe.created_by = user.username
-                    return OneRecipe
+                    // const OneRecipe =
+                    // OneRecipe.picture = await this.getImageById(OneRecipe.picture, token)
+                    // const user = await this.getUserById(OneRecipe.created_by, token)
+                    // OneRecipe.created_by = user.username
+                    return response.data.recipes[0]
                 }
             } catch (error) {
                 console.log(error)
@@ -218,10 +218,10 @@ export const useRecipeStore = defineStore({
                 if (response.status === 200) {
                     return response.data
                 } else {
-                    return {'username': `Anonymous`}
+                    return null
                 }
             } catch (e) {
-                return {'username': 'Anonymous'}
+                return null
             }
         }
     }
