@@ -4,10 +4,14 @@
 			<div class="row justify-content-center">
 				<div class="col-lg-12">
 					<h4>{{ currentDate }}</h4>
-					<h3>Recipe of the day</h3>
+					<h3 v-if="recipes.length > 0">Recipe of the day</h3>
 				</div>
-				<div class="col-lg-8" v-for="recipe in recipes" :key="recipe.id">
-						<big-recipe-box  :recipe="recipe"></big-recipe-box>
+				<div class="col-lg-8" v-if="recipes.length > 0">
+					<big-recipe-box
+							v-for="recipe in recipes"
+							:key="recipe.id"
+							:recipe="recipe">
+					</big-recipe-box>
 				</div>
 			</div>
 		</div>

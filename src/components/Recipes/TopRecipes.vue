@@ -1,18 +1,26 @@
 <template>
-	<div class="top">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-4" v-for="recipe in recipeBreakfast" :key="recipe.id">
-					<h5><i class="fa fa-cutlery" aria-hidden="true"></i> Top Breakfast Recipe</h5>
-					<top-recipe-box :recipe="recipe"></top-recipe-box>
-				</div>
-				<div class="col-lg-4" v-for="recipe in recipeLunch" :key="recipe.id">
-					<h5><i class="fa fa-cutlery" aria-hidden="true"></i> Top Lunch Recipe</h5>
-					<top-recipe-box :recipe="recipe"></top-recipe-box>
-				</div>
-				<div class="col-lg-4" v-for="recipe in recipeDinner" :key="recipe.id">
-					<h5><i class="fa fa-cutlery" aria-hidden="true"></i> Top Dinner Recipe</h5>
-					<top-recipe-box :recipe="recipe"></top-recipe-box>
+	<div v-if="recipeBreakfast.length > 0 || recipeLunch.length > 0 || recipeDinner.length > 0">
+		<div class="top">
+			<div class="container">
+				<div class="row">
+					<div v-if="recipeBreakfast.length > 0">
+						<div class="col-lg-4" v-for="recipe in recipeBreakfast" :key="recipe.id">
+							<h5><i class="fa fa-cutlery" aria-hidden="true"></i> Top Breakfast Recipe</h5>
+							<top-recipe-box :recipe="recipe"></top-recipe-box>
+						</div>
+					</div>
+					<div v-if="recipeLunch.length > 0">
+						<div class="col-lg-4" v-for="recipe in recipeLunch" :key="recipe.id">
+							<h5><i class="fa fa-cutlery" aria-hidden="true"></i> Top Lunch Recipe</h5>
+							<top-recipe-box :recipe="recipe"></top-recipe-box>
+						</div>
+					</div>
+					<div v-if="recipeDinner.length > 0">
+						<div class="col-lg-4" v-for="recipe in recipeDinner" :key="recipe.id">
+							<h5><i class="fa fa-cutlery" aria-hidden="true"></i> Top Dinner Recipe</h5>
+							<top-recipe-box :recipe="recipe"></top-recipe-box>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>

@@ -63,7 +63,7 @@
 		</form>
 		<div class="container mt-3">
 			<h2>Sort Recipes</h2>
-			<div class="row ga-2 pl-2 pr-6">
+			<div class="row ga-2 pl-2 pr-6 d-flex justify-content-between">
 				<div class="col-lg-2 d-flex align-items-center">Sort by:</div>
 				<div class="sort-criteria col-lg-2"
 						 @click="handleName">
@@ -202,8 +202,12 @@ function handleDate() {
 }
 function handleReset() {
 	dateDirection.value = null
+
 	nameDirection.value = null
+	recipeStore.sort.name = nameDirection.value
 	categoryDirection.value = null
+	recipeStore.sort['category.name'] = categoryDirection.value
+	recipeStore.sort.created_on = dateDirection.value
 	submitSearch()
 }
 

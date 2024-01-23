@@ -6,10 +6,12 @@
 				<div class="col-lg-12">
 					<h5><i class="fa fa-cutlery" aria-hidden="true"></i> List Recipes</h5>
 				</div>
-
-				<div class="col-lg-4 col-sm-6" v-for="recipe in recipes" :key="recipe.id">
-					<recipe-box :recipe="recipe"></recipe-box>
+				<div v-if="recipes.length > 0" class="row">
+					<div class="col-lg-4 col-sm-6" v-for="recipe in recipes" :key="recipe.id">
+						<recipe-box :recipe="recipe"></recipe-box>
+					</div>
 				</div>
+				<div v-if="recipes.length === 0">No recipes found</div>
 				<div class="col-lg-12 text-center">
 					<button class="btn btn-load"
 									@click="nextPage"

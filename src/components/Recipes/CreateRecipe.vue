@@ -286,9 +286,6 @@ async function uploadPicture(e) {
 		})
 		picture.value = response.data.id
 		errors.value.picture = false
-	} else {
-		picture.value = 1
-		errors.value.picture = false
 	}
 }
 

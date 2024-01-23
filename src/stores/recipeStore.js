@@ -108,10 +108,6 @@ export const useRecipeStore = defineStore({
                     headers: {'Authorization': 'Bearer ' + token}
                 })
                 if (response.status === 200) {
-                    // const OneRecipe =
-                    // OneRecipe.picture = await this.getImageById(OneRecipe.picture, token)
-                    // const user = await this.getUserById(OneRecipe.created_by, token)
-                    // OneRecipe.created_by = user.username
                     return response.data.recipes[0]
                 }
             } catch (error) {
@@ -156,19 +152,31 @@ export const useRecipeStore = defineStore({
             }
             if (this.recipeOfTheDay.length === 0) {
                 const url = '/recipes/?page=1&page_size=1&sort=id:desc'
-                this.recipeOfTheDay.push(await this.getOneRecipe(url, token))
+                const newRecipe = await this.getOneRecipe(url, token)
+                if (newRecipe) {
+                    this.recipeOfTheDay.push(await this.getOneRecipe(url, token))
+                }
             }
             if (this.topBreakfast.length === 0) {
                 const url = 'recipes/?page=1&page_size=1&filters=category:4&sort=id:desc'
-                this.topBreakfast.push(await this.getOneRecipe(url, token))
+                const newRecipe = await this.getOneRecipe(url, token)
+                if (newRecipe) {
+                    this.topBreakfast.push(await this.getOneRecipe(url, token))
+                }
             }
             if (this.topLunch.length === 0) {
                 const url = 'recipes/?page=1&page_size=1&filters=category:2&sort=id:desc'
-                this.topLunch.push(await this.getOneRecipe(url, token))
+                const newRecipe = await this.getOneRecipe(url, token)
+                if (newRecipe) {
+                    this.topLunch.push(await this.getOneRecipe(url, token))
+                }
             }
             if (this.topDinner.length === 0) {
                 const url = 'recipes/?page=1&page_size=1&filters=category:3&sort=id:desc'
-                this.topDinner.push(await this.getOneRecipe(url, token))
+                const newRecipe = await this.getOneRecipe(url, token)
+                if (newRecipe) {
+                    this.topDinner.push(await this.getOneRecipe(url, token))
+                }
             }
             if (this.recipes.length === 0) {
                 this.page = 1
@@ -179,7 +187,6 @@ export const useRecipeStore = defineStore({
         },
         async searchTrigger(token) {
             const url = this.constructUrl()
-            console.log(url)
             await this.getRecipes(url, token)
         },
         async nextPage(token) {
@@ -196,11 +203,12 @@ export const useRecipeStore = defineStore({
                     }
                 })
                 if (response.status === 200) {
-
+                    console.log(response.data.url)
                     if (response.data.in_cloudinary === false) {
                         const url = response.data.url.replaceAll("\\", '/')
                         return `http://127.0.0.1:8000${url}`
                     } else {
+
                         return response.data.url
                     }
                 }

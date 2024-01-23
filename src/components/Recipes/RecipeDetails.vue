@@ -4,10 +4,10 @@
 			<div class="row justify-content-center">
 				<div class="col-lg-12 text-center">
 					<h1>{{ recipe.name }}</h1>
-					<div class="by"><i class="fa fa-user" aria-hidden="true"></i> {{ user ? user.username : 'Unknown' }}</div>
+					<div class="by"><i class="fa fa-user" aria-hidden="true"></i> {{ recipe.created_by ? recipe.created_by : 'Unknown' }}</div>
 				</div>
 				<div class="col-lg-8">
-					<img :src='imageUrl' :alt="recipe.name">
+					<img :src='pictureUrl' :alt="recipe.name">
 					<div class="info">
 						<div class="row">
 							<div class="col-lg-4 col-sm-4">
@@ -100,17 +100,14 @@ import {useRoute} from "vue-router";
 import {ref, onMounted} from "vue";
 import axios from "axios";
 import {useAuthStore} from "@/stores/authStore";
-import {useRecipeStore} from "@/stores/recipeStore";
-
+import {createPictureUrl} from "./helepers";
 
 const auth = useAuthStore()
-const recipeStore = useRecipeStore();
 const route = useRoute()
 
 const recipe = ref(null)
 const recipeNotFound = ref(false)
-const user = ref(null)
-const imageUrl = ref(null)
+const pictureUrl = ref(null)
 
 async function getRecipeById() {
 	try {
@@ -122,14 +119,12 @@ async function getRecipeById() {
 		})
 		if (response.status === 200) {
 			recipe.value = response.data
-			user.value = await recipeStore.getUserById(recipe.value.created_by, auth.token)
-			imageUrl.value = await recipeStore.getImageById(recipe.value.picture, auth.token)
+			pictureUrl.value = createPictureUrl(response.data.picture)
 		}
 	} catch (e) {
 		recipeNotFound.value = true
 	}
 }
-
 
 onMounted(() => {
 	getRecipeById();
