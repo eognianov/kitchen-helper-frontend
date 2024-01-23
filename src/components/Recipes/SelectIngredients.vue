@@ -23,23 +23,19 @@
               {{ ingredient.name }}
             </li>
           </ul>
-
         </div>
-
-
       </div>
       <div class="row d-flex justify-content-between pl-3 pr-3">
         <button @click="resetList" class="btn btn-dark col-lg-3">Reset</button>
         <div class="col-lg-3 mb-2"></div>
         <button @click="handleClick" class="btn btn-dark col-lg-3">OK</button>
       </div>
-
     </div>
   </div>
 </template>
 
 <script setup>
-import {ref, toRaw} from 'vue'
+import {ref} from 'vue'
 import {useRecipeStore} from "@/stores/recipeStore";
 import {useAuthStore} from "@/stores/authStore";
 

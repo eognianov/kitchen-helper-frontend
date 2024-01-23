@@ -195,43 +195,6 @@ export const useRecipeStore = defineStore({
         async previousPage(token) {
             await this.getRecipes(this.previous_page, token)
         },
-        async getImageById(id, token) {
-            try {
-                const response = await axios.get(`/images/${id}`, {
-                    headers: {
-                        'Authorization': 'Bearer ' + token
-                    }
-                })
-                if (response.status === 200) {
-                    console.log(response.data.url)
-                    if (response.data.in_cloudinary === false) {
-                        const url = response.data.url.replaceAll("\\", '/')
-                        return `http://127.0.0.1:8000${url}`
-                    } else {
-
-                        return response.data.url
-                    }
-                }
-            } catch (e) {
-                return null
-            }
-        },
-        async getUserById(id, token) {
-            try {
-                const response = await axios.get(`/users/${id}`, {
-                    headers: {
-                        'Authorization': 'Bearer ' + token
-                    }
-                })
-                if (response.status === 200) {
-                    return response.data
-                } else {
-                    return null
-                }
-            } catch (e) {
-                return null
-            }
-        }
     }
 })
 
