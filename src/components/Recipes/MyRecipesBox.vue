@@ -12,7 +12,7 @@
 			<span
 					class="published"
 					v-if="recipe.is_published && !pending"
-					@click="unpublishRecipe(recipe.id)">
+					@click="publishRecipe(recipe.id)">
 						<i class="fa-regular fa-square-check"></i>
 			</span>
 			<div v-if="pending" class="sending">
@@ -44,10 +44,11 @@ const pending = ref(false)
 
 async function publishRecipe(id) {
 	pending.value = true;
+	let newValue = recipe.value.is_published === true  ? 'false' : 'true'
 
 	const response = await axios.patch(`/recipes/${id}`, {
 		field: 'is_published',
-		value: 'true'
+		value: newValue
 	}, {
 		headers: {
 			"Content-Type": "application/json",
@@ -57,33 +58,10 @@ async function publishRecipe(id) {
 	if (response.status === 200) {
 		setTimeout(() => {
 			error.value = false
-			recipe.value.is_published = true
+			recipe.value.is_published = newValue === 'true'
 			pending.value = false
 		}, 300);
 
-	} else {
-		error.value = true
-	}
-}
-
-async function unpublishRecipe(id) {
-	pending.value = true;
-
-	const response = await axios.patch(`/recipes/${id}`, {
-		field: 'is_published',
-		value: 'false'
-	}, {
-		headers: {
-			"Content-Type": "application/json",
-			'Authorization': 'Bearer ' + auth.token
-		}
-	})
-	if (response.status === 200) {
-		setTimeout(() => {
-			error.value = false
-			recipe.value.is_published = false;
-			pending.value = false
-		}, 300);
 	} else {
 		error.value = true
 	}
