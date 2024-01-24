@@ -24,7 +24,12 @@
                 </p>
                 <p><strong>Updated On:</strong> {{ recipe.updated_on }} </p>
                 <hr>
-                <p><strong>Is Published:</strong> {{ recipe.is_published }} </p>
+                <p><strong>Is Published:</strong> 
+                    <select v-model="recipe.is_published" class="form-select">
+                        <option :value="true">True</option>
+                        <option :value="false">False</option>
+                    </select>
+                </p>
                 <p>
                     <strong>Published By:</strong> 
                     <router-link :to="{ name: 'admin-user-details', params: { id: recipe.published_by } }" class="nav-link">
@@ -76,6 +81,10 @@
                     <span @click="handleRemoveInsruction(instruction.id)" class="remove-element">x</span>
                 </li>
             </ul>
+            <div>
+                <h4>Play instructions</h4>
+                <audio ref="audioPlayer" controls></audio>
+            </div>
             <hr>
             <div class="buttons">
                 <button @click="handleSaveClick(recipe.id)" class="btn btn-save btn-sm">Save</button>
@@ -99,8 +108,12 @@
 
     const recipeId = ref(route.params.id);
     const recipe = ref({});
-    let ingredients = ref({});
-    let instructions = ref ({});
+    const ingredients = ref({});
+    const instructions = ref ({});
+
+    const audioPlayer = ref(null);
+    const websocket = new WebSocket(`ws://127.0.0.1:8000/api/recipes/${recipeId.value}/instructions/ws`);
+    const audioChunks = ref([]);
 
     onMounted(() => {
         if (recipeId) {
@@ -112,8 +125,8 @@
             })
             .then(response => {
                 recipe.value = response.data;
-                ingredients = response.data.ingredients;
-                instructions = response.data.instructions;
+                ingredients.value = response.data.ingredients;
+                instructions.value = response.data.instructions;
             })
             .catch(error => {
                 console.error('Error fetching user details:', error);
@@ -126,15 +139,88 @@
     };
 
     const handleSaveClick = async (userId) => {
-        toast.warning('Work in progres...')
+        axios.patch(`/recipes/${recipeId.value}`, {
+            field: "is_published",
+            value: `${recipe.value.is_published}`
+        }, { 
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': 'Bearer ' + auth.token
+            },
+        })
+        .then(response => {
+            recipe.value = response.data;
+            toast.success(`Recipe ${recipe.value.id} updated successfully.`);
+        })
+        .catch(error => {
+            console.error('Error saving recipe:', error);
+            toast.error(error.message);
+            recipe.value.is_published = !recipe.value.is_published;
+        });
     };
 
+
     const handleRemoveIngredient = async (ingredientId) => {
-        toast.warning('Work in progres...')
+        axios.delete(`/recipes/${recipeId.value}/ingredients/${ingredientId}`, {
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': 'Bearer ' + auth.token
+            }
+        })
+        .then(response => {
+            const indexToRemove = ingredients.value.findIndex(ingredient => ingredient.id === ingredientId);
+            
+            if (indexToRemove !== -1) {
+                ingredients.value.splice(indexToRemove, 1);
+            }
+
+            toast.error(`Ingredient ${ingredientId} removed from recipe ${recipeId.value}`);
+        })
+        .catch(error => {
+            console.error('Error fetching user details:', error);
+            toast.error(error.message)
+        });
     };
+
     const handleRemoveInsruction = async (instructionId) => {
-        toast.warning('Work in progres...')
+        axios.delete(`/recipes/${recipeId.value}/instructions/${instructionId}`, {
+            headers: {
+                "Content-Type": "application/json",
+                'Authorization': 'Bearer ' + auth.token
+            }
+        })
+        .then(response => {
+            const indexToRemove = instructions.value.findIndex(instruction => instruction.id === instructionId);
+            
+            if (indexToRemove !== -1) {
+                instructions.value.splice(indexToRemove, 1);
+            }
+
+            toast.error(`Instruction ${instructionId} removed from recipe ${recipeId.value}`);
+        })
+        .catch(error => {
+            console.error('Error fetching user details:', error);
+            toast.error(error.message)
+        });
     };
+
+    const playAudio = () => {
+        const audioBlob = new Blob(audioChunks.value, { type: 'audio/mp3' });
+        const audioDataUrl = URL.createObjectURL(audioBlob);
+        audioPlayer.value.src = audioDataUrl;
+        audioChunks.value = [];
+    };
+
+    websocket.onmessage = (event) => {
+        const chunk = event.data
+        if (typeof chunk === 'string' && chunk === 'audio_stream_end') {
+            websocket.close();
+            playAudio();
+        } else {
+            audioChunks.value.push(chunk);
+        }
+    };
+
 </script>
 
 <style scoped>
@@ -212,6 +298,11 @@
     .recipe-details img {
         max-width: 250px;
         max-height: 200px;
+    }
+
+    .form-select {
+        display: inline-block;
+        width: 100px;
     }
 
 </style>

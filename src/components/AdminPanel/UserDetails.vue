@@ -119,19 +119,6 @@
     };
 
     const handleDeleteClick = async (userId) => {
-        // try {
-        //     await axios.delete(
-        //         `/users/${userId}`, {
-        //             headers: {
-        //                 "Content-Type": "application/json",
-        //                 'Authorization': 'Bearer ' + auth.token
-        //             }
-        //         }
-        //     );
-        //     toast.error(`User ${userId} deleted successfully.`);
-        // } catch (error) {
-        //     toast.error(error.message);
-        // }
         toast.warning('Work in progres.')
     };
 

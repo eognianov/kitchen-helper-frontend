@@ -19,7 +19,6 @@
             <router-link to="/admin/recipes" class="nav-link">
                 <span class="clickable-text">Recipes</span>
             </router-link>
-            <router-link to="/admin/recipes/create" class="nav-link add-link">+</router-link>
         </li>
         <hr>
         </ul>
@@ -32,18 +31,14 @@
 
 
 <script setup>
-    import { ref, onMounted, onUnmounted } from 'vue';
+    import { onMounted, onUnmounted } from 'vue';
 
     onMounted(() => {
-        if (window.location.pathname.includes('admin')) {
-            document.querySelector('#app > footer').remove();
-        }
+        document.querySelector('#app > footer').remove();
     });
     onUnmounted(() => {
-        if (!window.location.pathname.includes('admin')) {
-            const footer = document.createElement('footer');
-            document.querySelector('#app').appendChild(footer);
-        }
+        const footer = document.createElement('footer');
+        document.querySelector('#app').appendChild(footer);
     });
 </script>
 

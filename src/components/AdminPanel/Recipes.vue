@@ -24,11 +24,7 @@
                                 {{ recipe.name }}
                             </router-link>
                         </td>
-                        <td>
-                            <router-link :to="{ name: 'admin-user-details', params: { id: recipe.created_by } }" class="nav-link">
-                                {{ recipe.created_by }}
-                            </router-link>    
-                        </td>
+                        <td>{{ recipe.created_by }}</td>
                         <td>{{ recipe.is_published }}</td>
                     </tr>
                 </tbody>
