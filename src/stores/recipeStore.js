@@ -29,10 +29,10 @@ export const useRecipeStore = defineStore({
         sort: {
             id: null,
             name: null,
+            'category.name': null,
             created_by: null,
             created_on: null,
             updated_on: null,
-            'category.name': null,
             'category.id': null,
         }
     }),
@@ -69,7 +69,7 @@ export const useRecipeStore = defineStore({
                 }
             }
             if (filter_conditions.length > 0) {
-                if (pagination !== '' || sort_expression !== '') {
+                if (pagination !== '' && sort_expression !== '' || (pagination !== '' || sort_expression !== '')) {
                     filter_expression = `&filters=${filter_conditions.join(",")}`
                 } else {
                     filter_expression = `?filters=${filter_conditions.join(",")}`
@@ -185,8 +185,32 @@ export const useRecipeStore = defineStore({
                 await this.getRecipes(new_url, token)
             }
         },
+        resetSearch(){
+            this.recipes = []
+            this.page_size = null
+            this.page_number =  null
+            this.filters =  {
+                category: null,
+                created_by: null,
+                period: null,
+                ingredient: null,
+                search: null,
+                deleted: null,
+                published: null,
+            }
+            this.sort = {
+                id: null,
+                name: null,
+                'category.name': null,
+                created_by: null,
+                created_on: null,
+                updated_on: null,
+                'category.id': null,
+            }
+        },
         async searchTrigger(token) {
             const url = this.constructUrl()
+            console.log(url)
             await this.getRecipes(url, token)
         },
         async nextPage(token) {
