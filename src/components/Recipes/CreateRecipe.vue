@@ -57,12 +57,12 @@
 							<div class="form-group">
 								<label>Ingredients:</label>
 								<hr>
-								<p class="error" :class="errors.ingredients ? 'show' : null">Ingredient name must be at least 3
-									characters long and quantity is a positive number. </p>
+								<p class="error" :class="errors.ingredients ? 'show' : null">Please select valid ingredient and quantity
+									must be a positive number. </p>
 
 								<vue-draggable-next class="box ui-sortable-handle" :list="ingredients">
 									<div
-											class="list-group-item bg-gray-300 pt-3 pl-3 pr-3 pb-3 rounded-md text-center"
+											class="list-group-item bg-gray-300 pt-3 pl-3 pr-3 pb-1 rounded-md text-center"
 											v-for="ingredient in ingredients"
 											:key="ingredient.id"
 									>
@@ -71,29 +71,8 @@
 												<i class="fa fa-arrows" aria-hidden="true">
 												</i>
 											</div>
-											<div class="col-lg-4 col-md-4 col-sm-4">
-												<!--                        <input type="text" class="form-control"-->
-												<!--                               v-model="ingredient.name" placeholder="Ingredient category">-->
-												<select v-model="ingredient.category" class="form-select" name="category"
-																data-placeholder="Choose Category">
-													<option disabled>Select category</option>
-													<option
-															v-for="category in INGREDIENT_CATEGORIES"
-															:key="category"
-															:value="category">
-														{{ category.toLowerCase() }}
-													</option>
-												</select>
-											</div>
-
-											<div class="col-lg-4 col-md-4 col-sm-4">
-												<input type="text" class="form-control"
-															 v-model="ingredient.name" placeholder="Ingredient name">
-											</div>
-											<div class="col-sm-2">
-												<input type="number" class="form-control"
-															 v-model="ingredient.quantity" placeholder="Quantity">
-											</div>
+											<ingredient-box :ingredientList="ingredientsList" :ingredient="ingredient">ingredient
+											</ingredient-box>
 											<div class="col-lg-1 col-sm-1">
 												<i class="fa-solid fa-circle-minus minusbtn" aria-hidden="true"
 													 @click="deleteIngredient(ingredient.id)">
@@ -102,9 +81,15 @@
 										</div>
 									</div>
 								</vue-draggable-next>
-
-								<a @click="addIngredient" class="btn btn-dark">Add new ingredient</a>
-								<a @click="createIngredient" class="btn btn-dark ml-2">Create new ingredient</a>
+								<div class="row">
+									<div class="col-lg-3 col-md-5 col-sm-12" >
+										<a @click="addIngredient" class="btn btn-dark">Add new ingredient</a>
+									</div>
+									<div class="col-lg-6 col-md-2 col-sm-2 mt-2"></div>
+									<div class="col-lg-3 col-md-5 col-sm-12 d-flex justify-content-lg-end justify-content-md-end justify-content-sm-start">
+										<a @click="createIngredient" class="btn btn-dark ">Create new ingredient</a>
+									</div>
+								</div>
 
 								<div class="form-group">
 									<label>Instructions:</label>
@@ -171,7 +156,7 @@
 								</div>
 							</div>
 
-							<p class="error" :class="generalError ? 'show' : null">Please check the form. Some errors found.</p>
+							<p class="error" :class="generalError ? 'show' : null">{{ generalErrorMessage }}</p>
 
 							<button class="btn btn-submit">Submit Recipe</button>
 						</form>
@@ -180,6 +165,14 @@
 			</div>
 		</div>
 	</div>
+	<CreateIngredient
+			:isModalOpen="isModalOpen"
+			:ingredients="ingredientsList"
+			@hideModal="hideModal"
+			@addNewIngredient="addNewIngredient"
+	>
+
+	</CreateIngredient>
 </template>
 
 <script setup>
@@ -187,8 +180,22 @@ import {ref, toRaw} from "vue";
 import axios from "axios";
 import {VueDraggableNext} from 'vue-draggable-next';
 import {useAuthStore} from "@/stores/authStore";
+import IngredientBox from './IngredientBox.vue';
+import CreateIngredient from './CreateIngredient.vue';
+import {useRouter} from 'vue-router';
 
 const auth = useAuthStore()
+const router = useRouter();
+
+const isModalOpen = ref(false)
+
+function hideModal() {
+	isModalOpen.value = false
+}
+
+function addNewIngredient(ingr) {
+	ingredientsList.value.push(ingr)
+}
 
 const name = ref('')
 const categories = ref([])
@@ -196,11 +203,12 @@ const selectCategory = ref('')
 const summary = ref("")
 const picture = ref(1)
 const serves = ref(1)
+const ingredientsList = ref([])
 const ingredients = ref([
-	{id: '1', category: '', name: '', quantity: 1}
+	{id: `${uniqueID()}`, name: '', quantity: null, pk: null}
 ])
 const instructions = ref([
-	{id: '1', instruction: '', category: '', time: null, complexity: null}
+	{id: `${uniqueID()}`, instruction: '', category: '', time: null, complexity: null}
 ])
 
 async function getRecipesCategories() {
@@ -210,7 +218,18 @@ async function getRecipesCategories() {
 	}
 }
 
-getRecipesCategories()
+async function getRecipesIngredients() {
+	let response = await axios.get(`ingredients/`, {
+		headers: {'Authorization': 'Bearer ' + auth.token}
+	})
+	if (response.status === 200) {
+		ingredientsList.value = response.data
+	}
+}
+
+getRecipesCategories();
+getRecipesIngredients();
+
 
 const INSTRUCTION_CATEGORIES = [
 	'WASH AND CHOP',
@@ -231,27 +250,14 @@ const INSTRUCTION_CATEGORIES = [
 	'PLATING',
 	'PRESENTATION',
 ];
-const INGREDIENT_CATEGORIES = [
-	'PANTRY ESSENTIALS',
-	'VEGETABLES AND GREENS',
-	'FRUITS',
-	'MEAT AND POULTRY',
-	'SEAFOOD',
-	'DAIRY',
-	'SPICES AND SEASONINGS',
-	'GRAINS AND PASTA',
-	'CONDIMENTS',
-	'BAKING INGREDIENTS',
-	'BEVERAGES',
-	'NUTS AND SEEDS',
-	'SWEETENERS',
-	'SNACKS',
-	'MISCELLANEOUS',
-]
+
+
+function uniqueID() {
+	return "id" + Math.random().toString(16).slice(2)
+}
 
 function addIngredient() {
-	const id = "id" + Math.random().toString(16).slice(2)
-	ingredients.value.push({id: `${id}`, name: '', quantity: 1})
+	ingredients.value.push({id: `${uniqueID()}`, name: '', quantity: null, pk: null})
 }
 
 function deleteIngredient(id) {
@@ -259,8 +265,7 @@ function deleteIngredient(id) {
 }
 
 function addInstruction() {
-	const id = "id" + Math.random().toString(16).slice(2)
-	instructions.value.push({id: `${id}`, instruction: '', category: '', time: null, complexity: null})
+	instructions.value.push({id: `${uniqueID()}`, instruction: '', category: '', time: null, complexity: null})
 }
 
 function deleteInstruction(id) {
@@ -268,7 +273,7 @@ function deleteInstruction(id) {
 }
 
 function createIngredient() {
-	console.log("create ingredient")
+	isModalOpen.value = true
 }
 
 async function uploadPicture(e) {
@@ -276,7 +281,9 @@ async function uploadPicture(e) {
 	if (image !== undefined) {
 		const fd = new FormData();
 		fd.append('file', image, image.name)
-		const response = await axios.post('/images', fd)
+		const response = await axios.post('/images/', fd, {
+			headers: {'Authorization': 'Bearer ' + auth.token}
+		})
 		picture.value = response.data.id
 		errors.value.picture = false
 	} else {
@@ -315,13 +322,14 @@ const status = {
 		toRaw(ingredients.value).forEach(ingredient => {
 			if (ingredient.name.trim() === '') {
 				deleteIngredient(ingredient.id)
-			} else errors.value.ingredients = ingredient.name.length < 3 || ingredient.quantity < 1;
+			} else errors.value.ingredients = ingredient.quantity < 0.001;
 		})
 
 	}
 }
 
 const generalError = ref(false)
+const generalErrorMessage = ref('Please check the form. Some errors found.')
 
 const errors = ref({
 	title: false,
@@ -339,7 +347,7 @@ async function submitRecipe() {
 	status.checkSummary();
 	status.checkServes();
 	status.checkInstructions();
-	status.checkIngredients()
+	status.checkIngredients();
 
 
 	if (Object.values(errors.value).includes(true)) {
@@ -348,6 +356,11 @@ async function submitRecipe() {
 	} else {
 		generalError.value = false;
 	}
+	const newIngredients = []
+
+	toRaw(ingredients.value).forEach(ingredient => {
+		newIngredients.push({ingredient_id: ingredient.pk, quantity: ingredient.quantity})
+	})
 
 	const response = await axios.post(`/recipes`, {
 		name: name.value,
@@ -356,14 +369,20 @@ async function submitRecipe() {
 		picture: picture.value,
 		serves: serves.value,
 		instructions: toRaw(instructions.value),
+		ingredients: newIngredients,
 	}, {
 		headers: {
 			"Content-Type": "application/json",
 			'Authorization': 'Bearer ' + auth.token
 		}
 	})
-	console.log(response)
-	// console.log(toRaw(ingredients.value))
+	if (response.status === 200) {
+		await router.push({name: "recipe details", params: {id: response.data.id}});
+	} else {
+		generalError.value = true
+		generalErrorMessage.value = 'Something went wrong. Please try later.'
+	}
+
 }
 
 </script>
@@ -487,6 +506,5 @@ async function submitRecipe() {
 	justify-content: space-between;
 	margin-top: 10px;
 }
-
 
 </style>

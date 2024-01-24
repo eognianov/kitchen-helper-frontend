@@ -4,10 +4,10 @@
 			<div class="row justify-content-center">
 				<div class="col-lg-12">
 					<h4>{{ currentDate }}</h4>
-					<h3>Recipes of the day</h3>
+					<h3>Recipe of the day</h3>
 				</div>
-				<div class="col-lg-8">
-					<recipe-box></recipe-box>
+				<div class="col-lg-8" v-for="recipe in recipes" :key="recipe.id">
+						<big-recipe-box  :recipe="recipe"></big-recipe-box>
 				</div>
 			</div>
 		</div>
@@ -15,12 +15,17 @@
 </template>
 
 <script setup>
-import RecipeBox from './RecipeBox.vue';
+import BigRecipeBox from './BigRecipeBox.vue';
+import {ref} from "vue";
+import {useRecipeStore} from "@/stores/recipeStore";
+
+const recipeStore = useRecipeStore();
+
+const recipes = ref(recipeStore.recipeOfTheDay)
 
 const months = ['JAN', 'FEB', 'MAR', 'APR', 'MAY', 'JUN', 'JUL', 'AUG', 'SEP', 'OCT', 'NOV', 'DEC']
 const date = new Date();
 const currentDate = `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`
-
 </script>
 
 <style scoped>

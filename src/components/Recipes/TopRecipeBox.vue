@@ -1,18 +1,22 @@
 <template>
 	<div class="box clearfix">
-		<router-link to="/details">
-			<img src="/images/P1560722.JPG?url" alt="">
+		<router-link :to="'/recipes/' + recipe.id">
+			<img :src="recipe.picture" :alt="recipe.name">
 		</router-link>
-
 		<h3>
-			<router-link to="/details">
-				Cinnamon Baked Doughnuts
+			<router-link :to="'/recipes/' + recipe.id">
+				{{ recipe.name }}
 			</router-link>
 		</h3>
-		<p>Lorem ipsum dolor sit amet, adipiscing elit...</p>
+		<p>{{ recipe.summary.slice(0, 50) }}{{ recipe.summary.length > 50 ? "..." : null }}</p>
 	</div>
 </template>
 
+<script setup>
+
+defineProps(['recipe'])
+
+</script>
 
 <style scoped>
 
@@ -28,6 +32,7 @@
 	font-size: 1.2rem;
 	font-weight: 700;
 	padding-left: 120px;
+	text-transform: capitalize;
 }
 
 .top .box h3 a {
@@ -39,12 +44,14 @@
 	margin-bottom: 0;
 	padding-left: 120px;
 	color: var(--main-text);
+	height: 90px;
 }
 
 .top .box img {
 	float: left;
 	width: 100px;
 	height: 100px;
-	border-radius: 6px
+	border-radius: 6px;
+	object-fit: cover;
 }
 </style>

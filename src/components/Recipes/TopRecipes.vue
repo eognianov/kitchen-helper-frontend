@@ -2,17 +2,17 @@
 	<div class="top">
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-4">
-					<h5><i class="fa fa-cutlery" aria-hidden="true"></i> Top Breakfast Recipes</h5>
-					<top-recipe-box></top-recipe-box>
+				<div class="col-lg-4" v-for="recipe in recipeBreakfast" :key="recipe.id">
+					<h5><i class="fa fa-cutlery" aria-hidden="true"></i> Top Breakfast Recipe</h5>
+					<top-recipe-box :recipe="recipe"></top-recipe-box>
 				</div>
-				<div class="col-lg-4">
-					<h5><i class="fa fa-cutlery" aria-hidden="true"></i> Top Lunch Recipes</h5>
-					<top-recipe-box></top-recipe-box>
+				<div class="col-lg-4" v-for="recipe in recipeLunch" :key="recipe.id">
+					<h5><i class="fa fa-cutlery" aria-hidden="true"></i> Top Lunch Recipe</h5>
+					<top-recipe-box :recipe="recipe"></top-recipe-box>
 				</div>
-				<div class="col-lg-4">
-					<h5><i class="fa fa-cutlery" aria-hidden="true"></i> Top Dinner Recipes</h5>
-					<top-recipe-box></top-recipe-box>
+				<div class="col-lg-4" v-for="recipe in recipeDinner" :key="recipe.id">
+					<h5><i class="fa fa-cutlery" aria-hidden="true"></i> Top Dinner Recipe</h5>
+					<top-recipe-box :recipe="recipe"></top-recipe-box>
 				</div>
 			</div>
 		</div>
@@ -21,6 +21,15 @@
 
 <script setup>
 import TopRecipeBox from "./TopRecipeBox.vue";
+import {ref} from "vue";
+import {useRecipeStore} from "@/stores/recipeStore";
+
+const recipeStore = useRecipeStore();
+
+const recipeDinner = ref(recipeStore.topDinner)
+const recipeLunch = ref(recipeStore.topLunch)
+const recipeBreakfast = ref(recipeStore.topBreakfast)
+
 </script>
 
 <style scoped>
@@ -28,6 +37,7 @@ import TopRecipeBox from "./TopRecipeBox.vue";
 	padding: 80px 0;
 	background-color: var(--backgrond);
 }
+
 .top h5 {
 	font-size: 1.2rem;
 	margin-bottom: 30px;
