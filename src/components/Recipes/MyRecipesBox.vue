@@ -1,21 +1,20 @@
 <template>
 	<div>
 		<div class="d-flex justify-content-between item">
-			<span @click="toggleVisible" class="recipe-name">{{ recipe.name }}</span>
-			<span @click="toggleVisible" class="recipe-name" style="width: 100%;"> </span>
-			<span v-if="!recipe.is_published && !pending"
-						class="published"
-						@click="publishRecipe(recipe.id)">
-						<i class="fa-regular fa-square">
-						</i>
-			</span>
-			<span
-					class="published"
-					v-if="recipe.is_published && !pending"
+			<div @click="toggleVisible" class="recipe-name">{{ recipe.name }}</div>
+			<div v-if="!recipe.is_published && !pending && !error"
+					 class="published pointer"
+					 @click="publishRecipe(recipe.id)">
+				<i class="fa-regular fa-square">
+				</i>
+			</div>
+			<div
+					class="published pointer"
+					v-if="recipe.is_published && !pending && !error"
 					@click="publishRecipe(recipe.id)">
-						<i class="fa-regular fa-square-check"></i>
-			</span>
-			<div v-if="pending" class="sending">
+				<i class="fa-regular fa-square-check"></i>
+			</div>
+			<div v-if="pending" class="sending published">
 				<div class="lds-ring">
 					<div></div>
 					<div></div>
@@ -23,7 +22,7 @@
 					<div></div>
 				</div>
 			</div>
-			<span v-if="error" class="error">error</span>
+			<div v-if="error" class="error published">error</div>
 		</div>
 		<div v-if="isVisible" class="summary">{{ recipe.summary }}</div>
 	</div>
@@ -44,25 +43,26 @@ const pending = ref(false)
 
 async function publishRecipe(id) {
 	pending.value = true;
-	let newValue = recipe.value.is_published === true  ? 'false' : 'true'
-
-	const response = await axios.patch(`/recipes/${id}`, {
-		field: 'is_published',
-		value: newValue
-	}, {
-		headers: {
-			"Content-Type": "application/json",
-			'Authorization': 'Bearer ' + auth.token
+	let newValue = recipe.value.is_published === true ? 'false' : 'true'
+	try {
+		const response = await axios.patch(`/recipes/${id}`, {
+			field: 'is_published',
+			value: newValue
+		}, {
+			headers: {
+				"Content-Type": "application/json",
+				'Authorization': 'Bearer ' + auth.token
+			}
+		})
+		if (response.status === 200) {
+			setTimeout(() => {
+				error.value = false
+				recipe.value.is_published = newValue === 'true'
+				pending.value = false
+			}, 300)
 		}
-	})
-	if (response.status === 200) {
-		setTimeout(() => {
-			error.value = false
-			recipe.value.is_published = newValue === 'true'
-			pending.value = false
-		}, 300);
-
-	} else {
+	} catch (e) {
+		pending.value = false
 		error.value = true
 	}
 }
@@ -82,13 +82,21 @@ function toggleVisible() {
 	padding-bottom: 6px;
 }
 
-.recipe-name, .published {
+.recipe-name {
+	width: 100%;
+	padding-right: 10px;
+	text-transform: capitalize;
+}
+
+.recipe-name, .pointer {
 	cursor: pointer;
 }
 
-.error, .sending {
+.published {
+	margin-right: 35px;
 	display: flex;
 	align-items: center;
+	justify-content: center;
 }
 
 .error {
@@ -138,6 +146,4 @@ function toggleVisible() {
 		transform: rotate(360deg);
 	}
 }
-
-
 </style>

@@ -222,10 +222,6 @@ function handleReset() {
 	color: var(--main-text);
 }
 
-/*.search .form-group .form-control, .search .form-group input {*/
-/*  height: 45px*/
-/*}*/
-
 .search h2 {
 	font-size: 1.2rem;
 	margin-bottom: 20px;
