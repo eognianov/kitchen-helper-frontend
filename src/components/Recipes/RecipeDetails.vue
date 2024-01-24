@@ -52,6 +52,10 @@
 									<li v-for="instruction in recipe.instructions" :key="instruction.id">{{ instruction.instruction }}
 									</li>
 								</ol>
+								<div>
+									<h3>Play instructions</h3>
+									<audio ref="audioPlayer" controls controlsList="nodownload"></audio>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -105,6 +109,9 @@ const route = useRoute()
 
 const recipe = ref(null)
 const recipeNotFound = ref(false)
+const audioPlayer = ref(null);
+const websocket = new WebSocket(`ws://127.0.0.1:8000/api/recipes/${route.params.id}/instructions/ws`);
+const audioChunks = ref([]);
 
 async function getRecipeById() {
 	try {
@@ -127,6 +134,22 @@ onMounted( () => {
 	getRecipeById();
 })
 
+const playAudio = () => {
+        const audioBlob = new Blob(audioChunks.value, { type: 'audio/mp3' });
+        const audioDataUrl = URL.createObjectURL(audioBlob);
+        audioPlayer.value.src = audioDataUrl;
+        audioChunks.value = [];
+    };
+
+    websocket.onmessage = (event) => {
+        const chunk = event.data
+        if (typeof chunk === 'string' && chunk === 'audio_stream_end') {
+            websocket.close();
+            playAudio();
+        } else {
+            audioChunks.value.push(chunk);
+        }
+    };
 
 </script>
 

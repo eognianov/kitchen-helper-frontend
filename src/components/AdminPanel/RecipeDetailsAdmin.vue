@@ -68,7 +68,7 @@
         <div>
             <p><strong>Ingredients:</strong></p>
             <ul class="list-group">
-                <li v-for="ingredient in ingredients" :key="ingredient.id" class="list-group-item">
+                <li v-for="ingredient in recipe.ingredients" :key="ingredient.id" class="list-group-item">
                     <span>{{ ingredient.name }}</span>
                     <span @click="handleRemoveIngredient(ingredient.id)" class="remove-element">x</span>
                 </li>
@@ -76,15 +76,11 @@
             <hr>
             <p><strong>Instructions:</strong></p>
             <ul class="list-group">
-                <li v-for="instruction in instructions" :key="instruction.id" class="list-group-item">
+                <li v-for="instruction in recipe.instructions" :key="instruction.id" class="list-group-item">
                     <span>{{ instruction.instruction }}</span>
                     <span @click="handleRemoveInsruction(instruction.id)" class="remove-element">x</span>
                 </li>
             </ul>
-            <div>
-                <h4>Play instructions</h4>
-                <audio ref="audioPlayer" controls></audio>
-            </div>
             <hr>
             <div class="buttons">
                 <button @click="handleSaveClick(recipe.id)" class="btn btn-save btn-sm">Save</button>
@@ -108,12 +104,6 @@
 
     const recipeId = ref(route.params.id);
     const recipe = ref({});
-    const ingredients = ref({});
-    const instructions = ref ({});
-
-    const audioPlayer = ref(null);
-    const websocket = new WebSocket(`ws://127.0.0.1:8000/api/recipes/${recipeId.value}/instructions/ws`);
-    const audioChunks = ref([]);
 
     onMounted(() => {
         if (recipeId) {
@@ -125,8 +115,6 @@
             })
             .then(response => {
                 recipe.value = response.data;
-                ingredients.value = response.data.ingredients;
-                instructions.value = response.data.instructions;
             })
             .catch(error => {
                 console.error('Error fetching user details:', error);
@@ -168,10 +156,10 @@
             }
         })
         .then(response => {
-            const indexToRemove = ingredients.value.findIndex(ingredient => ingredient.id === ingredientId);
+            const indexToRemove = recipe.value.ingredients.findIndex(ingredient => ingredient.id === ingredientId);
             
             if (indexToRemove !== -1) {
-                ingredients.value.splice(indexToRemove, 1);
+                recipe.value.ingredients.splice(indexToRemove, 1);
             }
 
             toast.error(`Ingredient ${ingredientId} removed from recipe ${recipeId.value}`);
@@ -190,10 +178,10 @@
             }
         })
         .then(response => {
-            const indexToRemove = instructions.value.findIndex(instruction => instruction.id === instructionId);
+            const indexToRemove = recipe.value.ingredients.findIndex(instruction => instruction.id === instructionId);
             
             if (indexToRemove !== -1) {
-                instructions.value.splice(indexToRemove, 1);
+                recipe.value.ingredients.splice(indexToRemove, 1);
             }
 
             toast.error(`Instruction ${instructionId} removed from recipe ${recipeId.value}`);
@@ -202,23 +190,6 @@
             console.error('Error fetching user details:', error);
             toast.error(error.message)
         });
-    };
-
-    const playAudio = () => {
-        const audioBlob = new Blob(audioChunks.value, { type: 'audio/mp3' });
-        const audioDataUrl = URL.createObjectURL(audioBlob);
-        audioPlayer.value.src = audioDataUrl;
-        audioChunks.value = [];
-    };
-
-    websocket.onmessage = (event) => {
-        const chunk = event.data
-        if (typeof chunk === 'string' && chunk === 'audio_stream_end') {
-            websocket.close();
-            playAudio();
-        } else {
-            audioChunks.value.push(chunk);
-        }
     };
 
 </script>
