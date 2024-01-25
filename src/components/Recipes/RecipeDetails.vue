@@ -138,7 +138,7 @@ async function getRecipeById() {
 onMounted(() => {
     getRecipeById().then(() => {
         recipe.value.instructions.forEach(instruction => {
-            const websocket = new WebSocket(`ws://127.0.0.1:8000/api/recipes/instructions/${instruction.id}/ws`);
+            const websocket = new WebSocket(`${import.meta.env.VITE_BASE_WEBSOCKET_URL}/recipes/instructions/${instruction.id}/ws`);
 
             const playAudio = () => {
                 const audioBlob = new Blob(audioChunks.value[instruction.id], { type: 'audio/mp3' });
@@ -168,7 +168,7 @@ onMounted(() => {
 onUnmounted(() => {
   recipe.value.instructions.forEach((instruction) => {
     const websocket = new WebSocket(
-		`ws://127.0.0.1:8000/api/recipes/instructions/${instruction.id}/ws`
+		`${import.meta.env.VITE_BASE_WEBSOCKET_URL}/recipes/instructions/${instruction.id}/ws`
     );
     websocket.close();
 });
