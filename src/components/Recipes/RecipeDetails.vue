@@ -51,6 +51,12 @@
 								<h3>Instructions</h3>
 								<ol class="directions">
 									<li v-for="instruction in recipe.instructions" :key="instruction.id">{{ instruction.instruction }}
+										<audio :ref="getAudioPlayerRef(instruction.id)"></audio>
+										<button
+											:class="'play-pause-button-' + instruction.id"
+											@click="togglePlayPause(instruction.id)"
+										><i class="fa-solid fa-play"></i>
+										</button>
 									</li>
 								</ol>
 							</div>
@@ -97,13 +103,15 @@
 
 <script setup>
 import {useRoute} from "vue-router";
-import {ref, onMounted} from "vue";
+import {ref, onMounted, onUnmounted} from "vue";
 import axios from "axios";
 import {useAuthStore} from "@/stores/authStore";
 import {createPictureUrl} from "../../helpers/helepers";
 
 const auth = useAuthStore()
 const route = useRoute()
+const audioPlayers = ref({});
+const audioChunks = ref({});
 
 const recipe = ref(null)
 const recipeNotFound = ref(false)
@@ -120,6 +128,11 @@ async function getRecipeById() {
 		if (response.status === 200) {
 			recipe.value = response.data
 			pictureUrl.value = createPictureUrl(response.data.picture)
+			recipe.value = response.data;
+			recipe.value.instructions.forEach(instruction => {
+				audioPlayers.value[instruction.id] = ref({value: new Audio()});
+				audioChunks.value[instruction.id] = ref([]);
+			});
 		}
 	} catch (e) {
 		recipeNotFound.value = true
@@ -127,9 +140,57 @@ async function getRecipeById() {
 }
 
 onMounted(() => {
-	getRecipeById();
-})
+    getRecipeById().then(() => {
+        recipe.value.instructions.forEach(instruction => {
+            const websocket = new WebSocket(`${import.meta.env.VITE_BASE_WEBSOCKET_URL}/recipes/instructions/${instruction.id}/ws`);
 
+            const playAudio = () => {
+                const audioBlob = new Blob(audioChunks.value[instruction.id], { type: 'audio/mp3' });
+                const audioDataUrl = URL.createObjectURL(audioBlob);
+				audioPlayers.value[instruction.id].value.src = audioDataUrl;
+                audioChunks.value[instruction.id] = [];
+				audioPlayers.value[instruction.id].value.addEventListener('ended', () => {
+					const button = document.querySelector(`.play-pause-button-${instruction.id} i`);
+					button.classList.remove('fa-pause');
+					button.classList.add('fa-play');
+				});
+            };
+
+            websocket.onmessage = (event) => {
+                const chunk = event.data;
+                if (typeof chunk === 'string' && chunk === 'audio_stream_end') {
+                    websocket.close();
+                    playAudio();
+                } else {
+                    audioChunks.value[instruction.id].push(chunk);
+                }
+            };
+        });
+    });
+});
+
+function getAudioPlayerRef(id) {
+  return (el) => {
+    if (el) {
+      audioPlayers.value[id] = ref({ value: el });
+      audioChunks.value[id] = ref([]);
+    }
+  };
+}
+
+function togglePlayPause(instructionId) {
+	const audio = audioPlayers.value[instructionId].value;
+	const button = document.querySelector(`.play-pause-button-${instructionId} i`);
+    if (audio.paused) {
+      audio.play();
+	  button.classList.remove('fa-play');
+	  button.classList.add('fa-pause');
+    } else {
+      audio.pause();
+	  button.classList.remove('fa-pause');
+	  button.classList.add('fa-play');
+    }
+}
 
 </script>
 
@@ -231,7 +292,15 @@ onMounted(() => {
 .recipe-detail ol.directions > li {
 	position: relative;
 	margin-bottom: 30px;
-	padding-left: 20px
+	padding-left: 20px;
+	display: flex;
+	gap: 10px;
+}
+
+.recipe-detail ol.directions > li button {
+	margin-left: auto;
+	align-self: center;
+	justify-self: center;
 }
 
 .recipe-detail ol.directions {
