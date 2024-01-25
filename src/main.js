@@ -14,6 +14,7 @@ import ForgotPassword from "./components/LoginUser/ForgotPassword.vue";
 import CreateAccount from "./components/LoginUser/CreateAccount.vue";
 import CheckEmail from "./components/LoginUser/CheckEmail.vue";
 import MyRecipes from "./components/Recipes/MyRecipes.vue";
+import RecipeCategory from "./components/Recipes/RecipeCategory.vue";
 
 import "vuetify/dist/vuetify.css";
 import "bootstrap/dist/css/bootstrap.css";
@@ -30,6 +31,7 @@ const router = createRouter({
         {path: '/recipes', component: SearchRecipes, meta: {requiresAuth: false}},
         {path: '/create', component: CreateRecipe, meta: {requiresAuth: true}},
         {path: '/recipes/:id', component: RecipeDetails, meta: {requiresAuth: false}, name: 'recipe details'},
+        {path: '/recipes/category/:id', component: RecipeCategory, meta: {requiresAuth: false}, name: 'recipe category'},
         {path: '/login', component: LoginUser, meta: {requiresAuth: false}},
         {path: '/reset-password', component: ForgotPassword, meta: {requiresAuth: true}},
         {path: '/signup', component: CreateAccount, meta: {requiresAuth: false}},

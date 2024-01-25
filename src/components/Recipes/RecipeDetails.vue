@@ -4,7 +4,9 @@
 			<div class="row justify-content-center">
 				<div class="col-lg-12 text-center">
 					<h1>{{ recipe.name }}</h1>
-					<div class="by"><i class="fa fa-user" aria-hidden="true"></i> {{ recipe.created_by ? recipe.created_by : 'Unknown' }}</div>
+					<div class="by"><i class="fa fa-user" aria-hidden="true"></i>
+						{{ recipe.created_by ? recipe.created_by : 'Unknown' }}
+					</div>
 				</div>
 				<div class="col-lg-8">
 					<img :src='pictureUrl' :alt="recipe.name">
@@ -33,7 +35,10 @@
 					<p>{{ recipe.summary }}</p>
 
 					<div class="tag">
-						<a href="#">{{ recipe.category.name }}</a>
+						<router-link
+								:to="'/recipes/category/' + recipe.category.id">
+							{{ recipe.category.name }}
+						</router-link>
 					</div>
 
 					<div class="ingredient-direction">

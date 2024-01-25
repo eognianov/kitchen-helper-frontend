@@ -1,7 +1,7 @@
 <template>
 	<div class="box grid recipes">
 		<div class="by">
-			<i class="fa fa-user" aria-hidden="true"></i>{{ recipe.created_by ? recipe.created_by : 'Unknown' }}
+			<i class="fa fa-user" aria-hidden="true"></i> {{ recipe.created_by ? recipe.created_by : 'Unknown' }}
 		</div>
 		<router-link :to="'/recipes/' + recipe.id">
 			<img :src="pictureUrl" :alt="recipe.name">
@@ -13,7 +13,10 @@
 		</h2>
 		<p>{{ recipe.summary.slice(0, 100) }}{{ recipe.summary.length > 100 ? "..." : null }} </p>
 		<div class="tag">
-			<a href="#">{{ recipe.category.name }}</a>
+			<router-link
+					:to="'/recipes/category/' + recipe.category.id">
+				{{ recipe.category.name }}
+			</router-link>
 		</div>
 	</div>
 </template>
