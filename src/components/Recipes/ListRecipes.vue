@@ -1,23 +1,54 @@
 <template>
 	<div class="list">
 		<div class="container">
-			<div class="row">
 
-				<div class="col-lg-12">
+			<div class="row">
+				<div class="col-lg-12 header">
 					<h5><i class="fa fa-cutlery" aria-hidden="true"></i> List Recipes</h5>
-				</div>
-				<div v-if="recipes.length > 0" class="row">
-					<div class="col-lg-4 col-sm-6" v-for="recipe in recipes" :key="recipe.id">
-						<recipe-box :recipe="recipe"></recipe-box>
+					<div class="ga-2 d-flex justify-content-start" v-if="recipes.length > 0">
+						<div class="col-lg-2 d-flex align-items-center" id="sort-title">Sort by:</div>
+						<div class="sort-criteria col-lg-2"
+								 @click="handleName">
+							Name
+							<i class="fa-solid fa-arrow-down" v-if="nameDirection === null" style="color: var(--backgrond)"></i>
+							<i class="fa-solid fa-arrow-down" v-if="nameDirection === 'asc'"></i>
+							<i class="fa-solid fa-arrow-up" v-if="nameDirection === 'desc'"></i>
+						</div>
+						<div class="sort-criteria col-lg-2"
+								 @click="handleCategory">
+							Category
+							<i class="fa-solid fa-arrow-down" v-if="categoryDirection === null" style="color: var(--backgrond)"></i>
+							<i class="fa-solid fa-arrow-down" v-if="categoryDirection === 'asc'"></i>
+							<i class="fa-solid fa-arrow-up" v-if="categoryDirection === 'desc'"></i>
+						</div>
+						<div class="sort-criteria col-lg-2"
+								 @click="handleDate">
+							Date
+							<i class="fa-solid fa-arrow-down" v-if="dateDirection === null" style="color: var(--backgrond)"></i>
+							<i class="fa-solid fa-arrow-down" v-if="dateDirection === 'asc'"></i>
+							<i class="fa-solid fa-arrow-up" v-if="dateDirection === 'desc'"></i>
+						</div>
+						<div class="sort-criteria col-lg-2"
+								 @click="handleReset">
+							Reset
+						</div>
 					</div>
 				</div>
-				<div v-if="recipes.length === 0">No recipes found</div>
-				<div class="col-lg-12 text-center">
-					<button class="btn btn-load"
-									@click="nextPage"
-									v-if="recipeStore.next_page"
-					>Load More
-					</button>
+
+				<div :key="reloadList" :class="'xxx' + reloadList">
+					<div v-if="recipes.length > 0" class="row" >
+						<div class="col-lg-4 col-sm-6" v-for="recipe in recipes" :key="recipe.id">
+							<recipe-box :recipe="recipe"></recipe-box>
+						</div>
+					</div>
+					<div v-if="recipes.length === 0">No recipes found</div>
+					<div class="col-lg-12 text-center">
+						<button class="btn btn-load"
+										@click="nextPage"
+										v-if="recipeStore.next_page"
+						>Load More
+						</button>
+					</div>
 				</div>
 				<div ref="target"></div>
 			</div>
@@ -35,7 +66,12 @@ import {useAuthStore} from "@/stores/authStore";
 const recipeStore = useRecipeStore();
 const auth = useAuthStore();
 
-const recipes = ref(recipeStore.recipes)
+const recipes = ref([])
+
+function getRecipes() {
+	recipes.value = recipeStore.recipes
+}
+getRecipes()
 
 
 // load more on scroll if any
@@ -51,15 +87,83 @@ watch(targetIsVisible, (targetVisible) => {
 		nextPage()
 	}
 })
+
+const categoryDirection = ref(null)
+const nameDirection = ref(null)
+const dateDirection = ref(null)
+const isLoading = ref(false)
+const reloadList = ref(0)
+
+async function submitSearch() {
+	isLoading.value = true
+	recipeStore.recipes = []
+
+	await recipeStore.searchTrigger(auth.token)
+	getRecipes()
+	isLoading.value = false
+	reloadList.value += 1;
+}
+
+function handleCategory() {
+	if (categoryDirection.value === null) {
+		categoryDirection.value = 'asc'
+	} else if (categoryDirection.value === 'asc') {
+		categoryDirection.value = 'desc'
+	} else {
+		categoryDirection.value = null
+	}
+	recipeStore.sort['category.name'] = categoryDirection.value
+	submitSearch()
+}
+
+function handleName() {
+	if (nameDirection.value === null) {
+		nameDirection.value = 'asc'
+	} else if (nameDirection.value === 'asc') {
+		nameDirection.value = 'desc'
+	} else {
+		nameDirection.value = null
+	}
+	recipeStore.sort.name = nameDirection.value
+	submitSearch()
+}
+
+function handleDate() {
+	if (dateDirection.value === null) {
+		dateDirection.value = 'asc'
+	} else if (dateDirection.value === 'asc') {
+		dateDirection.value = 'desc'
+	} else {
+		dateDirection.value = null
+	}
+	recipeStore.sort.created_on = dateDirection.value
+	submitSearch()
+}
+
+function handleReset() {
+	dateDirection.value = null
+	nameDirection.value = null
+	categoryDirection.value = null
+
+	recipeStore.sort.name = null
+	recipeStore.sort['category.name'] = null
+	recipeStore.sort.created_on = null
+	submitSearch()
+}
 </script>
 
 <style>
 .list {
-	margin-top: 80px
+	margin-top: 80px;
+	margin-bottom: 40px;
+}
+
+.list .header {
+	margin-bottom: 40px;
 }
 
 .list h5 {
-	margin-bottom: 40px;
+
 	padding-bottom: 20px;
 	border-bottom: 1px dashed var(--dark-background);
 	color: var(--main-text);
@@ -95,4 +199,22 @@ watch(targetIsVisible, (targetVisible) => {
 	font-size: .9rem
 }
 
+.sort-criteria {
+	padding: 3px 10px;
+	background-color: var(--backgrond);
+	border-radius: 5px;
+	color: var(--white);
+}
+
+.sort-criteria:hover {
+	cursor: pointer;
+}
+@media only screen and (max-width: 460px) {
+	.header {
+		font-size: .8rem;
+	}
+	#sort-title {
+		display: none !important;
+	}
+}
 </style>

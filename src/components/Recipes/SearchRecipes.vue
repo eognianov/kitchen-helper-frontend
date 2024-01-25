@@ -61,28 +61,7 @@
 				</div>
 			</div>
 		</form>
-		<div class="container mt-3">
-			<h2>Sort Recipes</h2>
-			<div class="row ga-2 pl-2 pr-6 d-flex justify-content-between">
-				<div class="col-lg-2 d-flex align-items-center">Sort by:</div>
-				<div class="sort-criteria col-lg-2"
-						 @click="handleName">
-					Name: {{ nameDirection.message ? nameDirection.message : "None" }}
-				</div>
-				<div class="sort-criteria col-lg-2"
-						 @click="handleCategory">
-					Category: {{ categoryDirection.message ? categoryDirection.message : "None" }}
-				</div>
-				<div class="sort-criteria col-lg-2"
-						 @click="handleDate">
-					Date: {{ dateDirection.message ? dateDirection.message : "None" }}
-				</div>
-				<div class="sort-criteria col-lg-2"
-						 @click="handleReset">
-					Reset sort
-				</div>
-			</div>
-		</div>
+
 	</div>
 	<SelectIngredient
 			:isModalOpen="isModalOpen"
@@ -119,9 +98,7 @@ const selectConditionIngredient = ref('all')
 const searchKeyWord = ref('')
 const selectConditionSearch = ref('title')
 
-const categoryDirection = ref({direction: null, message: null})
-const nameDirection = ref({direction: null, message: null})
-const dateDirection = ref({direction: null, message: null})
+
 
 
 async function init() {
@@ -165,53 +142,7 @@ async function submitSearch() {
 	reloadList.value += 1;
 }
 
-function handleCategory() {
-	if (categoryDirection.value.direction === null) {
-		categoryDirection.value = {direction: 'asc', message: 'a-z'}
-	} else if (categoryDirection.value.direction === 'asc') {
-		categoryDirection.value = {direction: 'desc', message: 'z-a'}
-	} else {
-		categoryDirection.value = {direction: null, message: null}
-	}
-	recipeStore.sort['category.name'] = categoryDirection.value.direction
-	submitSearch()
-}
 
-function handleName() {
-	if (nameDirection.value.direction === null) {
-		nameDirection.value = {direction: 'asc', message: 'a-z'}
-		nameDirection.value.message = 'a-z'
-	} else if (nameDirection.value.direction === 'asc') {
-		nameDirection.value = {direction: 'desc', message: 'z-a'}
-	} else {
-		nameDirection.value = {direction: null, message: null}
-	}
-	recipeStore.sort.name = nameDirection.value.direction
-	submitSearch()
-}
-
-function handleDate() {
-	if (dateDirection.value.direction === null) {
-		dateDirection.value = {direction: 'asc', message: 'old->new'}
-	} else if (dateDirection.value.direction === 'asc') {
-		dateDirection.value = {direction: 'desc', message: 'new->old'}
-	} else {
-		dateDirection.value = {direction: null, message: null}
-	}
-	recipeStore.sort.created_on = dateDirection.value.direction
-	submitSearch()
-}
-
-function handleReset() {
-	dateDirection.value = {direction: null, message: null}
-	nameDirection.value = {direction: null, message: null}
-	categoryDirection.value = {direction: null, message: null}
-
-	recipeStore.sort.name = nameDirection.value.direction
-	recipeStore.sort['category.name'] = categoryDirection.value.direction
-	recipeStore.sort.created_on = dateDirection.value.direction
-	submitSearch()
-}
 
 </script>
 
