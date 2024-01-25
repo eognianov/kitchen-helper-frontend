@@ -8,10 +8,13 @@
 import NavBar from './components/Main/NavBar.vue';
 import FooterNav from './components/Main/FooterNav.vue';
 import {useAuthStore} from "@/stores/authStore";
+import {useRecipeStore } from "@/stores/recipeStore";
 
 const auth = useAuthStore()
+const recipeStore = useRecipeStore()
 
 auth.init()
+recipeStore.init(auth.token)
 
 </script>
 
@@ -25,7 +28,7 @@ auth.init()
 	--light-text: #DDD;
 	--backgrond: #727272;
 	--light-background: #DEDEDE;
-	--very-light-background: #F8F8F8;
+	--very-light-background: #F0F0F0;
 	--dark-background: #333333;
 	--dark-background-transparent: #33333366;
 	--main-hover: #F8F8F8;

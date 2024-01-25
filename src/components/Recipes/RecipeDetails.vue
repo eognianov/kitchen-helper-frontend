@@ -4,10 +4,10 @@
 			<div class="row justify-content-center">
 				<div class="col-lg-12 text-center">
 					<h1>{{ recipe.name }}</h1>
-					<div class="by"><i class="fa fa-user" aria-hidden="true"></i> {{ recipe.created_by }}</div>
+					<div class="by"><i class="fa fa-user" aria-hidden="true"></i> {{ recipe.created_by ? recipe.created_by : 'Unknown' }}</div>
 				</div>
 				<div class="col-lg-8">
-					<img :src='recipe.picture' :alt="recipe.name">
+					<img :src='pictureUrl' :alt="recipe.name">
 					<div class="info">
 						<div class="row">
 							<div class="col-lg-4 col-sm-4">
@@ -41,7 +41,8 @@
 							<div class="col-lg-6 col-sm-6">
 								<h3>Ingredients</h3>
 								<ul class="ingredients p-3">
-									<li v-for="ingredient in recipe.ingredients" :key="ingredient">{{ ingredient.quantity }} {{ingredient.measurement}}
+									<li v-for="ingredient in recipe.ingredients" :key="ingredient">{{ ingredient.quantity }}
+										{{ ingredient.measurement }}
 										{{ ingredient.name }}
 									</li>
 								</ul>
@@ -51,7 +52,7 @@
 								<ol class="directions">
 									<li v-for="instruction in recipe.instructions" :key="instruction.id">{{ instruction.instruction }}
 										<audio :ref="getAudioPlayerRef(instruction.id)"></audio>
-										<button 
+										<button
 											:class="'play-pause-button-' + instruction.id"
 											@click="togglePlayPause(instruction.id)"
 										><i class="fa-solid fa-play"></i>
@@ -105,6 +106,7 @@ import {useRoute} from "vue-router";
 import {ref, onMounted, onUnmounted} from "vue";
 import axios from "axios";
 import {useAuthStore} from "@/stores/authStore";
+import {createPictureUrl} from "../../helpers/helepers";
 
 const auth = useAuthStore()
 const route = useRoute()
@@ -113,6 +115,7 @@ const audioChunks = ref({});
 
 const recipe = ref(null)
 const recipeNotFound = ref(false)
+const pictureUrl = ref(null)
 
 async function getRecipeById() {
 	try {
@@ -123,6 +126,8 @@ async function getRecipeById() {
 			}
 		})
 		if (response.status === 200) {
+			recipe.value = response.data
+			pictureUrl.value = createPictureUrl(response.data.picture)
 			recipe.value = response.data;
 			recipe.value.instructions.forEach(instruction => {
 				audioPlayers.value[instruction.id] = ref({value: new Audio()});
@@ -133,7 +138,6 @@ async function getRecipeById() {
 		recipeNotFound.value = true
 	}
 }
-
 
 onMounted(() => {
     getRecipeById().then(() => {

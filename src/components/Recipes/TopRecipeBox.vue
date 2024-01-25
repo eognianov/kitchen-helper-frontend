@@ -1,25 +1,29 @@
 <template>
 	<div class="box clearfix">
 		<router-link :to="'/recipes/' + recipe.id">
-			<img :src="recipe.picture" :alt="recipe.name">
+			<img :src="pictureUrl" :alt="recipe.name">
 		</router-link>
 		<h3>
 			<router-link :to="'/recipes/' + recipe.id">
 				{{ recipe.name }}
 			</router-link>
 		</h3>
-		<p>{{ recipe.summary.slice(0, 50) }}{{ recipe.summary.length > 50 ? "..." : null }}</p>
+		<p>{{ recipe.summary.slice(0, 25) }}{{ recipe.summary.length > 25 ? "..." : null }}</p>
 	</div>
 </template>
 
 <script setup>
+import {ref} from "vue";
+import {createPictureUrl} from "../../helpers/helepers";
 
-defineProps(['recipe'])
-
+const props = defineProps(['recipe'])
+const pictureUrl = ref(createPictureUrl(props.recipe.picture))
 </script>
 
 <style scoped>
-
+.top .clearfix {
+	min-height: 160px;
+}
 .top .box {
 	background-color: var(--white);
 }
@@ -40,11 +44,11 @@ defineProps(['recipe'])
 }
 
 .top .box p {
-	line-height: 22px;
+	line-height: 1.2;
 	margin-bottom: 0;
 	padding-left: 120px;
 	color: var(--main-text);
-	height: 90px;
+	max-height: 90px;
 }
 
 .top .box img {

@@ -82,11 +82,12 @@
 									</div>
 								</vue-draggable-next>
 								<div class="row">
-									<div class="col-lg-3 col-md-5 col-sm-12" >
+									<div class="col-lg-3 col-md-5 col-sm-12">
 										<a @click="addIngredient" class="btn btn-dark">Add new ingredient</a>
 									</div>
 									<div class="col-lg-6 col-md-2 col-sm-2 mt-2"></div>
-									<div class="col-lg-3 col-md-5 col-sm-12 d-flex justify-content-lg-end justify-content-md-end justify-content-sm-start">
+									<div
+											class="col-lg-3 col-md-5 col-sm-12 d-flex justify-content-lg-end justify-content-md-end justify-content-sm-start">
 										<a @click="createIngredient" class="btn btn-dark ">Create new ingredient</a>
 									</div>
 								</div>
@@ -285,9 +286,6 @@ async function uploadPicture(e) {
 			headers: {'Authorization': 'Bearer ' + auth.token}
 		})
 		picture.value = response.data.id
-		errors.value.picture = false
-	} else {
-		picture.value = 1
 		errors.value.picture = false
 	}
 }
