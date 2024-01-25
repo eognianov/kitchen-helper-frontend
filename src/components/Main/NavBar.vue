@@ -28,6 +28,11 @@
               Recipes
             </router-link>
           </li>
+					<li class="nav-item" @click="isNavbarVisible ? isNavbarVisible=false : null" v-if="auth.logged">
+            <router-link to="/my-recipes" class="nav-link">
+              My Recipes
+            </router-link>
+          </li>
           <li class="nav-item" @click="isNavbarVisible ? isNavbarVisible=false : null" v-if="!auth.logged">
 
           </li>

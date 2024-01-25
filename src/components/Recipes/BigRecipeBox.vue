@@ -1,10 +1,10 @@
 <template>
 	<div class="box grid recipes">
 		<div class="by">
-			<i class="fa fa-user" aria-hidden="true"></i> {{ recipe.created_by }}
+			<i class="fa fa-user" aria-hidden="true"></i>{{ recipe.created_by ? recipe.created_by : 'Unknown' }}
 		</div>
 		<router-link :to="'/recipes/' + recipe.id">
-			<img :src="recipe.picture" :alt="recipe.name">
+			<img :src="pictureUrl" :alt="recipe.name">
 		</router-link>
 		<h2>
 			<router-link :to="'/recipes/' + recipe.id">
@@ -19,7 +19,12 @@
 </template>
 
 <script setup>
-defineProps(['recipe'])
+import {ref} from "vue";
+import {createPictureUrl} from "../../helpers/helepers";
+
+const props = defineProps(['recipe'])
+const pictureUrl = ref(createPictureUrl(props.recipe.picture))
+
 </script>
 
 

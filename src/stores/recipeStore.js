@@ -5,65 +5,78 @@ export const useRecipeStore = defineStore({
     id: 'recipe',
     state: () => ({
         recipes: [],
+        categories: [],
+        ingredients: [],
         recipeOfTheDay: [],
-        topBreakfast: [],
-        topLunch: [],
-        topDinner: [],
-        page_size: 6,
-        page: 1,
+        topFirst: [],
+        topSecond: [],
+        topThird: [],
+        page_size: null,
+        page_number: null,
         previous_page: null,
         next_page: null,
         total_pages: null,
         total_items: null,
-        sort_expression: '',
-        filter_expression: '',
         filters: {
             category: null,
-            complexity: null,
-            time_to_prepare: null,
             created_by: null,
             period: null,
             ingredient: null,
-            title: null,
-            summary: null,
-            any: null,
+            search: null,
+            deleted: null,
+            published: null,
         },
         sort: {
             id: null,
             name: null,
+            'category.name': null,
             created_by: null,
-            time_to_prepare: null,
             created_on: null,
             updated_on: null,
-            complexity: null,
-            'category.name': null,
             'category.id': null,
         }
-
     }),
     actions: {
         constructUrl() {
-            let sort_f = []
+            let pagination = ''
+            let filter_expression = ''
+            let sort_expression = ''
+
+            if (this.page && this.page_size) {
+                pagination = `?page=${this.page}&page_size=${this.page_size}`
+            }
+
+            let sort_conditions = []
             for (const key in this.sort) {
                 const value = this.sort[key];
                 if (value !== null) {
-                    sort_f.push(`${key}:${value}`)
+                    sort_conditions.push(`${key}:${value}`)
                 }
             }
-            if (sort_f.length > 0) {
-                this.sort_expression = `&sort=${sort_f.join(",")}`
+            if (sort_conditions.length > 0) {
+                if (pagination !== '') {
+                    sort_expression = `&sort=${sort_conditions.join(",")}`
+                } else {
+                    sort_expression = `?sort=${sort_conditions.join(",")}`
+                }
             }
-            let filter_f = []
+
+            let filter_conditions = []
             for (const key in this.filters) {
                 const value = this.filters[key];
                 if (value !== null) {
-                    filter_f.push(`${key}:${value}`)
+                    filter_conditions.push(`${key}:${value}`)
                 }
             }
-            if (filter_f.length > 0) {
-                this.filter_expression = `&filters=${filter_f.join(",")}`
+            if (filter_conditions.length > 0) {
+                if (pagination !== '' && sort_expression !== '' || (pagination !== '' || sort_expression !== '')) {
+                    filter_expression = `&filters=${filter_conditions.join(",")}`
+                } else {
+                    filter_expression = `?filters=${filter_conditions.join(",")}`
+                }
             }
-            return `/recipes/?page=${this.page}&page_size=${this.page_size}${this.sort_expression}${this.filter_expression}`
+
+            return `/recipes/${pagination}${sort_expression}${filter_expression}`
         },
         async getRecipes(url, token) {
             try {
@@ -72,9 +85,17 @@ export const useRecipeStore = defineStore({
                 })
                 if (response.status === 200) {
                     for (const item of response.data.recipes) {
+                        // item.picture = await this.getImageById(item.picture, token)
+                        // const user = await this.getUserById(item.created_by, token)
+                        // item.created_by = user.username
                         this.recipes.push(item)
                     }
                     this.next_page = response.data.next_page
+                    this.previous_page = response.data.previous_page
+                    this.total_pages = response.data.total_pages
+                    this.total_items = response.data.total_items
+                    this.page_number = response.data.page_number
+                    this.page_size = response.data.page_size
                 }
             } catch (error) {
                 console.log(error)
@@ -87,9 +108,35 @@ export const useRecipeStore = defineStore({
                     headers: {'Authorization': 'Bearer ' + token}
                 })
                 if (response.status === 200) {
-                    const OneRecipe = response.data.recipes[0]
+                    return response.data.recipes[0]
+                }
+            } catch (error) {
+                console.log(error)
+                return null
+            }
+        },
+        async getCategories() {
+            try {
+                let response = await axios.get('/categories/')
+                if (response.status === 200) {
+                    this.categories = response.data
+                    return response.data
+                }
 
-                    return OneRecipe
+            } catch (error) {
+                console.log(error)
+                return null
+            }
+        },
+        async getIngredients(token) {
+            try {
+                let response = await axios.get('ingredients/',
+                    {
+                        headers: {'Authorization': 'Bearer ' + token}
+                    })
+                if (response.status === 200) {
+                    this.ingredients = response.data
+                    return response.data
                 }
             } catch (error) {
                 console.log(error)
@@ -97,29 +144,80 @@ export const useRecipeStore = defineStore({
             }
         },
         async init(token) {
+            if (this.categories.length === 0) {
+                await this.getCategories()
+            }
+            if (this.ingredients.length === 0 && token) {
+                await this.getIngredients(token)
+            }
             if (this.recipeOfTheDay.length === 0) {
                 const url = '/recipes/?page=1&page_size=1&sort=id:desc'
-                this.recipeOfTheDay.push(await this.getOneRecipe(url, token))
+                const newRecipe = await this.getOneRecipe(url, token)
+                if (newRecipe) {
+                    this.recipeOfTheDay.push(await this.getOneRecipe(url, token))
+                }
             }
-            if (this.topBreakfast.length === 0) {
-                const url = 'recipes/?page=1&page_size=1&filters=category:4&sort=id:desc'
-                this.topBreakfast.push(await this.getOneRecipe(url, token))
+            if (this.topFirst.length === 0) {
+                const url = 'recipes/?page=1&page_size=1&filters=category:1&sort=id:desc'
+                const newRecipe = await this.getOneRecipe(url, token)
+                if (newRecipe) {
+                    this.topFirst.push(await this.getOneRecipe(url, token))
+                }
             }
-            if (this.topLunch.length === 0) {
+            if (this.topSecond.length === 0) {
                 const url = 'recipes/?page=1&page_size=1&filters=category:2&sort=id:desc'
-                this.topLunch.push(await this.getOneRecipe(url, token))
+                const newRecipe = await this.getOneRecipe(url, token)
+                if (newRecipe) {
+                    this.topSecond.push(await this.getOneRecipe(url, token))
+                }
             }
-            if (this.topDinner.length === 0) {
+            if (this.topThird.length === 0) {
                 const url = 'recipes/?page=1&page_size=1&filters=category:3&sort=id:desc'
-                this.topDinner.push(await this.getOneRecipe(url, token))
+                const newRecipe = await this.getOneRecipe(url, token)
+                if (newRecipe) {
+                    this.topThird.push(await this.getOneRecipe(url, token))
+                }
             }
             if (this.recipes.length === 0) {
+                this.page = 1
+                this.page_size = 6
                 let new_url = this.constructUrl()
                 await this.getRecipes(new_url, token)
             }
         },
+        resetSearch(){
+            this.recipes = []
+            this.page_size = null
+            this.page_number =  null
+            this.filters =  {
+                category: null,
+                created_by: null,
+                period: null,
+                ingredient: null,
+                search: null,
+                deleted: null,
+                published: null,
+            }
+            this.sort = {
+                id: null,
+                name: null,
+                'category.name': null,
+                created_by: null,
+                created_on: null,
+                updated_on: null,
+                'category.id': null,
+            }
+        },
+        async searchTrigger(token) {
+            const url = this.constructUrl()
+            console.log(url)
+            await this.getRecipes(url, token)
+        },
         async nextPage(token) {
             await this.getRecipes(this.next_page, token)
+        },
+        async previousPage(token) {
+            await this.getRecipes(this.previous_page, token)
         },
     }
 })

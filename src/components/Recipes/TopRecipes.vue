@@ -1,18 +1,26 @@
 <template>
-	<div class="top">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-4" v-for="recipe in recipeBreakfast" :key="recipe.id">
-					<h5><i class="fa fa-cutlery" aria-hidden="true"></i> Top Breakfast Recipe</h5>
-					<top-recipe-box :recipe="recipe"></top-recipe-box>
-				</div>
-				<div class="col-lg-4" v-for="recipe in recipeLunch" :key="recipe.id">
-					<h5><i class="fa fa-cutlery" aria-hidden="true"></i> Top Lunch Recipe</h5>
-					<top-recipe-box :recipe="recipe"></top-recipe-box>
-				</div>
-				<div class="col-lg-4" v-for="recipe in recipeDinner" :key="recipe.id">
-					<h5><i class="fa fa-cutlery" aria-hidden="true"></i> Top Dinner Recipe</h5>
-					<top-recipe-box :recipe="recipe"></top-recipe-box>
+	<div v-if="recipeFirst.length > 0 || recipeSecond.length > 0 || recipeThird.length > 0">
+		<div class="top">
+			<div class="container">
+				<div class="row">
+					<div v-if="recipeFirst.length > 0" class="col-lg-4 col-sm-12">
+						<div  v-for="recipe in recipeFirst" :key="recipe.id">
+							<h5><i class="fa fa-cutlery" aria-hidden="true"></i> Top {{recipe.category.name}} Recipe</h5>
+							<top-recipe-box :recipe="recipe"></top-recipe-box>
+						</div>
+					</div>
+					<div v-if="recipeSecond.length > 0"  class="col-lg-4 col-sm-12">
+						<div v-for="recipe in recipeSecond" :key="recipe.id">
+							<h5><i class="fa fa-cutlery" aria-hidden="true"></i> Top {{recipe.category.name}} Recipe</h5>
+							<top-recipe-box :recipe="recipe"></top-recipe-box>
+						</div>
+					</div>
+					<div v-if="recipeThird.length > 0" class="col-lg-4">
+						<div  v-for="recipe in recipeThird" :key="recipe.id">
+							<h5><i class="fa fa-cutlery" aria-hidden="true"></i> Top {{recipe.category.name}} Recipe</h5>
+							<top-recipe-box :recipe="recipe"></top-recipe-box>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -26,9 +34,9 @@ import {useRecipeStore} from "@/stores/recipeStore";
 
 const recipeStore = useRecipeStore();
 
-const recipeDinner = ref(recipeStore.topDinner)
-const recipeLunch = ref(recipeStore.topLunch)
-const recipeBreakfast = ref(recipeStore.topBreakfast)
+const recipeFirst = ref(recipeStore.topFirst)
+const recipeSecond = ref(recipeStore.topSecond)
+const recipeThird = ref(recipeStore.topThird)
 
 </script>
 

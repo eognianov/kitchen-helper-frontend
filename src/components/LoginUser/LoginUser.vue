@@ -65,6 +65,7 @@ async function login() {
 	}
 	if (auth.logged) {
 		recipeStore.recipes = []
+		recipeStore.init(auth.token)
 		router.push({name: "index"});
 	}
 }
