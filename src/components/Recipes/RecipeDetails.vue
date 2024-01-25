@@ -100,7 +100,7 @@ import {useRoute} from "vue-router";
 import {ref, onMounted} from "vue";
 import axios from "axios";
 import {useAuthStore} from "@/stores/authStore";
-import {createPictureUrl} from "./helepers";
+import {createPictureUrl} from "../../helpers/helepers";
 
 const auth = useAuthStore()
 const route = useRoute()

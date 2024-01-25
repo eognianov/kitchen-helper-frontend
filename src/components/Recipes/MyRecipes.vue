@@ -1,6 +1,6 @@
 <template>
 	<div class="container mt-5">
-		<h2><i class="fa fa-cutlery mr-1" aria-hidden="true"></i> MyRecipes </h2>
+		<h2><i class="fa fa-cutlery mr-1" aria-hidden="true"></i> My Recipes </h2>
 
 		<div class="row">
 			<div class="col-lg-12 recipe-list">

@@ -14,7 +14,7 @@
 					@click="publishRecipe(recipe.id)">
 				<i class="fa-regular fa-square-check"></i>
 			</div>
-			<div v-if="pending" class="sending published">
+			<div v-if="pending" class="">
 				<div class="lds-ring">
 					<div></div>
 					<div></div>
@@ -110,8 +110,13 @@ function toggleVisible() {
 
 .lds-ring {
 	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	width: 16px;
 	height: 16px;
+	margin-right: 35px;
+	margin-top: 3px;
 }
 
 .lds-ring div {

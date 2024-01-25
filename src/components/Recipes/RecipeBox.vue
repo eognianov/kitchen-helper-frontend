@@ -20,7 +20,7 @@
 
 <script setup>
 import {ref} from "vue";
-import {createPictureUrl} from "./helepers";
+import {createPictureUrl} from "../../helpers/helepers";
 
 const props = defineProps(['recipe'])
 const pictureUrl = ref(createPictureUrl(props.recipe.picture))

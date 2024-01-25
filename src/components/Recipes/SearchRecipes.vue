@@ -6,7 +6,7 @@
 					<h2>Browse Recipes</h2>
 				</div>
 				<div class="row">
-					<div class="col-lg-3 form-group">
+					<div class="col-lg-3 mt-2">
 						<label>Choose category</label>
 						<select class="form-control" name="category" v-model="selectCategory">
 							<option value="0" selected>All</option>
@@ -18,8 +18,8 @@
 							</option>
 						</select>
 					</div>
-					<div class="col-lg-6">
-						<label>Select ingredients:</label>
+					<div class="col-lg-6 mt-2">
+						<label>Select ingredients</label>
 						<div class="form-group" @click="isModalOpen=true">
 							<div v-if="selectIngredientNames.length === 0" class="ingredient-name">No ingredients selected</div>
 							<div v-if="selectIngredientNames.length > 0" class="ingredient-name">
@@ -27,7 +27,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-lg-3 form-group">
+					<div class="col-lg-3 mt-2">
 						<label>Recipe needs to have</label>
 						<select class="form-control" name="category" v-model="selectConditionIngredient">
 							<option value="all">All of selected ingredients</option>
@@ -35,12 +35,12 @@
 						</select>
 					</div>
 				</div>
-				<div class="row mt-2">
-					<div class="col-lg-9 form-group">
+				<div class="row">
+					<div class="col-lg-9 mt-2">
 						<label>Search by Keyword</label>
 						<input type="text" class="form-control" v-model="searchKeyWord" placeholder="Search by Keyword">
 					</div>
-					<div class="col-lg-3 form-group">
+					<div class="col-lg-3 mt-2">
 						<label>Search in </label>
 						<select class="form-control" name="category" v-model="selectConditionSearch">
 							<option value="title">Search in title</option>
@@ -63,11 +63,17 @@
 			@hideModal="isModalOpen=false"
 			@handleSelectIngredients="handleSelectIngredients"
 	></SelectIngredient>
-	<list-recipes :key="reloadList" v-if="!isLoading"></list-recipes>
-	<div v-if="isLoading" class="container text-center mt-6">
-		<p>Loading...</p>
+	<list-recipes v-if="!isLoading"></list-recipes>
+	<div
+			v-if="isLoading"
+			class="container d-flex justify-content-center">
+		<div class="lds-ring">
+			<div></div>
+			<div></div>
+			<div></div>
+			<div></div>
+		</div>
 	</div>
-
 </template>
 
 <script setup>
@@ -129,10 +135,11 @@ async function submitSearch() {
 		recipeStore.filters.ingredient = null
 	}
 
-
 	await recipeStore.searchTrigger(auth.token)
-	isLoading.value = false
-	reloadList.value += 1;
+	setTimeout(() => {
+		isLoading.value = false
+		reloadList.value += 1;
+	}, 300)
 }
 
 
@@ -191,31 +198,67 @@ async function submitSearch() {
 
 .ingredient-name {
 	box-sizing: border-box;
-	padding: 2px 5px;
+	padding: 10px 10px;
 	width: 100%;
 	height: 45px;
-	display: inline-block;
-	font-size: .7rem;
 	line-height: 1.3;
 	background-color: var(--white);
 	color: var(--main-text);
 	border-radius: 5px;
 	overflow: hidden;
+	overflow-y: scroll;
+
 	border: 1px solid var(--light-background);
 }
+
 .ingredient-name:hover {
 	cursor: pointer;
 }
 
-.sort-criteria {
-	background-color: var(--main-color);
-	color: var(--white);
-	border-radius: 5px;
-	padding: 10px 10px;
-	/*margin-left: 1rem;*/
+label {
+	padding-left: 5px;
+	padding-bottom: 2px;
 }
 
-.sort-criteria:hover {
-	cursor: pointer;
+.lds-ring {
+	margin-top: 40px;
+	display: inline-block;
+	position: relative;
+	width: 80px;
+	height: 80px;
+}
+
+.lds-ring div {
+	box-sizing: border-box;
+	display: block;
+	position: absolute;
+	width: 64px;
+	height: 64px;
+	margin: 8px;
+	border: 8px solid var(--light-background);
+	border-radius: 50%;
+	animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+	border-color: var(--light-background) transparent transparent transparent;
+}
+
+.lds-ring div:nth-child(1) {
+	animation-delay: -0.45s;
+}
+
+.lds-ring div:nth-child(2) {
+	animation-delay: -0.3s;
+}
+
+.lds-ring div:nth-child(3) {
+	animation-delay: -0.15s;
+}
+
+@keyframes lds-ring {
+	0% {
+		transform: rotate(0deg);
+	}
+	100% {
+		transform: rotate(360deg);
+	}
 }
 </style>

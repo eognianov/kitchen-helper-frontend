@@ -8,9 +8,9 @@ export const useRecipeStore = defineStore({
         categories: [],
         ingredients: [],
         recipeOfTheDay: [],
-        topBreakfast: [],
-        topLunch: [],
-        topDinner: [],
+        topFirst: [],
+        topSecond: [],
+        topThird: [],
         page_size: null,
         page_number: null,
         previous_page: null,
@@ -157,25 +157,25 @@ export const useRecipeStore = defineStore({
                     this.recipeOfTheDay.push(await this.getOneRecipe(url, token))
                 }
             }
-            if (this.topBreakfast.length === 0) {
-                const url = 'recipes/?page=1&page_size=1&filters=category:4&sort=id:desc'
+            if (this.topFirst.length === 0) {
+                const url = 'recipes/?page=1&page_size=1&filters=category:1&sort=id:desc'
                 const newRecipe = await this.getOneRecipe(url, token)
                 if (newRecipe) {
-                    this.topBreakfast.push(await this.getOneRecipe(url, token))
+                    this.topFirst.push(await this.getOneRecipe(url, token))
                 }
             }
-            if (this.topLunch.length === 0) {
+            if (this.topSecond.length === 0) {
                 const url = 'recipes/?page=1&page_size=1&filters=category:2&sort=id:desc'
                 const newRecipe = await this.getOneRecipe(url, token)
                 if (newRecipe) {
-                    this.topLunch.push(await this.getOneRecipe(url, token))
+                    this.topSecond.push(await this.getOneRecipe(url, token))
                 }
             }
-            if (this.topDinner.length === 0) {
+            if (this.topThird.length === 0) {
                 const url = 'recipes/?page=1&page_size=1&filters=category:3&sort=id:desc'
                 const newRecipe = await this.getOneRecipe(url, token)
                 if (newRecipe) {
-                    this.topDinner.push(await this.getOneRecipe(url, token))
+                    this.topThird.push(await this.getOneRecipe(url, token))
                 }
             }
             if (this.recipes.length === 0) {

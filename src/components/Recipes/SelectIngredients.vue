@@ -94,7 +94,7 @@ function removeIngredient(id, name) {
   position: relative;
   margin: 0 auto;
   width: 50vw;
-  height: 50vh;
+  max-height: 450px;
   background: var(--white);
   padding: 20px;
   border-radius: 8px;
@@ -139,11 +139,24 @@ ul li {
   color: var(--main-text);
 }
 
-
+@media only screen and (max-width: 992px) {
+  .modal {
+    max-height: 800px;
+  }
+}
 @media only screen and (max-width: 768px) {
   .modal {
-    height: 85vh;
+    width: 80vw;
   }
+}
+@media only screen and (max-width: 478px) {
+  .modal {
+    max-height: 600px;
+		width: 80vw;
+  }
+	ul {
+  height: 150px;
+}
 }
 
 </style>
