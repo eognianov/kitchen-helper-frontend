@@ -11,7 +11,7 @@
 				{{ recipe.name }}
 			</router-link>
 		</h2>
-		<p>{{ recipe.summary.slice(0, 100) }}{{ recipe.summary.length > 100 ? "..." : null }} </p>
+		<p>{{ recipe.summary?.slice(0, 100) }}{{ recipe.summary?.length > 100 ? "..." : null }} </p>
 		<div class="tag">
 			<a href="#">{{ recipe.category.name }}</a>
 		</div>
