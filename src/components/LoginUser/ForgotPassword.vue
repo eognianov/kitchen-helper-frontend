@@ -4,14 +4,16 @@
 		<div class="row h-100 align-items-center justify-content-center">
 
 			<div
-					class="col-md-12 col-lg-8 py-5 mx-2 rightcolumn d-flex flex-column align-items-center align-self-center shadow-lg">
+					class="col-md-12 col-lg-8 py-5 mx-2 right-column d-flex flex-column align-items-center align-self-center shadow-lg">
 				<div class="col-md-12">
 
 					<h3>Forgot Password</h3>
-					<p>Enter your email address below to get a password reset link.</p>
+					<p>Enter your username and email address below to get a password reset link.</p>
 
-
-					<div class="form-group mt-5">
+					<div class="form-group mt-4">
+						<input type="text" class="form-control" placeholder="username">
+					</div>
+					<div class="form-group mt-3">
 						<input type="email" id="email" class="form-control" placeholder="Email address">
 					</div>
 

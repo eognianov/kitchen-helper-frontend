@@ -31,7 +31,7 @@ const router = createRouter({
         {path: '/create', component: CreateRecipe, meta: {requiresAuth: true}},
         {path: '/recipes/:id', component: RecipeDetails, meta: {requiresAuth: false}, name: 'recipe details'},
         {path: '/login', component: LoginUser, meta: {requiresAuth: false}},
-        {path: '/reset-password', component: ForgotPassword, meta: {requiresAuth: true}},
+        {path: '/reset-password', component: ForgotPassword, meta: {requiresAuth: false}},
         {path: '/signup', component: CreateAccount, meta: {requiresAuth: false}},
         {path: '/check-email', component: CheckEmail, name: 'check-email', meta: {requiresAuth: false}},
         {path: '/my-recipes', component: MyRecipes, name: 'my-recipes', meta: {requiresAuth: true}},
