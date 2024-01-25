@@ -165,17 +165,6 @@ onMounted(() => {
     });
 });
 
-onUnmounted(() => {
-  recipe.value.instructions.forEach((instruction) => {
-    const websocket = new WebSocket(
-		`${import.meta.env.VITE_BASE_WEBSOCKET_URL}/recipes/instructions/${instruction.id}/ws`
-    );
-    websocket.close();
-});
-
-
-});
-
 function getAudioPlayerRef(id) {
   return (el) => {
     if (el) {
