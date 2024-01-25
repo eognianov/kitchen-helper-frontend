@@ -18,17 +18,12 @@
 							</option>
 						</select>
 					</div>
-					<div class="col-lg-6" style="position: relative">
-						<label>Select one or more ingredients that should be included in recipe</label>
-						<div class="form-group">
-							<a @click="isModalOpen=true" class="btn">Select ingredients</a>
-							<div class="" style="width: 100%; overflow: hidden">
-								<span v-if="selectIngredientNames.length === 0" class="ingredient-name">No ingredients selected</span>
-								<span v-for="ingredient in selectIngredientNames"
-											:key="ingredient"
-											class="ingredient-name mt-2 mr-2">
-                {{ ingredient }},
-              </span>
+					<div class="col-lg-6">
+						<label>Select ingredients:</label>
+						<div class="form-group" @click="isModalOpen=true">
+							<div v-if="selectIngredientNames.length === 0" class="ingredient-name">No ingredients selected</div>
+							<div v-if="selectIngredientNames.length > 0" class="ingredient-name">
+								{{ selectIngredientNames.join(', ') }}
 							</div>
 						</div>
 					</div>
@@ -99,8 +94,6 @@ const searchKeyWord = ref('')
 const selectConditionSearch = ref('title')
 
 
-
-
 async function init() {
 	categories.value = await recipeStore.getCategories()
 }
@@ -143,13 +136,12 @@ async function submitSearch() {
 }
 
 
-
 </script>
 
 <style scoped>
 .search {
 	padding: 60px 0;
-	background-color: var(--main-hover);
+	background-color: var(--very-light-background);
 	color: var(--main-text);
 }
 
@@ -198,11 +190,21 @@ async function submitSearch() {
 }
 
 .ingredient-name {
+	box-sizing: border-box;
+	padding: 2px 5px;
+	width: 100%;
+	height: 45px;
 	display: inline-block;
-	font-size: .8rem;
-	/*background-color: var(--secondary-color);*/
+	font-size: .7rem;
+	line-height: 1.3;
+	background-color: var(--white);
 	color: var(--main-text);
 	border-radius: 5px;
+	overflow: hidden;
+	border: 1px solid var(--light-background);
+}
+.ingredient-name:hover {
+	cursor: pointer;
 }
 
 .sort-criteria {
