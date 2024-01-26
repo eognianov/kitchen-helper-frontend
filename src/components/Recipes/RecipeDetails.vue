@@ -112,6 +112,7 @@ const auth = useAuthStore()
 const route = useRoute()
 const audioPlayers = ref({});
 const audioChunks = ref({});
+const currentlyPlayingInstruction = ref(null);
 
 const recipe = ref(null)
 const recipeNotFound = ref(false)
@@ -153,6 +154,7 @@ onMounted(() => {
 					const button = document.querySelector(`.play-pause-button-${instruction.id} i`);
 					button.classList.remove('fa-pause');
 					button.classList.add('fa-play');
+					currentlyPlayingInstruction.value = null;
 				});
             };
 
@@ -181,17 +183,29 @@ function getAudioPlayerRef(id) {
 function togglePlayPause(instructionId) {
 	const audio = audioPlayers.value[instructionId].value;
 	const button = document.querySelector(`.play-pause-button-${instructionId} i`);
-    if (audio.paused) {
-      audio.play();
-	  button.classList.remove('fa-play');
-	  button.classList.add('fa-pause');
-    } else {
-      audio.pause();
-	  button.classList.remove('fa-pause');
-	  button.classList.add('fa-play');
-    }
-}
 
+	if (currentlyPlayingInstruction.value !== null && currentlyPlayingInstruction.value !== instructionId) {
+		const currentlyPlayingAudio = audioPlayers.value[currentlyPlayingInstruction.value].value;
+		currentlyPlayingAudio.currentTime = 0;
+		currentlyPlayingAudio.pause();
+
+		const currentlyPlayingButton = document.querySelector(`.play-pause-button-${currentlyPlayingInstruction.value} i`);
+		currentlyPlayingButton.classList.remove('fa-pause');
+		currentlyPlayingButton.classList.add('fa-play');
+	}
+
+	if (audio.paused) {
+		audio.play();
+		button.classList.remove('fa-play');
+		button.classList.add('fa-pause');
+		currentlyPlayingInstruction.value = instructionId;
+	} else {
+		audio.pause();
+		button.classList.remove('fa-pause');
+		button.classList.add('fa-play');
+		currentlyPlayingInstruction.value = null;
+	}
+}
 </script>
 
 <style scoped>
