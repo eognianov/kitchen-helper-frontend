@@ -42,8 +42,8 @@ export const useRecipeStore = defineStore({
             let filter_expression = ''
             let sort_expression = ''
 
-            if (this.page && this.page_size) {
-                pagination = `?page=${this.page}&page_size=${this.page_size}`
+            if (this.page_number && this.page_size) {
+                pagination = `?page=${this.page_number}&page_size=${this.page_size}`
             }
 
             let sort_conditions = []
@@ -176,7 +176,7 @@ export const useRecipeStore = defineStore({
                 }
             }
             if (this.recipes.length === 0) {
-                this.page = 1
+                this.page_number = 1
                 this.page_size = 6
                 let new_url = this.constructUrl()
                 await this.getRecipes(new_url, token)

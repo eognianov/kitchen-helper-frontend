@@ -11,8 +11,8 @@ export const useSearchStore = defineStore({
         topFirst: [],
         topSecond: [],
         topThird: [],
-        page_size: null,
-        page_number: null,
+        page_size: 6,
+        page_number: 1,
         previous_page: null,
         next_page: null,
         total_pages: null,
@@ -42,9 +42,10 @@ export const useSearchStore = defineStore({
             let filter_expression = ''
             let sort_expression = ''
 
-            if (this.page && this.page_size) {
-                pagination = `?page=${this.page}&page_size=${this.page_size}`
+            if (this.page_number && this.page_size) {
+                pagination = `?page=${this.page_number}&page_size=${this.page_size}`
             }
+            console.log('pagination: ' + pagination )
 
             let sort_conditions = []
             for (const key in this.sort) {
@@ -148,6 +149,7 @@ export const useSearchStore = defineStore({
         async searchTrigger(token) {
             this.recipes = []
             const url = this.constructUrl()
+            console.log(url)
             await this.getRecipes(url, token)
         },
         async nextPage(token) {

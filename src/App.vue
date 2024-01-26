@@ -1,6 +1,8 @@
 <template>
 	<nav-bar></nav-bar>
-	<router-view></router-view>
+	<router-view v-if="!isLoading"></router-view>
+	<div v-if="isLoading" class="container d-flex justify-content-center mt-15">
+		<loading-wheel class="mb-15"></loading-wheel></div>
 	<footer-nav></footer-nav>
 </template>
 
@@ -8,11 +10,22 @@
 import NavBar from './components/Main/NavBar.vue';
 import FooterNav from './components/Main/FooterNav.vue';
 import {useAuthStore} from "@/stores/authStore";
+import {useRecipeStore} from "@/stores/recipeStore";
+import LoadingWheel from './components/Recipes/LoadingWheel.vue'
+import {ref} from "vue";
 
+const recipeStore = useRecipeStore()
 const auth = useAuthStore()
+const isLoading = ref(false)
 
-auth.init()
+async function init() {
+	isLoading.value = true
+	await auth.init()
+	await recipeStore.init(auth.token)
+	isLoading.value = false
+}
 
+init()
 </script>
 
 <style>

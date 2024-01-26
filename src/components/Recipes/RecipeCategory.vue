@@ -43,7 +43,7 @@ onMounted(async () => {
 	categoryStore.recipes = []
 	categoryStore.filters.category = route.params.id
 	categoryStore.page_size = 6
-	categoryStore.page = 1
+	categoryStore.page_number = 1
 	try {
 		let response = await axios.get(`/categories/${route.params.id}`)
 		if (response.status === 200) {

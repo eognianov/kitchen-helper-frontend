@@ -20,8 +20,8 @@ export const useMyRecipesStore = defineStore({
             let pagination = ''
             let filter_expression = ''
 
-            if (this.page && this.page_size) {
-                pagination = `?page=${this.page}&page_size=${this.page_size}`
+            if (this.page_number && this.page_size) {
+                pagination = `?page=${this.page_number}&page_size=${this.page_size}`
             }
 
             let filter_conditions = []

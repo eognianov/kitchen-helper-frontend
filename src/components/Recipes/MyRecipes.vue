@@ -27,7 +27,7 @@
 <script setup>
 import MyRecipesBox from './MyRecipesBox.vue'
 import LoadingWheel from './LoadingWheel.vue'
-import {onMounted, ref} from "vue";
+import {ref} from "vue";
 import {useAuthStore} from "@/stores/authStore";
 import {useMyRecipesStore} from "@/stores/myRecipesStore";
 
@@ -38,18 +38,19 @@ const recipes = ref([])
 const isLoading = ref(false)
 const reloadState = ref(0)
 
-onMounted(async () => {
+async function init() {
 	isLoading.value = true
 	await auth.init()
 	myRecipesStore.filters.created_by = auth.user.id
 	myRecipesStore.page_size = 100
-	myRecipesStore.page = 1
+	myRecipesStore.page_number = 1
 	await myRecipesStore.searchTrigger(auth.token)
 	recipes.value = myRecipesStore.recipes
 	reloadState.value += 1
 	isLoading.value = false
-})
+}
 
+init()
 
 </script>
 
