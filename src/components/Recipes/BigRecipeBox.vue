@@ -3,8 +3,8 @@
 		<div class="by">
 			<i class="fa fa-user" aria-hidden="true"></i> {{ recipe.created_by ? recipe.created_by : 'Unknown' }}
 		</div>
-		<router-link :to="'/recipes/' + recipe.id">
-			<img :src="pictureUrl" :alt="recipe.name">
+		<router-link :to="'/recipes/' + recipe.id" class="image-container">
+			<img :src="pictureUrl" :alt="recipe.name" class="image-container">
 		</router-link>
 		<h2>
 			<router-link :to="'/recipes/' + recipe.id">
@@ -94,6 +94,11 @@ const pictureUrl = ref(createPictureUrl(props.recipe.picture))
 	background-color: var(--main-hover);
 	color: var(--main-text);
 	transition: all 0.3s ease;
+}
+
+.image-container {
+	max-height: 30rem;
+	object-fit: cover;
 }
 
 </style>

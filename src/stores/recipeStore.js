@@ -202,6 +202,7 @@ export const useRecipeStore = defineStore({
             this.sort['category.id'] = null
         },
         async searchTrigger(token) {
+            this.page_number = 1
             this.recipes = []
             const url = this.constructUrl()
             await this.getRecipes(url, token)

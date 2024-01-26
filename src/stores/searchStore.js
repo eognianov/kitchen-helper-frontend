@@ -45,7 +45,6 @@ export const useSearchStore = defineStore({
             if (this.page_number && this.page_size) {
                 pagination = `?page=${this.page_number}&page_size=${this.page_size}`
             }
-            console.log('pagination: ' + pagination )
 
             let sort_conditions = []
             for (const key in this.sort) {
@@ -147,9 +146,9 @@ export const useSearchStore = defineStore({
             this.sort['category.id'] = null
         },
         async searchTrigger(token) {
+            this.page_number = 1
             this.recipes = []
             const url = this.constructUrl()
-            console.log(url)
             await this.getRecipes(url, token)
         },
         async nextPage(token) {
