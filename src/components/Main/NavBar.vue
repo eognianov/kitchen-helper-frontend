@@ -198,6 +198,9 @@ function logout() {
     padding: 15px
   }
 }
+nav {
+	box-shadow: 0 3px 10px var(--backgrond);
+}
 
 @media only screen and (max-width: 480px) {
   .navbar-brand img {
