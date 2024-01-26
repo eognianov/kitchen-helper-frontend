@@ -23,6 +23,7 @@ import CreateRole from './components/AdminPanel/CreateRole.vue';
 import CreateUser from './components/AdminPanel/CreateUser.vue';
 import Recipes from './components/AdminPanel/Recipes.vue';
 import RecipeDetailsAdmin from './components/AdminPanel/RecipeDetailsAdmin.vue';
+import ConfirmEmail from './components/LoginUser/ConfirmEmail.vue'
 
 import "vuetify/dist/vuetify.css";
 import "bootstrap/dist/css/bootstrap.css";
@@ -44,6 +45,7 @@ const router = createRouter({
         {path: '/signup', component: CreateAccount, meta: {requiresAuth: false}},
         {path: '/check-email', component: CheckEmail, name: 'check-email', meta: {requiresAuth: false}},
         {path: '/my-recipes', component: MyRecipes, name: 'my-recipes', meta: {requiresAuth: true}},
+        {path: '/confirm-email/:token', component: ConfirmEmail, name: 'confirm-email', meta: {requiresAuth: false}},
         {
             path: '/admin',
             component: AdminMainPage,
