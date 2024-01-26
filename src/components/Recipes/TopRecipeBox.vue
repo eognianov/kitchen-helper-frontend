@@ -8,7 +8,7 @@
 				{{ recipe.name }}
 			</router-link>
 		</h3>
-		<p>{{ recipe.summary.slice(0, 25) }}{{ recipe.summary.length > 25 ? "..." : null }}</p>
+		<p>{{ recipe.summary?.slice(0, 25) }}{{ recipe.summary?.length > 25 ? "..." : null }}</p>
 	</div>
 </template>
 
