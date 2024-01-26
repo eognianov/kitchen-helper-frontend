@@ -5,7 +5,7 @@
 			<div class="row">
 				<div class="col-lg-12 header">
 					<h5><i class="fa fa-cutlery" aria-hidden="true"></i> List Recipes</h5>
-					<div class="ga-2 d-flex justify-content-start" v-if="recipes.length > 0">
+					<div class="ga-2 d-flex justify-content-start" v-if="recipes.length > 0 || isLoading">
 						<div class="col-lg-2 d-flex align-items-center" id="sort-title">Sort by:</div>
 						<div class="sort-criteria col-lg-2"
 								 @click="handleName">
@@ -41,24 +41,13 @@
 							<recipe-box :recipe="recipe"></recipe-box>
 						</div>
 					</div>
-					<div v-if="recipes.length === 0">No recipes found</div>
-					<div class="col-lg-12 text-center">
-						<button class="btn btn-load"
-										@click="nextPage"
-										v-if="recipeStore.next_page"
-						>Load More
-						</button>
-					</div>
+					<div v-if="recipes.length === 0 && !isLoading">No recipes found</div>
 				</div>
 				<div
 						v-if="isLoading"
-						class="container d-flex justify-content-center">
-					<div class="lds-ring">
-						<div></div>
-						<div></div>
-						<div></div>
-						<div></div>
-					</div>
+						class="container d-flex justify-content-center mt-15 mb-15 pr-16"
+						style="width: 100%; height: 50px">
+					<LoadingWheel></LoadingWheel>
 				</div>
 				<div ref="target"></div>
 			</div>
@@ -68,21 +57,22 @@
 
 <script setup>
 import RecipeBox from "./RecipeBox.vue";
-import {ref, watch} from 'vue';
+import LoadingWheel from './LoadingWheel.vue'
+import {onMounted, ref, watch} from 'vue';
 import {useElementVisibility} from "@vueuse/core";
-import {useRecipeStore} from "@/stores/recipeStore";
 import {useAuthStore} from "@/stores/authStore";
 
-const recipeStore = useRecipeStore();
+const props = defineProps(['store'])
+const store = props.store;
 const auth = useAuthStore();
 
 const recipes = ref([])
 
-function getRecipes() {
-	recipes.value = recipeStore.recipes
-}
-
-getRecipes()
+onMounted(() => {
+	recipes.value = []
+	recipes.value = store.recipes
+	reloadList.value += 1
+})
 
 
 // load more on scroll if any
@@ -90,11 +80,11 @@ const target = ref(null)
 const targetIsVisible = useElementVisibility(target)
 
 function nextPage() {
-	recipeStore.nextPage(auth.token)
+	store.nextPage(auth.token)
 }
 
 watch(targetIsVisible, (targetVisible) => {
-	if (targetVisible === true && recipeStore.next_page !== null) {
+	if (targetVisible === true && store.next_page !== null) {
 		nextPage()
 	}
 })
@@ -107,11 +97,11 @@ const reloadList = ref(0)
 
 async function submitSearch() {
 	isLoading.value = true
-	recipeStore.recipes = []
+	recipes.value = []
 
-	await recipeStore.searchTrigger(auth.token)
+	await store.searchTrigger(auth.token)
 	setTimeout(() => {
-		getRecipes()
+		recipes.value = store.recipes
 		isLoading.value = false
 		reloadList.value += 1;
 	}, 300)
@@ -125,7 +115,7 @@ function handleCategory() {
 	} else {
 		categoryDirection.value = null
 	}
-	recipeStore.sort['category.name'] = categoryDirection.value
+	store.sort['category.name'] = categoryDirection.value
 	submitSearch()
 }
 
@@ -137,7 +127,7 @@ function handleName() {
 	} else {
 		nameDirection.value = null
 	}
-	recipeStore.sort.name = nameDirection.value
+	store.sort.name = nameDirection.value
 	submitSearch()
 }
 
@@ -149,7 +139,7 @@ function handleDate() {
 	} else {
 		dateDirection.value = null
 	}
-	recipeStore.sort.created_on = dateDirection.value
+	store.sort.created_on = dateDirection.value
 	submitSearch()
 }
 
@@ -158,11 +148,12 @@ function handleReset() {
 	nameDirection.value = null
 	categoryDirection.value = null
 
-	recipeStore.sort.name = null
-	recipeStore.sort['category.name'] = null
-	recipeStore.sort.created_on = null
+	store.sort.name = null
+	store.sort['category.name'] = null
+	store.sort.created_on = null
 	submitSearch()
 }
+
 </script>
 
 <style>
@@ -221,47 +212,6 @@ function handleReset() {
 
 .sort-criteria:hover {
 	cursor: pointer;
-}
-
-.lds-ring {
-	display: inline-block;
-	position: relative;
-	width: 80px;
-	height: 80px;
-}
-
-.lds-ring div {
-	box-sizing: border-box;
-	display: block;
-	position: absolute;
-	width: 64px;
-	height: 64px;
-	margin: 8px;
-	border: 8px solid var(--light-background);
-	border-radius: 50%;
-	animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-	border-color: var(--light-background) transparent transparent transparent;
-}
-
-.lds-ring div:nth-child(1) {
-	animation-delay: -0.45s;
-}
-
-.lds-ring div:nth-child(2) {
-	animation-delay: -0.3s;
-}
-
-.lds-ring div:nth-child(3) {
-	animation-delay: -0.15s;
-}
-
-@keyframes lds-ring {
-	0% {
-		transform: rotate(0deg);
-	}
-	100% {
-		transform: rotate(360deg);
-	}
 }
 
 @media only screen and (max-width: 460px) {

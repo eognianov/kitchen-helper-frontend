@@ -1,8 +1,8 @@
 import {defineStore, acceptHMRUpdate} from 'pinia'
 import axios from "axios";
 
-export const useRecipeStore = defineStore({
-    id: 'recipe',
+export const useSearchStore = defineStore({
+    id: 'search',
     state: () => ({
         recipes: [],
         categories: [],
@@ -11,8 +11,8 @@ export const useRecipeStore = defineStore({
         topFirst: [],
         topSecond: [],
         topThird: [],
-        page_size: null,
-        page_number: null,
+        page_size: 6,
+        page_number: 1,
         previous_page: null,
         next_page: null,
         total_pages: null,
@@ -98,19 +98,6 @@ export const useRecipeStore = defineStore({
                 return null
             }
         },
-        async getOneRecipe(url, token) {
-            try {
-                let response = await axios.get(url, {
-                    headers: {'Authorization': 'Bearer ' + token}
-                })
-                if (response.status === 200) {
-                    return response.data.recipes[0]
-                }
-            } catch (error) {
-                console.log(error)
-                return null
-            }
-        },
         async getCategories() {
             try {
                 let response = await axios.get('/categories/')
@@ -137,49 +124,6 @@ export const useRecipeStore = defineStore({
             } catch (error) {
                 console.log(error)
                 return null
-            }
-        },
-        async init(token) {
-            this.recipes = []
-            if (this.categories.length === 0) {
-                await this.getCategories()
-            }
-            if (this.ingredients.length === 0) {
-                await this.getIngredients(token)
-            }
-            if (this.recipeOfTheDay.length === 0) {
-                const url = '/recipes/?page=1&page_size=1&sort=id:desc'
-                const newRecipe = await this.getOneRecipe(url, token)
-                if (newRecipe) {
-                    this.recipeOfTheDay.push(await this.getOneRecipe(url, token))
-                }
-            }
-            if (this.topFirst.length === 0) {
-                const url = 'recipes/?page=1&page_size=1&filters=category:1&sort=id:desc'
-                const newRecipe = await this.getOneRecipe(url, token)
-                if (newRecipe) {
-                    this.topFirst.push(await this.getOneRecipe(url, token))
-                }
-            }
-            if (this.topSecond.length === 0) {
-                const url = 'recipes/?page=1&page_size=1&filters=category:2&sort=id:desc'
-                const newRecipe = await this.getOneRecipe(url, token)
-                if (newRecipe) {
-                    this.topSecond.push(await this.getOneRecipe(url, token))
-                }
-            }
-            if (this.topThird.length === 0) {
-                const url = 'recipes/?page=1&page_size=1&filters=category:3&sort=id:desc'
-                const newRecipe = await this.getOneRecipe(url, token)
-                if (newRecipe) {
-                    this.topThird.push(await this.getOneRecipe(url, token))
-                }
-            }
-            if (this.recipes.length === 0) {
-                this.page_number = 1
-                this.page_size = 6
-                let new_url = this.constructUrl()
-                await this.getRecipes(new_url, token)
             }
         },
         resetSearch() {
@@ -217,5 +161,5 @@ export const useRecipeStore = defineStore({
 })
 
 if (import.meta.hot) {
-    import.meta.hot.accept(acceptHMRUpdate(useRecipeStore, import.meta.hot))
+    import.meta.hot.accept(acceptHMRUpdate(useSearchStore, import.meta.hot))
 }
