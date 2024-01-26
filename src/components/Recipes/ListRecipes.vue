@@ -42,17 +42,11 @@
 						</div>
 					</div>
 					<div v-if="recipes.length === 0 && !isLoading">No recipes found</div>
-					<div class="col-lg-12 text-center">
-						<button class="btn btn-load"
-										@click="nextPage"
-										v-if="store.next_page"
-						>Load More
-						</button>
-					</div>
 				</div>
 				<div
 						v-if="isLoading"
-						class="container d-flex justify-content-center mt-15 mb-15">
+						class="container d-flex justify-content-center mt-15 mb-15 pr-16"
+						style="width: 100%; height: 50px">
 					<LoadingWheel></LoadingWheel>
 				</div>
 				<div ref="target"></div>
