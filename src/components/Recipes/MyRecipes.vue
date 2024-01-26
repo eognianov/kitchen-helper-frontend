@@ -8,12 +8,17 @@
 					<span><b>Recipe Name</b></span>
 					<span><b>Published</b></span>
 				</div>
-				<MyRecipesBox v-for="recipe in recipes"
-											:key="recipe.id"
-											:recipe="recipe"
-											class="recipe-list-element">
+				<div v-if="recipes.length > 0 && !isLoading" :key="reloadState">
+					<MyRecipesBox v-for="recipe in recipes"
+												:key="recipe.id"
+												:recipe="recipe"
+												class="recipe-list-element">
 
-				</MyRecipesBox>
+					</MyRecipesBox>
+				</div>
+			</div>
+			<div v-if="isLoading" class="d-flex justify-content-center mt-15">
+				<LoadingWheel class="mb-15"></LoadingWheel>
 			</div>
 		</div>
 	</div>
@@ -21,26 +26,30 @@
 
 <script setup>
 import MyRecipesBox from './MyRecipesBox.vue'
-import {ref} from "vue";
+import LoadingWheel from './LoadingWheel.vue'
+import {onMounted, ref} from "vue";
 import {useAuthStore} from "@/stores/authStore";
-import {useRecipeStore} from "@/stores/recipeStore";
+import {useMyRecipesStore} from "@/stores/myRecipesStore";
 
 const auth = useAuthStore();
-const recipeStore = useRecipeStore()
+const myRecipesStore = useMyRecipesStore()
 
 const recipes = ref([])
+const isLoading = ref(false)
+const reloadState = ref(0)
 
-async function getRecipes() {
+onMounted(async () => {
+	isLoading.value = true
 	await auth.init()
-	recipeStore.resetSearch()
-	recipeStore.filters.created_by = auth.user.id
-	recipeStore.page_size = 100
-	recipeStore.page = 1
-	await recipeStore.searchTrigger(auth.token)
-	recipes.value = recipeStore.recipes
-}
+	myRecipesStore.filters.created_by = auth.user.id
+	myRecipesStore.page_size = 100
+	myRecipesStore.page = 1
+	await myRecipesStore.searchTrigger(auth.token)
+	recipes.value = myRecipesStore.recipes
+	reloadState.value += 1
+	isLoading.value = false
+})
 
-getRecipes()
 
 </script>
 
@@ -52,7 +61,7 @@ h2 {
 	border-bottom: 1px dashed var(--main-text)
 }
 
-.recipe-list-element  {
+.recipe-list-element {
 	padding: 4px 10px;
 }
 

@@ -63,29 +63,25 @@
 			@hideModal="isModalOpen=false"
 			@handleSelectIngredients="handleSelectIngredients"
 	></SelectIngredient>
-	<list-recipes v-if="!isLoading"></list-recipes>
+	<list-recipes :key="reloadList" v-if="!isLoading" :store="searchStore"></list-recipes>
 	<div
 			v-if="isLoading"
-			class="container d-flex justify-content-center">
-		<div class="lds-ring">
-			<div></div>
-			<div></div>
-			<div></div>
-			<div></div>
-		</div>
+			class="container d-flex justify-content-center pr-15 mt-15">
+		<LoadingWheel class="mb-15"></LoadingWheel>
 	</div>
 </template>
 
 <script setup>
 import {ref} from 'vue'
 import ListRecipes from "./ListRecipes.vue";
-import {useRecipeStore} from "@/stores/recipeStore";
+import {useSearchStore } from "@/stores/searchStore";
 import {useAuthStore} from "@/stores/authStore";
 import SelectIngredient from './SelectIngredients.vue';
+import LoadingWheel from './LoadingWheel.vue'
 
 const isModalOpen = ref(false)
 
-const recipeStore = useRecipeStore();
+const searchStore = useSearchStore();
 const auth = useAuthStore();
 
 const categories = ref([])
@@ -101,7 +97,7 @@ const selectConditionSearch = ref('title')
 
 
 async function init() {
-	categories.value = await recipeStore.getCategories()
+	categories.value = await searchStore.getCategories()
 }
 
 init()
@@ -117,32 +113,31 @@ function handleSelectIngredients(listIngredients) {
 
 async function submitSearch() {
 	isLoading.value = true
-	recipeStore.recipes = []
+	searchStore.recipes = []
 	if (selectCategory.value === '0') {
-		recipeStore.filters.category = null
+		searchStore.filters.category = null
 	} else {
-		recipeStore.filters.category = selectCategory.value
+		searchStore.filters.category = selectCategory.value
 	}
 	if (searchKeyWord.value.trim() !== '') {
 		searchKeyWord.value = searchKeyWord.value.replaceAll(/[-=:&?,]/g, '')
-		recipeStore.filters.search = selectConditionSearch.value + '-' + searchKeyWord.value
+		searchStore.filters.search = selectConditionSearch.value + '-' + searchKeyWord.value
 	} else {
-		recipeStore.filters.search = null
+		searchStore.filters.search = null
 	}
 	if (selectIngredient.value.length > 0) {
-		recipeStore.filters.ingredient = selectConditionIngredient.value + '-' + selectIngredient.value.join('-')
+		searchStore.filters.ingredient = selectConditionIngredient.value + '-' + selectIngredient.value.join('-')
 	} else {
-		recipeStore.filters.ingredient = null
+		searchStore.filters.ingredient = null
 	}
 
-	await recipeStore.searchTrigger(auth.token)
+	await searchStore.searchTrigger(auth.token)
+
 	setTimeout(() => {
 		isLoading.value = false
 		reloadList.value += 1;
 	}, 300)
 }
-
-
 </script>
 
 <style scoped>
@@ -218,47 +213,5 @@ async function submitSearch() {
 label {
 	padding-left: 5px;
 	padding-bottom: 2px;
-}
-
-.lds-ring {
-	margin-top: 40px;
-	display: inline-block;
-	position: relative;
-	width: 80px;
-	height: 80px;
-}
-
-.lds-ring div {
-	box-sizing: border-box;
-	display: block;
-	position: absolute;
-	width: 64px;
-	height: 64px;
-	margin: 8px;
-	border: 8px solid var(--light-background);
-	border-radius: 50%;
-	animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-	border-color: var(--light-background) transparent transparent transparent;
-}
-
-.lds-ring div:nth-child(1) {
-	animation-delay: -0.45s;
-}
-
-.lds-ring div:nth-child(2) {
-	animation-delay: -0.3s;
-}
-
-.lds-ring div:nth-child(3) {
-	animation-delay: -0.15s;
-}
-
-@keyframes lds-ring {
-	0% {
-		transform: rotate(0deg);
-	}
-	100% {
-		transform: rotate(360deg);
-	}
 }
 </style>
