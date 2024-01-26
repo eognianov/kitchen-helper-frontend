@@ -25,7 +25,7 @@
 					</li>
 					<li class="nav-item" @click="isNavbarVisible ? isNavbarVisible=false : null">
 						<router-link to="/recipes" class="nav-link">
-							Recipes
+							Search
 						</router-link>
 					</li>
 					<li class="nav-item" @click="isNavbarVisible ? isNavbarVisible=false : null" v-if="auth.logged">
