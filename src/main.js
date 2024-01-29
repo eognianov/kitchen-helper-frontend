@@ -24,7 +24,8 @@ import CreateRole from './components/AdminPanel/CreateRole.vue';
 import CreateUser from './components/AdminPanel/CreateUser.vue';
 import Recipes from './components/AdminPanel/Recipes.vue';
 import RecipeDetailsAdmin from './components/AdminPanel/RecipeDetailsAdmin.vue';
-import ConfirmEmail from './components/LoginUser/ConfirmEmail.vue'
+import ConfirmEmail from './components/LoginUser/ConfirmEmail.vue';
+import Jaeger from './components/AdminPanel/Jaeger.vue'
 
 import "vuetify/dist/vuetify.css";
 import "bootstrap/dist/css/bootstrap.css";
@@ -61,6 +62,7 @@ const router = createRouter({
               { path: 'recipes', component: Recipes, name: 'admin-recipes'},
               { path: 'recipes/:id', component: RecipeDetailsAdmin, name: 'admin-recipe-details'},
               { path: 'recipes/create', component: CreateRecipe, name: 'admin-create-recipe'},
+              { path: '', component: Jaeger, name: 'jaeger'},
             ],
             meta: {requiresAdminAuth: true},
         },

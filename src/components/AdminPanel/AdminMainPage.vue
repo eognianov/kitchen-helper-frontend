@@ -1,26 +1,32 @@
 <template>
     <div class="admin-container">
         <ul class="nav flex-column">
-        <li class="nav-item" @click="goToUsers">
-            <router-link to="/admin/users" class="nav-link">
-                <span class="clickable-text">Users</span>
-            </router-link>
-            <router-link to="/admin/users/add" class="nav-link add-link">+</router-link>
-        </li>
-        <hr>
-        <li class="nav-item" @click="goToRoles">
-            <router-link to="/admin/roles" class="nav-link">
-                <span class="clickable-text">Roles</span>
-            </router-link>
-            <router-link to="/admin/roles/add" class="nav-link add-link">+</router-link>
-        </li>
-        <hr>
-        <li class="nav-item" @click="goToRecipes">
-            <router-link to="/admin/recipes" class="nav-link">
-                <span class="clickable-text">Recipes</span>
-            </router-link>
-        </li>
-        <hr>
+            <li class="nav-item" @click="goToUsers">
+                <router-link to="/admin" class="nav-link">
+                    <span class="clickable-text">Jaeger</span>
+                </router-link>
+            </li>
+            <hr>
+            <li class="nav-item" @click="goToUsers">
+                <router-link to="/admin/users" class="nav-link">
+                    <span class="clickable-text">Users</span>
+                </router-link>
+                <router-link to="/admin/users/add" class="nav-link add-link">+</router-link>
+            </li>
+            <hr>
+            <li class="nav-item" @click="goToRoles">
+                <router-link to="/admin/roles" class="nav-link">
+                    <span class="clickable-text">Roles</span>
+                </router-link>
+                <router-link to="/admin/roles/add" class="nav-link add-link">+</router-link>
+            </li>
+            <hr>
+            <li class="nav-item" @click="goToRecipes">
+                <router-link to="/admin/recipes" class="nav-link">
+                    <span class="clickable-text">Recipes</span>
+                </router-link>
+            </li>
+            <hr>
         </ul>
 
         <div class="content">
@@ -65,7 +71,7 @@
     }
 
     .admin-container ul {
-        width: 18%;
+        width: 20%;
         position: sticky;
         overflow-y: auto;
         background-color: var(--dark-background);
