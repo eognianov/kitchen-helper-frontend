@@ -3,7 +3,7 @@
         <ul class="nav flex-column">
             <li class="nav-item" @click="goToUsers">
                 <router-link to="/admin" class="nav-link">
-                    <span class="clickable-text">Jaeger</span>
+                    <span class="clickable-text">Admin</span>
                 </router-link>
             </li>
             <hr>
