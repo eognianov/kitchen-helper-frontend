@@ -1,18 +1,17 @@
 <template>
-    <iframe src="http://localhost:16686/search" frameborder="0"></iframe>
+    <iframe :src="jeagerBaseUrl" frameborder="0"></iframe>
 </template>
 
 <script setup>
-    import { onMounted, onUnmounted } from 'vue';
+    import { ref,onMounted, onUnmounted } from 'vue';
+    const jeagerBaseUrl = ref(import.meta.env.VITE_BASE_JAEGER_URL);
 
     onMounted(() => {
         const adminContainer = document.querySelector('.admin-container .content');
-        const sideNavElement = document.querySelector('.admin-container .nav');
         adminContainer.style.margin = '0';
     });
     onUnmounted(() => {
         const adminContainer = document.querySelector('.admin-container .content');
-        const sideNavElement = document.querySelector('.admin-container .nav');
         adminContainer.style.marginTop = '1.5rem';
         adminContainer.style.marginLeft = '14px;'
     });
