@@ -31,7 +31,7 @@
             </table>
         </div>
         <div class="pagination">
-            <nav aria-label="Page navigation example">
+            <nav>
                 <ul class="pagination">
                 <li class="page-item">
                     <button @click="requestPage(prevPage)" :disabled="prevPage ? false : true" class="page-link">Previous</button>
@@ -164,6 +164,10 @@
         justify-content: space-between;
         align-items: center;
         margin-right: 24px
+    }
+
+    .pagination > nav {
+        box-shadow: none;
     }
 
     .pagination button {

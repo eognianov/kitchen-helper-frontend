@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="user-details">
         <h2>User Details</h2>
         <div>
             <p><strong>User ID:</strong> {{ user.id }}</p>
@@ -144,6 +144,11 @@
 </script>
 
 <style scoped>
+
+    .user-details {
+        margin-left: 14px;
+    }
+    
     .list-group {
     display: inline-block;
     width: 250px;

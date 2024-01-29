@@ -103,7 +103,7 @@
 
     .table-wrapper {
         width: 99%;
-        height: 85vh;
+        height: 82.5vh;
         overflow-y: auto;
         overflow-x: auto;
     }
