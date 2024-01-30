@@ -58,8 +58,8 @@
 									<li v-for="instruction in recipe.instructions" :key="instruction.id">{{ instruction.instruction }}
 										<audio :ref="getAudioPlayerRef(instruction.id)"></audio>
 										<button
-											:class="'play-pause-button-' + instruction.id"
-											@click="togglePlayPause(instruction.id)"
+												:class="'play-pause-button-' + instruction.id"
+												@click="togglePlayPause(instruction.id)"
 										><i class="fa-solid fa-play"></i>
 										</button>
 									</li>
@@ -69,32 +69,34 @@
 					</div>
 
 
-					<div class="nutrition-facts clearfix">
+					<div class="nutrition-facts">
 						<h3>Nutrition Facts</h3>
-						<div>
-							<p>Calories:</p>
-							<p><strong>{{ recipe.calories }} kcal</strong>
-							</p>
-						</div>
-						<div>
-							<p>Carbohydrate:</p>
-							<p><strong>{{ recipe.carbo }} g</strong>
-							</p>
-						</div>
-						<div>
-							<p>Fat:</p>
-							<p><strong>{{ recipe.fats }} g</strong>
-							</p>
-						</div>
-						<div>
-							<p>Protein:</p>
-							<p><strong>{{ recipe.proteins }} g</strong>
-							</p>
-						</div>
-						<div>
-							<p>Cholesterol:</p>
-							<p><strong>{{ recipe.cholesterol }} mg</strong>
-							</p>
+						<div class="wrapper d-flex gap-4 flex-wrap">
+							<div class="cat">
+								<p>Calories:</p>
+								<p><strong>{{ recipe.calories }} kcal</strong>
+								</p>
+							</div>
+							<div class="cat">
+								<p>Carbohydrate:</p>
+								<p><strong>{{ recipe.carbo }} g</strong>
+								</p>
+							</div>
+							<div class="cat">
+								<p>Fat:</p>
+								<p><strong>{{ recipe.fats }} g</strong>
+								</p>
+							</div>
+							<div class="cat">
+								<p>Protein:</p>
+								<p><strong>{{ recipe.proteins }} g</strong>
+								</p>
+							</div>
+							<div class="cat">
+								<p>Cholesterol:</p>
+								<p><strong>{{ recipe.cholesterol }} mg</strong>
+								</p>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -108,7 +110,7 @@
 
 <script setup>
 import {useRoute} from "vue-router";
-import {ref, onMounted, onUnmounted} from "vue";
+import {ref, onMounted} from "vue";
 import axios from "axios";
 import {useAuthStore} from "@/stores/authStore";
 import {createPictureUrl} from "../../helpers/helepers";
@@ -146,43 +148,43 @@ async function getRecipeById() {
 }
 
 onMounted(() => {
-    getRecipeById().then(() => {
-        recipe.value.instructions.forEach(instruction => {
-            const websocket = new WebSocket(`${import.meta.env.VITE_BASE_WEBSOCKET_URL}/recipes/instructions/${instruction.id}/ws`);
+	getRecipeById().then(() => {
+		recipe.value.instructions.forEach(instruction => {
+			const websocket = new WebSocket(`${import.meta.env.VITE_BASE_WEBSOCKET_URL}/recipes/instructions/${instruction.id}/ws`);
 
-            const playAudio = () => {
-                const audioBlob = new Blob(audioChunks.value[instruction.id], { type: 'audio/mp3' });
-                const audioDataUrl = URL.createObjectURL(audioBlob);
+			const playAudio = () => {
+				const audioBlob = new Blob(audioChunks.value[instruction.id], {type: 'audio/mp3'});
+				const audioDataUrl = URL.createObjectURL(audioBlob);
 				audioPlayers.value[instruction.id].value.src = audioDataUrl;
-                audioChunks.value[instruction.id] = [];
+				audioChunks.value[instruction.id] = [];
 				audioPlayers.value[instruction.id].value.addEventListener('ended', () => {
 					const button = document.querySelector(`.play-pause-button-${instruction.id} i`);
 					button.classList.remove('fa-pause');
 					button.classList.add('fa-play');
 					currentlyPlayingInstruction.value = null;
 				});
-            };
+			};
 
-            websocket.onmessage = (event) => {
-                const chunk = event.data;
-                if (typeof chunk === 'string' && chunk === 'audio_stream_end') {
-                    websocket.close();
-                    playAudio();
-                } else {
-                    audioChunks.value[instruction.id].push(chunk);
-                }
-            };
-        });
-    });
+			websocket.onmessage = (event) => {
+				const chunk = event.data;
+				if (typeof chunk === 'string' && chunk === 'audio_stream_end') {
+					websocket.close();
+					playAudio();
+				} else {
+					audioChunks.value[instruction.id].push(chunk);
+				}
+			};
+		});
+	});
 });
 
 function getAudioPlayerRef(id) {
-  return (el) => {
-    if (el) {
-      audioPlayers.value[id] = ref({ value: el });
-      audioChunks.value[id] = ref([]);
-    }
-  };
+	return (el) => {
+		if (el) {
+			audioPlayers.value[id] = ref({value: el});
+			audioChunks.value[id] = ref([]);
+		}
+	};
 }
 
 function togglePlayPause(instructionId) {
@@ -375,12 +377,28 @@ function togglePlayPause(instructionId) {
 	color: var(--main-text)
 }
 
-.recipe-detail .nutrition-facts div {
-	float: left;
-	width: 20%
-}
+/*.recipe-detail .nutrition-facts div {*/
+/*	float: left;*/
+/*	width: 20%*/
+/*}*/
 
 .recipe-detail .nutrition-facts div p {
 	margin-bottom: 0
+}
+.nutrition-facts {
+	padding: 0 .4rem;
+}
+.nutrition-facts .cat {
+	min-width: 100px;
+}
+
+.nutrition-facts .wrapper {
+	justify-content: space-around;
+}
+
+@media only screen and (max-width: 768px) {
+	.nutrition-facts .wrapper {
+		justify-content: start;
+	}
 }
 </style>
