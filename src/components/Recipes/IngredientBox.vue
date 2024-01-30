@@ -86,7 +86,7 @@ function selectItem(selected_ingredient) {
 	position: absolute;
 	width: 100%;
 	background-color: var(--white);
-	z-index: 20000;
+	z-index: 1199;
 }
 
 .options ul {
