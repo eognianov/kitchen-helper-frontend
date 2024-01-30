@@ -67,7 +67,10 @@ h2 {
 }
 
 .recipe-list-element:nth-child(2n) {
-
 	background-color: var(--light-background);
+}
+.table-top-row {
+	background-color: var(--backgrond);
+	color: var(--white);
 }
 </style>
