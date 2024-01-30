@@ -5,30 +5,30 @@
 			<div class="row">
 				<div class="col-lg-12 header">
 					<h5><i class="fa fa-cutlery" aria-hidden="true"></i> List Recipes</h5>
-					<div class="ga-2 d-flex justify-content-start" v-if="recipes.length > 0 || isLoading">
-						<div class="col-lg-2 d-flex align-items-center" id="sort-title">Sort by:</div>
-						<div class="sort-criteria col-lg-2"
+					<div class="d-flex justify-content-start gap-2" v-if="recipes.length > 0 && !isLoading">
+						<div class="d-flex align-items-center" id="sort-title">Sort by:</div>
+						<div class="sort-criteria"
 								 @click="handleName">
 							Name
 							<i class="fa-solid fa-arrow-down" v-if="nameDirection === null" style="color: var(--backgrond)"></i>
 							<i class="fa-solid fa-arrow-down" v-if="nameDirection === 'asc'"></i>
 							<i class="fa-solid fa-arrow-up" v-if="nameDirection === 'desc'"></i>
 						</div>
-						<div class="sort-criteria col-lg-2"
+						<div class="sort-criteria"
 								 @click="handleCategory">
 							Category
 							<i class="fa-solid fa-arrow-down" v-if="categoryDirection === null" style="color: var(--backgrond)"></i>
 							<i class="fa-solid fa-arrow-down" v-if="categoryDirection === 'asc'"></i>
 							<i class="fa-solid fa-arrow-up" v-if="categoryDirection === 'desc'"></i>
 						</div>
-						<div class="sort-criteria col-lg-2"
+						<div class="sort-criteria"
 								 @click="handleDate">
 							Date
 							<i class="fa-solid fa-arrow-down" v-if="dateDirection === null" style="color: var(--backgrond)"></i>
 							<i class="fa-solid fa-arrow-down" v-if="dateDirection === 'asc'"></i>
 							<i class="fa-solid fa-arrow-up" v-if="dateDirection === 'desc'"></i>
 						</div>
-						<div class="sort-criteria col-lg-2"
+						<div class="sort-criteria"
 								 @click="handleReset">
 							Reset
 						</div>
@@ -221,6 +221,11 @@ function handleReset() {
 
 	#sort-title {
 		display: none !important;
+	}
+}
+@media only screen and (max-width: 350px) {
+	.sort-criteria:last-child {
+		display: none;
 	}
 }
 </style>

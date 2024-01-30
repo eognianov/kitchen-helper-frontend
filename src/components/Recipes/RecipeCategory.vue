@@ -70,7 +70,7 @@ h1 {
 	margin-top: 40px;
 	background-color: var(--backgrond);
 	color: var(--white);
-	padding: .3rem 1rem;
+	padding: .3rem 1rem .5rem 1rem;
 	border-radius: 5px;
 }
 h1~p{
