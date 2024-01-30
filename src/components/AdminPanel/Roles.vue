@@ -45,7 +45,7 @@
     const searchQuery = ref('');
 
     onMounted(() => {
-        axios.get('/roles', {
+        axios.get('/roles/', {
             params: {
                 include_users: true
             },

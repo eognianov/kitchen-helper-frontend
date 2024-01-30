@@ -22,7 +22,7 @@
             </li>
             <hr>
             <li class="nav-item" @click="goToRecipes">
-                <router-link to="/admin/recipes" class="nav-link">
+                <router-link to="/admin/recipes/" class="nav-link">
                     <span class="clickable-text">Recipes</span>
                 </router-link>
             </li>
