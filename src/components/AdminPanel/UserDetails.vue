@@ -65,7 +65,7 @@
                 console.error('Error fetching user details:', error);
             });
 
-            axios.get('/roles', {
+            axios.get('/roles/', {
                 headers: {
                 "Content-Type": "application/json",
                 'Authorization': 'Bearer ' + auth.token
