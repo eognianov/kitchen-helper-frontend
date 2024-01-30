@@ -12,8 +12,10 @@
     });
     onUnmounted(() => {
         const adminContainer = document.querySelector('.admin-container .content');
-        adminContainer.style.marginTop = '1.5rem';
-        adminContainer.style.marginLeft = '14px;'
+        if (adminContainer) {
+            adminContainer.style.marginTop = '1.5rem';
+            adminContainer.style.marginLeft = '14px;';
+        }
     });
 </script>
 
