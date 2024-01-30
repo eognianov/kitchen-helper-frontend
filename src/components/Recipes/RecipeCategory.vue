@@ -5,8 +5,14 @@
 				<span v-if="category"> {{ category.name }}</span>
 				<span v-if="errorFound"> not found</span>
 			</h1>
-			<p>Total items: {{ items }}</p>
-			<list-recipes v-if="recipes.length > 0" :recipes="recipes" :key="refreshState" :store="categoryStore"></list-recipes>
+			<p>Recipes in this category: {{ items }}</p>
+			<list-recipes
+					v-if="recipes.length > 0"
+					:recipes="recipes"
+					:key="refreshState"
+					:store="categoryStore">
+
+			</list-recipes>
 		</div>
 		<div
 				v-if="isLoading"
@@ -62,6 +68,16 @@ onMounted(async () => {
 <style scoped>
 h1 {
 	margin-top: 40px;
+	background-color: var(--backgrond);
+	color: var(--white);
+	padding: .3rem 1rem;
+	border-radius: 5px;
 }
+h1~p{
+	margin-bottom: -2rem;
+	padding: 0 1rem;
+	/*border: 1px solid red;*/
+}
+
 
 </style>
