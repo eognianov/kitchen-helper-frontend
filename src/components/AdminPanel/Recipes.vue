@@ -69,7 +69,7 @@
     const nextPage = ref('');
 
     onMounted(() => {
-        requestPage('/recipes')
+        requestPage('/recipes/')
     });
 
 
