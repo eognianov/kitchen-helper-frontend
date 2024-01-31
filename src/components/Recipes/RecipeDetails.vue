@@ -137,6 +137,7 @@ async function getRecipeById() {
 			recipe.value = response.data
 			pictureUrl.value = createPictureUrl(response.data.picture)
 			recipe.value = response.data;
+			recipe.value.instructions.sort((a, b) => a.id - b.id)
 			recipe.value.instructions.forEach(instruction => {
 				audioPlayers.value[instruction.id] = ref({value: new Audio()});
 				audioChunks.value[instruction.id] = ref([]);
