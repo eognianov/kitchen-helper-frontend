@@ -45,7 +45,7 @@ const pictureUrl = ref(createPictureUrl(props.recipe.picture))
 .top .box p {
 	line-height: 1.1;
 	color: var(--main-text);
-	max-height: 5rem;
+	max-height: 5.3rem;
 	margin-bottom: 0;
 	overflow: hidden;
 	font-size: .8rem;
