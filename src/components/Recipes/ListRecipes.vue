@@ -5,7 +5,7 @@
 			<div class="row">
 				<div class="col-lg-12 header">
 					<h5><i class="fa fa-cutlery" aria-hidden="true"></i> List Recipes</h5>
-					<div class="d-flex justify-content-start gap-3" v-if="recipes.length > 0 && !isLoading">
+					<div class="d-flex justify-content-start sort-wrapper" v-if="recipes.length > 0 && !isLoading">
 						<div class="d-flex align-items-center" id="sort-title">Sort by:</div>
 						<div class="sort-criteria"
 								 @click="handleName">
@@ -214,19 +214,27 @@ function handleReset() {
 .sort-criteria:hover {
 	cursor: pointer;
 }
+
+.sort-wrapper {
+	gap: 1rem;
+}
+
 @media only screen and (max-width: 991px) {
 	#sort-title {
 		width: 110px;
 	}
 }
+
 @media only screen and (max-width: 768px) {
 	#sort-title {
 		width: 150px;
 	}
+
 	.sort-criteria:nth-child(3) {
 		width: 240px;
 	}
 }
+
 @media only screen and (max-width: 550px) {
 	.header {
 		font-size: .8rem;
@@ -235,7 +243,12 @@ function handleReset() {
 	#sort-title {
 		display: none !important;
 	}
+
+	.sort-wrapper {
+		gap: .4rem;
+	}
 }
+
 @media only screen and (max-width: 422px) {
 	.sort-criteria:last-child {
 		display: none;

@@ -56,6 +56,7 @@ footer h5 {
 	margin-bottom: 30px;
 	padding-bottom: 20px;
 	color: var(--light-text);
+	font-weight: 800;
 	border-bottom: 1px dashed var(--light-text);
 }
 
