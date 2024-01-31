@@ -172,6 +172,14 @@ onMounted(() => {
                     audioChunks.value[instruction.id].push(chunk);
                 }
             };
+
+			websocket.onclose = (event) => {
+				if ( event.code === 4004  || event.code !== 1000 ) {
+					const button = document.querySelector(`.play-pause-button-${instruction.id}`);
+					button.disabled = true;
+					button.classList.add('disabled');
+				}
+			};
         });
     });
 });
@@ -382,5 +390,15 @@ function togglePlayPause(instructionId) {
 
 .recipe-detail .nutrition-facts div p {
 	margin-bottom: 0
+}
+
+.disabled {
+	color: lightgray;
+}
+
+i.fa-solid.fa-play,
+i.fa-solid.fa-pause {
+	width: 16px;
+	height: 12px;
 }
 </style>
