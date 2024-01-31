@@ -11,7 +11,7 @@
 				{{ recipe.name }}
 			</router-link>
 		</h2>
-		<p>{{ recipe.summary?.slice(0, 75) }}{{ recipe.summary?.length > 75 ? "..." : null }} </p>
+		<p>{{ recipe.summary?.slice(0, 80) }}{{ recipe.summary?.length > 80 ? "..." : null }} </p>
 		<div class="tag">
 			<router-link
 					:to="'/recipes/category/' + recipe.category.id">

@@ -70,7 +70,7 @@ footer ul li a {
 
 footer ul li a:hover {
 	cursor: pointer;
-	font-size: 1.1rem;
+	font-size: 1.04rem;
 	color: var(--secondary-color);
 	transition: all 0.3s ease;
 }
