@@ -3,7 +3,8 @@
 		<section class="dropdown-wrapper">
 			<div class="dropdown-popover">
 				<input class="form-control input-name" type="text" v-model="searchQuery"
-							  @focus="isVisible=true">
+							  @focus="isVisible=true"
+								@blur="handleBlur">
 				<div class="options" v-if="isVisible">
 					<ul>
 						<li v-for="ingredient in filteredIngredients"
@@ -74,6 +75,12 @@ function selectItem(selected_ingredient) {
 	selectedIngredient.value = selected_ingredient.id
 	searchQuery.value = selected_ingredient.name
 	isVisible.value = false
+}
+function handleBlur() {
+	setTimeout( () => {
+		isVisible.value = false
+	}, 100)
+
 }
 
 </script>
