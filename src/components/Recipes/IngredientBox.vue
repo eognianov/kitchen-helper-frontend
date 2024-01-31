@@ -79,7 +79,7 @@ function selectItem(selected_ingredient) {
 function handleBlur() {
 	setTimeout( () => {
 		isVisible.value = false
-	}, 100)
+	}, 300)
 
 }
 
