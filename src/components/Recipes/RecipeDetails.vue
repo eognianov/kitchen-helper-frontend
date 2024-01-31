@@ -377,11 +377,9 @@ function togglePlayPause(instructionId) {
 	color: var(--main-text)
 }
 
-/*.recipe-detail .nutrition-facts div {*/
-/*	float: left;*/
-/*	width: 20%*/
-/*}*/
-
+.recipe-detail .nutrition-facts{
+	margin-top: 2rem ;
+}
 .recipe-detail .nutrition-facts div p {
 	margin-bottom: 0
 }
