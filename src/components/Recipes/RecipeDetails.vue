@@ -395,4 +395,10 @@ function togglePlayPause(instructionId) {
 .disabled {
 	color: lightgray;
 }
+
+i.fa-solid.fa-play,
+i.fa-solid.fa-pause {
+	width: 16px;
+	height: 12px;
+}
 </style>
