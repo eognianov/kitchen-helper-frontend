@@ -11,7 +11,7 @@
 					{{ recipe.name }}
 				</router-link>
 			</h3>
-			<p>{{ recipe.summary?.slice(0, 120) }}{{ recipe.summary?.length > 120 ? "..." : null }}</p>
+			<p>{{ recipe.summary?.slice(0, 100) }}{{ recipe.summary?.length > 120 ? "..." : null }}</p>
 		</div>
 	</div>
 </template>
@@ -43,9 +43,9 @@ const pictureUrl = ref(createPictureUrl(props.recipe.picture))
 }
 
 .top .box p {
-	line-height: 1.1;
+	line-height: 1.2;
 	color: var(--main-text);
-	max-height: 5.3rem;
+	height: 5.3rem;
 	margin-bottom: 0;
 	overflow: hidden;
 	font-size: .8rem;
