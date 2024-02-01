@@ -56,9 +56,10 @@
 								<h3>Instructions</h3>
 								<ol class="directions">
 									<li v-for="instruction in recipe.instructions" :key="instruction.id">{{ instruction.instruction }}
-										<audio :ref="getAudioPlayerRef(instruction.id)"></audio>
 										<button
-											:class="'play-pause-button-' + instruction.id"
+											:disabled="!instruction.audio_file"
+											:id="'play-pause-button-' + instruction.id"
+											:class="!instruction.audio_file ? 'disabled' : null"
 											@click="togglePlayPause(instruction.id)"
 										><i class="fa-solid fa-play"></i>
 										</button>
@@ -146,68 +147,28 @@ async function getRecipeById() {
 }
 
 onMounted(() => {
-    getRecipeById().then(() => {
-        recipe.value.instructions.forEach(instruction => {
-            const websocket = new WebSocket(`${import.meta.env.VITE_BASE_WEBSOCKET_URL}/recipes/instructions/${instruction.id}/ws`);
-
-            const playAudio = () => {
-                const audioBlob = new Blob(audioChunks.value[instruction.id], { type: 'audio/mp3' });
-                const audioDataUrl = URL.createObjectURL(audioBlob);
-				audioPlayers.value[instruction.id].value.src = audioDataUrl;
-                audioChunks.value[instruction.id] = [];
-				audioPlayers.value[instruction.id].value.addEventListener('ended', () => {
-					const button = document.querySelector(`.play-pause-button-${instruction.id} i`);
-					button.classList.remove('fa-pause');
-					button.classList.add('fa-play');
-					currentlyPlayingInstruction.value = null;
-				});
-            };
-
-            websocket.onmessage = (event) => {
-                const chunk = event.data;
-                if (typeof chunk === 'string' && chunk === 'audio_stream_end') {
-                    websocket.close();
-                    playAudio();
-                } else {
-                    audioChunks.value[instruction.id].push(chunk);
-                }
-            };
-
-			websocket.onclose = (event) => {
-				if ( event.code === 4004  || event.code !== 1000 ) {
-					const button = document.querySelector(`.play-pause-button-${instruction.id}`);
-					button.disabled = true;
-					button.classList.add('disabled');
-				}
-			};
-        });
-    });
+	getRecipeById()
 });
 
-function getAudioPlayerRef(id) {
-  return (el) => {
-    if (el) {
-      audioPlayers.value[id] = ref({ value: el });
-      audioChunks.value[id] = ref([]);
-    }
-  };
-}
-
-function togglePlayPause(instructionId) {
+async function togglePlayPause(instructionId) {
 	const audio = audioPlayers.value[instructionId].value;
-	const button = document.querySelector(`.play-pause-button-${instructionId} i`);
+	const button = document.querySelector(`#play-pause-button-${instructionId} i`);
 
 	if (currentlyPlayingInstruction.value !== null && currentlyPlayingInstruction.value !== instructionId) {
 		const currentlyPlayingAudio = audioPlayers.value[currentlyPlayingInstruction.value].value;
 		currentlyPlayingAudio.currentTime = 0;
 		currentlyPlayingAudio.pause();
 
-		const currentlyPlayingButton = document.querySelector(`.play-pause-button-${currentlyPlayingInstruction.value} i`);
+		const currentlyPlayingButton = document.querySelector(`#play-pause-button-${currentlyPlayingInstruction.value} i`);
 		currentlyPlayingButton.classList.remove('fa-pause');
 		currentlyPlayingButton.classList.add('fa-play');
 	}
 
-	if (audio.paused) {
+	if (audioChunks.value[instructionId].length === 0) {
+		await fetchAudioChunks(instructionId);
+	}
+
+	if (audio.paused || audioPlayers.value[currentlyPlayingInstruction.value].value.currentTime === 0) {
 		audio.play();
 		button.classList.remove('fa-play');
 		button.classList.add('fa-pause');
@@ -218,6 +179,36 @@ function togglePlayPause(instructionId) {
 		button.classList.add('fa-play');
 		currentlyPlayingInstruction.value = null;
 	}
+}
+
+async function fetchAudioChunks(instructionId) {
+	return new Promise((resolve) => {
+		const websocket = new WebSocket(`${import.meta.env.VITE_BASE_WEBSOCKET_URL}/recipes/instructions/${instructionId}/ws`);
+
+		const playAudio = () => {
+			const audioBlob = new Blob(audioChunks.value[instructionId], { type: 'audio/mp3' });
+			const audioDataUrl = URL.createObjectURL(audioBlob);
+			audioPlayers.value[instructionId].value.src = audioDataUrl;
+			currentlyPlayingInstruction.value = instructionId;
+			audioPlayers.value[instructionId].value.addEventListener('ended', () => {
+				const button = document.querySelector(`#play-pause-button-${instructionId} i`);
+				button.classList.remove('fa-pause');
+				button.classList.add('fa-play');
+				currentlyPlayingInstruction.value = null;
+			});
+		};
+
+		websocket.onmessage = (event) => {
+		const chunk = event.data;
+		if (typeof chunk === 'string' && chunk === 'audio_stream_end') {
+			websocket.close();
+			playAudio();
+			resolve();
+		} else {
+			audioChunks.value[instructionId].push(chunk);
+		}
+		};
+	});
 }
 </script>
 
