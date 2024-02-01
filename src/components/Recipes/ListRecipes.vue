@@ -108,50 +108,58 @@ async function submitSearch() {
 }
 
 function handleCategory() {
-	if (categoryDirection.value === null) {
-		categoryDirection.value = 'asc'
-	} else if (categoryDirection.value === 'asc') {
-		categoryDirection.value = 'desc'
-	} else {
-		categoryDirection.value = null
+	if (!isLoading.value) {
+		if (categoryDirection.value === null) {
+			categoryDirection.value = 'asc'
+		} else if (categoryDirection.value === 'asc') {
+			categoryDirection.value = 'desc'
+		} else {
+			categoryDirection.value = null
+		}
+		store.sort['category.name'] = categoryDirection.value
+		submitSearch()
 	}
-	store.sort['category.name'] = categoryDirection.value
-	submitSearch()
 }
 
 function handleName() {
-	if (nameDirection.value === null) {
-		nameDirection.value = 'asc'
-	} else if (nameDirection.value === 'asc') {
-		nameDirection.value = 'desc'
-	} else {
-		nameDirection.value = null
+	if (!isLoading.value) {
+		if (nameDirection.value === null) {
+			nameDirection.value = 'asc'
+		} else if (nameDirection.value === 'asc') {
+			nameDirection.value = 'desc'
+		} else {
+			nameDirection.value = null
+		}
+		store.sort.name = nameDirection.value
+		submitSearch()
 	}
-	store.sort.name = nameDirection.value
-	submitSearch()
 }
 
 function handleDate() {
-	if (dateDirection.value === null) {
-		dateDirection.value = 'asc'
-	} else if (dateDirection.value === 'asc') {
-		dateDirection.value = 'desc'
-	} else {
-		dateDirection.value = null
+	if (!isLoading.value) {
+		if (dateDirection.value === null) {
+			dateDirection.value = 'asc'
+		} else if (dateDirection.value === 'asc') {
+			dateDirection.value = 'desc'
+		} else {
+			dateDirection.value = null
+		}
+		store.sort.created_on = dateDirection.value
+		submitSearch()
 	}
-	store.sort.created_on = dateDirection.value
-	submitSearch()
 }
 
 function handleReset() {
-	dateDirection.value = null
-	nameDirection.value = null
-	categoryDirection.value = null
+	if (!isLoading.value) {
+		dateDirection.value = null
+		nameDirection.value = null
+		categoryDirection.value = null
 
-	store.sort.name = null
-	store.sort['category.name'] = null
-	store.sort.created_on = null
-	submitSearch()
+		store.sort.name = null
+		store.sort['category.name'] = null
+		store.sort.created_on = null
+		submitSearch()
+	}
 }
 
 </script>
