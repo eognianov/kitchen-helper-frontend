@@ -5,7 +5,7 @@
 			<div class="row">
 				<div class="col-lg-12 header">
 					<h5><i class="fa fa-cutlery" aria-hidden="true"></i> List Recipes</h5>
-					<div class="d-flex justify-content-start sort-wrapper" v-if="recipes.length > 0 && !isLoading">
+					<div class="d-flex justify-content-start sort-wrapper" v-if="recipes.length > 0 || isLoading">
 						<div class="d-flex align-items-center" id="sort-title">Sort by:</div>
 						<div class="sort-criteria"
 								 @click="handleName">
