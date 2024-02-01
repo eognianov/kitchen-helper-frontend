@@ -5,30 +5,30 @@
 			<div class="row">
 				<div class="col-lg-12 header">
 					<h5><i class="fa fa-cutlery" aria-hidden="true"></i> List Recipes</h5>
-					<div class="ga-2 d-flex justify-content-start" v-if="recipes.length > 0 || isLoading">
-						<div class="col-lg-2 d-flex align-items-center" id="sort-title">Sort by:</div>
-						<div class="sort-criteria col-lg-2"
+					<div class="d-flex justify-content-start sort-wrapper" v-if="recipes.length > 0 || isLoading">
+						<div class="d-flex align-items-center" id="sort-title">Sort by:</div>
+						<div class="sort-criteria"
 								 @click="handleName">
 							Name
 							<i class="fa-solid fa-arrow-down" v-if="nameDirection === null" style="color: var(--backgrond)"></i>
 							<i class="fa-solid fa-arrow-down" v-if="nameDirection === 'asc'"></i>
 							<i class="fa-solid fa-arrow-up" v-if="nameDirection === 'desc'"></i>
 						</div>
-						<div class="sort-criteria col-lg-2"
+						<div class="sort-criteria"
 								 @click="handleCategory">
 							Category
 							<i class="fa-solid fa-arrow-down" v-if="categoryDirection === null" style="color: var(--backgrond)"></i>
 							<i class="fa-solid fa-arrow-down" v-if="categoryDirection === 'asc'"></i>
 							<i class="fa-solid fa-arrow-up" v-if="categoryDirection === 'desc'"></i>
 						</div>
-						<div class="sort-criteria col-lg-2"
+						<div class="sort-criteria"
 								 @click="handleDate">
 							Date
 							<i class="fa-solid fa-arrow-down" v-if="dateDirection === null" style="color: var(--backgrond)"></i>
 							<i class="fa-solid fa-arrow-down" v-if="dateDirection === 'asc'"></i>
 							<i class="fa-solid fa-arrow-up" v-if="dateDirection === 'desc'"></i>
 						</div>
-						<div class="sort-criteria col-lg-2"
+						<div class="sort-criteria"
 								 @click="handleReset">
 							Reset
 						</div>
@@ -108,50 +108,58 @@ async function submitSearch() {
 }
 
 function handleCategory() {
-	if (categoryDirection.value === null) {
-		categoryDirection.value = 'asc'
-	} else if (categoryDirection.value === 'asc') {
-		categoryDirection.value = 'desc'
-	} else {
-		categoryDirection.value = null
+	if (!isLoading.value) {
+		if (categoryDirection.value === null) {
+			categoryDirection.value = 'asc'
+		} else if (categoryDirection.value === 'asc') {
+			categoryDirection.value = 'desc'
+		} else {
+			categoryDirection.value = null
+		}
+		store.sort['category.name'] = categoryDirection.value
+		submitSearch()
 	}
-	store.sort['category.name'] = categoryDirection.value
-	submitSearch()
 }
 
 function handleName() {
-	if (nameDirection.value === null) {
-		nameDirection.value = 'asc'
-	} else if (nameDirection.value === 'asc') {
-		nameDirection.value = 'desc'
-	} else {
-		nameDirection.value = null
+	if (!isLoading.value) {
+		if (nameDirection.value === null) {
+			nameDirection.value = 'asc'
+		} else if (nameDirection.value === 'asc') {
+			nameDirection.value = 'desc'
+		} else {
+			nameDirection.value = null
+		}
+		store.sort.name = nameDirection.value
+		submitSearch()
 	}
-	store.sort.name = nameDirection.value
-	submitSearch()
 }
 
 function handleDate() {
-	if (dateDirection.value === null) {
-		dateDirection.value = 'asc'
-	} else if (dateDirection.value === 'asc') {
-		dateDirection.value = 'desc'
-	} else {
-		dateDirection.value = null
+	if (!isLoading.value) {
+		if (dateDirection.value === null) {
+			dateDirection.value = 'asc'
+		} else if (dateDirection.value === 'asc') {
+			dateDirection.value = 'desc'
+		} else {
+			dateDirection.value = null
+		}
+		store.sort.created_on = dateDirection.value
+		submitSearch()
 	}
-	store.sort.created_on = dateDirection.value
-	submitSearch()
 }
 
 function handleReset() {
-	dateDirection.value = null
-	nameDirection.value = null
-	categoryDirection.value = null
+	if (!isLoading.value) {
+		dateDirection.value = null
+		nameDirection.value = null
+		categoryDirection.value = null
 
-	store.sort.name = null
-	store.sort['category.name'] = null
-	store.sort.created_on = null
-	submitSearch()
+		store.sort.name = null
+		store.sort['category.name'] = null
+		store.sort.created_on = null
+		submitSearch()
+	}
 }
 
 </script>
@@ -208,19 +216,50 @@ function handleReset() {
 	background-color: var(--backgrond);
 	border-radius: 5px;
 	color: var(--white);
+	width: 200px;
 }
 
 .sort-criteria:hover {
 	cursor: pointer;
 }
 
-@media only screen and (max-width: 460px) {
+.sort-wrapper {
+	gap: 1rem;
+}
+
+@media only screen and (max-width: 991px) {
+	#sort-title {
+		width: 110px;
+	}
+}
+
+@media only screen and (max-width: 768px) {
+	#sort-title {
+		width: 150px;
+	}
+
+	.sort-criteria:nth-child(3) {
+		width: 240px;
+	}
+}
+
+@media only screen and (max-width: 550px) {
 	.header {
 		font-size: .8rem;
 	}
 
 	#sort-title {
 		display: none !important;
+	}
+
+	.sort-wrapper {
+		gap: .4rem;
+	}
+}
+
+@media only screen and (max-width: 422px) {
+	.sort-criteria:last-child {
+		display: none;
 	}
 }
 </style>

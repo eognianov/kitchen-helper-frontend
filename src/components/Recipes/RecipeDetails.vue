@@ -70,32 +70,34 @@
 					</div>
 
 
-					<div class="nutrition-facts clearfix">
+					<div class="nutrition-facts">
 						<h3>Nutrition Facts</h3>
-						<div>
-							<p>Calories:</p>
-							<p><strong>{{ recipe.calories }} kcal</strong>
-							</p>
-						</div>
-						<div>
-							<p>Carbohydrate:</p>
-							<p><strong>{{ recipe.carbo }} g</strong>
-							</p>
-						</div>
-						<div>
-							<p>Fat:</p>
-							<p><strong>{{ recipe.fats }} g</strong>
-							</p>
-						</div>
-						<div>
-							<p>Protein:</p>
-							<p><strong>{{ recipe.proteins }} g</strong>
-							</p>
-						</div>
-						<div>
-							<p>Cholesterol:</p>
-							<p><strong>{{ recipe.cholesterol }} mg</strong>
-							</p>
+						<div class="wrapper d-flex gap-4 flex-wrap">
+							<div class="cat">
+								<p>Calories:</p>
+								<p><strong>{{ recipe.calories }} kcal</strong>
+								</p>
+							</div>
+							<div class="cat">
+								<p>Carbohydrate:</p>
+								<p><strong>{{ recipe.carbo }} g</strong>
+								</p>
+							</div>
+							<div class="cat">
+								<p>Fat:</p>
+								<p><strong>{{ recipe.fats }} g</strong>
+								</p>
+							</div>
+							<div class="cat">
+								<p>Protein:</p>
+								<p><strong>{{ recipe.proteins }} g</strong>
+								</p>
+							</div>
+							<div class="cat">
+								<p>Cholesterol:</p>
+								<p><strong>{{ recipe.cholesterol }} mg</strong>
+								</p>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -109,7 +111,7 @@
 
 <script setup>
 import {useRoute} from "vue-router";
-import {ref, onMounted, onUnmounted} from "vue";
+import {ref, onMounted} from "vue";
 import axios from "axios";
 import {useAuthStore} from "@/stores/authStore";
 import {createPictureUrl} from "../../helpers/helepers";
@@ -136,6 +138,7 @@ async function getRecipeById() {
 			recipe.value = response.data
 			pictureUrl.value = createPictureUrl(response.data.picture)
 			recipe.value = response.data;
+			recipe.value.instructions.sort((a, b) => a.id - b.id)
 			recipe.value.instructions.forEach(instruction => {
 				audioPlayers.value[instruction.id] = ref({value: new Audio()});
 				audioChunks.value[instruction.id] = ref([]);
@@ -374,13 +377,27 @@ async function fetchAudioChunks(instructionId) {
 	color: var(--main-text)
 }
 
-.recipe-detail .nutrition-facts div {
-	float: left;
-	width: 20%
+.recipe-detail .nutrition-facts{
+	margin-top: 2rem ;
 }
-
 .recipe-detail .nutrition-facts div p {
 	margin-bottom: 0
+}
+.nutrition-facts {
+	padding: 0 .4rem;
+}
+.nutrition-facts .cat {
+	min-width: 100px;
+}
+
+.nutrition-facts .wrapper {
+	justify-content: space-around;
+}
+
+@media only screen and (max-width: 768px) {
+	.nutrition-facts .wrapper {
+		justify-content: start;
+	}
 }
 
 .disabled {

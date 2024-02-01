@@ -56,6 +56,7 @@ footer h5 {
 	margin-bottom: 30px;
 	padding-bottom: 20px;
 	color: var(--light-text);
+	font-weight: 800;
 	border-bottom: 1px dashed var(--light-text);
 }
 
@@ -70,7 +71,7 @@ footer ul li a {
 
 footer ul li a:hover {
 	cursor: pointer;
-	font-size: 1.1rem;
+	font-size: 1.04rem;
 	color: var(--secondary-color);
 	transition: all 0.3s ease;
 }

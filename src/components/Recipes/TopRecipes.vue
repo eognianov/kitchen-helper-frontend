@@ -2,7 +2,7 @@
 	<div v-if="recipeFirst.length > 0 || recipeSecond.length > 0 || recipeThird.length > 0">
 		<div class="top">
 			<div class="container">
-				<div class="row">
+				<div class="row" >
 					<div v-if="recipeFirst.length > 0" class="col-lg-4 col-sm-12">
 						<div  v-for="recipe in recipeFirst" :key="recipe.id">
 							<h5><i class="fa fa-cutlery" aria-hidden="true"></i> Top {{recipe.category.name}} Recipe</h5>
@@ -42,23 +42,23 @@ const recipeThird = ref(recipeStore.topThird)
 
 <style scoped>
 .top {
-	padding: 80px 0;
+	padding: 2rem 0;
 	background-color: var(--backgrond);
 }
 
 .top h5 {
 	font-size: 1.2rem;
-	margin-bottom: 30px;
+	margin-bottom: 1rem;
 	color: var(--light-text);
-	padding-bottom: 15px;
+	padding-bottom: .7rem;
 	border-bottom: 1px dashed var(--light-text);
 }
 
 
 @media only screen and (max-width: 990px) {
-	.top h5 {
-		margin-top: 30px;
-		margin-bottom: 20px;
+	.row {
+		display: flex;
+		gap: 1.2rem;
 	}
 }
 </style>
