@@ -11,7 +11,7 @@
 				{{ recipe.name }}
 			</router-link>
 		</h2>
-		<p>{{ recipe.summary?.slice(0, 100) }}{{ recipe.summary?.length > 100 ? "..." : null }} </p>
+		<p>{{ recipe.summary?.slice(0, 80) }}{{ recipe.summary?.length > 80 ? "..." : null }} </p>
 		<div class="tag">
 			<router-link
 					:to="'/recipes/category/' + recipe.category.id">
@@ -65,6 +65,7 @@ const pictureUrl = ref(createPictureUrl(props.recipe.picture))
 	font-size: 1.3rem;
 	font-weight: 700;
 	text-transform: capitalize;
+
 }
 
 .box.grid.recipes p {
@@ -143,5 +144,12 @@ const pictureUrl = ref(createPictureUrl(props.recipe.picture))
 		height: 80px;
 	}
 }
+@media only screen and (max-width: 1398px) {
+	.box.grid.recipes h2 {
+		height: 50px;
+		overflow: hidden;
+	}
+}
+
 
 </style>

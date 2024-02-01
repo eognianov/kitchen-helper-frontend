@@ -3,15 +3,21 @@
 		<section class="dropdown-wrapper">
 			<div class="dropdown-popover">
 				<input class="form-control input-name" type="text" v-model="searchQuery"
-							  @focus="isVisible=true">
+							 @focus="isVisible=true"
+							 @blur="handleBlur">
 				<div class="options" v-if="isVisible">
-					<ul>
-						<li v-for="ingredient in filteredIngredients"
-								:key="ingredient.id" @click="selectItem(ingredient)">
-							{{ ingredient.name }}
-						</li>
-						<li v-if="filteredIngredients.length === 0" class="no-items">No items found</li>
-					</ul>
+					<div class="outer">
+						<div class="inner">
+							<ul>
+								<li v-for="ingredient in filteredIngredients"
+										:key="ingredient.id" @click="selectItem(ingredient)">
+									{{ ingredient.name }}
+								</li>
+								<li v-if="filteredIngredients.length === 0" class="no-items">No items found</li>
+							</ul>
+						</div>
+					</div>
+
 				</div>
 			</div>
 		</section>
@@ -76,44 +82,64 @@ function selectItem(selected_ingredient) {
 	isVisible.value = false
 }
 
+function handleBlur() {
+	setTimeout(() => {
+		isVisible.value = false
+	}, 300)
+
+}
+
 </script>
 
 <style scoped>
 .dropdown-wrapper {
 	position: relative;
 }
+
 .options {
 	position: absolute;
 	width: 100%;
+	border-radius: 7px;
 	background-color: var(--white);
-	z-index: 20000;
+	z-index: 1199;
+	overflow: hidden;
 }
 
 .options ul {
 	list-style: none;
 	text-align: left;
 	padding-left: 0;
-	max-height: 300px;
-	overflow-y: scroll;
-	overflow-x: hidden;
 }
-
 .options ul li {
 	width: 100%;
 	padding-left: .7rem;
 	cursor: pointer;
-	margin-top: 3px;
+	margin-top: 5px;
 }
 
 .options ul li:hover {
 	background-color: var(--main-color);
 	color: var(--white);
 }
+
 .no-items {
 	color: var(--light-text)
 }
+
 .options .no-items:hover {
 	background-color: var(--white);
 	color: var(--light-text)
+}
+.outer {
+  width: 100%;
+  border: 1px solid var(--light-background);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.inner {
+  height: 100%;
+	max-height: 15rem;
+  overflow-y: scroll;
+
 }
 </style>

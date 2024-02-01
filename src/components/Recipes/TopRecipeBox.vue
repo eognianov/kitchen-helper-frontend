@@ -1,14 +1,18 @@
 <template>
-	<div class="box clearfix">
-		<router-link :to="'/recipes/' + recipe.id">
-			<img :src="pictureUrl" :alt="recipe.name">
-		</router-link>
-		<h3>
+	<div class="box d-flex gap-4">
+		<div>
 			<router-link :to="'/recipes/' + recipe.id">
-				{{ recipe.name }}
+				<img :src="pictureUrl" :alt="recipe.name">
 			</router-link>
-		</h3>
-		<p>{{ recipe.summary?.slice(0, 25) }}{{ recipe.summary?.length > 25 ? "..." : null }}</p>
+		</div>
+		<div>
+			<h3>
+				<router-link :to="'/recipes/' + recipe.id">
+					{{ recipe.name }}
+				</router-link>
+			</h3>
+			<p>{{ recipe.summary?.slice(0, 100) }}{{ recipe.summary?.length > 120 ? "..." : null }}</p>
+		</div>
 	</div>
 </template>
 
@@ -21,22 +25,17 @@ const pictureUrl = ref(createPictureUrl(props.recipe.picture))
 </script>
 
 <style scoped>
-.top .clearfix {
-	min-height: 160px;
-}
 .top .box {
+	min-height: 10rem;
 	background-color: var(--white);
-}
-
-.top .box {
-	padding: 25px
+	padding: 15px
 }
 
 .top .box h3 {
-	font-size: 1.2rem;
+	font-size: 1.1rem;
 	font-weight: 700;
-	padding-left: 120px;
 	text-transform: capitalize;
+	line-height: 1.1rem;
 }
 
 .top .box h3 a {
@@ -45,17 +44,17 @@ const pictureUrl = ref(createPictureUrl(props.recipe.picture))
 
 .top .box p {
 	line-height: 1.2;
-	margin-bottom: 0;
-	padding-left: 120px;
 	color: var(--main-text);
-	max-height: 90px;
+	height: 5.3rem;
+	margin-bottom: 0;
+	overflow: hidden;
+	font-size: .8rem;
 }
 
 .top .box img {
-	float: left;
-	width: 100px;
-	height: 100px;
-	border-radius: 6px;
+	width: 8rem;
+	height: 100%;
+	border-radius: 4px;
 	object-fit: cover;
 }
 </style>
