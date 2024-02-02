@@ -1,7 +1,7 @@
 # Kitchen Helper
 [Kitchen helper](https://kitchenhelper.eognyanov.com/)
 
-[Fron end repo](https://github.com/eognianov/kitchen-helper-frontend)
+[Backend repo](https://github.com/eognianov/kitchen-helper-backend)
 ## Overview
 Kitchen Helper is a project developed as part of the SoftUni Intern and Team Lead Academy initiative, led by Svetlin Nakov. The primary goal of this initiative is to provide freshly graduated SoftUni students with real-world development experience by pairing them with an experienced developer acting as a team leader.
 ## Project Description
@@ -17,47 +17,13 @@ The Kitchen Helper project is a tool designed to assist users in various kitchen
 To get started with Kitchen Helper, follow these steps:
 
 - Clone the repository to your local machine.
+- Have up and running backend [Backend repo](https://github.com/eognianov/kitchen-helper-backend)
 - Set up the required dependencies
-    - create .env file with following structure
-  ```
-    POSTGRES_USER=''
-    POSTGRES_PASSWORD=''
-    RABBITMQ_USER=''
-    RABBITMQ_PASSWORD=''
-    CELERY_BROKER=pyamqp://
-    CELERY_PORT=5672
-    CELERY_BACKEND=rpc://
-    ```
+- Install npm packages using `npm i` 
+   - create .env file with following structure
+   ```
+   VITE_BASE_URL = 'http://localhost:8000/api'
+   VITE_BASE_WEBSOCKET_URL = 'ws://localhost:8000/api'
+   ```
 
-- Run the application locally using `docker-compose up`.
-
-## Project structure
-
-To structure the project following a vertical architecture, where each feature is organized into its own package, you can follow these guidelines:
-
-### Project Layout
-
-The project root directory should contain essential files like “README.md”, “requirements.txt” and the configuration “.env.*” files.
-Common functionality such **configuration** and **logging** also should be on root level.
-
-### Package Structure
-
-Create a directory name “features” to hold all feature-related packages.
-
-Each feature, such as “users”, “recipes”, “images” and etc should have it own sub package under  the “feature” directory.
-
-### Feature Package Structure
-
-Inside each feature package, organize your code into the following structure:
-
-- “router”: Define API endpoints and request handling
-- “models”: Define feature-specific data models.
-- “operations”: Implement business logic for the feature
-- “input_models”: Define input data validation and serialization
-- “responses”: Define response data structures
-
-### Testing
-
-Create a separate directory for tests, with a similar structure to your source code.
-
-For example, you can have “tests/features” mirroring the “features/” structure
+- Run the application locally using `npm run dev`.
