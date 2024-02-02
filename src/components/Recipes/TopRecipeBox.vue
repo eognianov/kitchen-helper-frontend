@@ -5,13 +5,13 @@
 				<img :src="pictureUrl" :alt="recipe.name">
 			</router-link>
 		</div>
-		<div>
+		<div class="text-wrapper">
 			<h3>
 				<router-link :to="'/recipes/' + recipe.id">
 					{{ recipe.name }}
 				</router-link>
 			</h3>
-			<p>{{ recipe.summary?.slice(0, 100) }}{{ recipe.summary?.length > 120 ? "..." : null }}</p>
+			<p>{{ recipe.summary?.slice(0, 100) }}{{ recipe.summary?.length > 100 ? "..." : null }}</p>
 		</div>
 	</div>
 </template>
@@ -26,7 +26,7 @@ const pictureUrl = ref(createPictureUrl(props.recipe.picture))
 
 <style scoped>
 .top .box {
-	min-height: 10rem;
+	height: 11rem;
 	background-color: var(--white);
 	padding: 15px
 }
@@ -45,10 +45,9 @@ const pictureUrl = ref(createPictureUrl(props.recipe.picture))
 .top .box p {
 	line-height: 1.2;
 	color: var(--main-text);
-	height: 5.3rem;
 	margin-bottom: 0;
-	overflow: hidden;
 	font-size: .8rem;
+	margin-top: -5px;
 }
 
 .top .box img {
@@ -56,5 +55,30 @@ const pictureUrl = ref(createPictureUrl(props.recipe.picture))
 	height: 100%;
 	border-radius: 4px;
 	object-fit: cover;
+}
+
+@media only screen and (max-width: 1200px) {
+	.top .box {
+		height: 12rem;
+	}
+	.top .text-wrapper {
+		overflow: hidden;
+	}
+}
+
+@media only screen and (max-width: 990px) {
+	.top .box {
+		height: 10rem;
+	}
+
+}
+
+@media only screen and (max-width: 350px) {
+	.top .box img {
+		width: 6rem;
+	}
+	.top .box {
+		height: 12rem;
+	}
 }
 </style>
