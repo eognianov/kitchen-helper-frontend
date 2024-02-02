@@ -356,7 +356,7 @@ async function submitRecipe() {
 		newIngredients.push({ingredient_id: ingredient.pk, quantity: ingredient.quantity})
 	})
 
-	const response = await axios.post(`/recipes`, {
+	const response = await axios.post(`/recipes/`, {
 		name: name.value,
 		summary: summary.value,
 		category_id: selectCategory.value,
