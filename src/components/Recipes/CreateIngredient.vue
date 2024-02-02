@@ -155,7 +155,7 @@ async function addIngredient() {
 		category: selectCategory.value
 	}
 
-	const response = await axios.post('/ingredients', newIngredient, {
+	const response = await axios.post('/ingredients/', newIngredient, {
 		headers: {
 			"Content-Type": "application/json",
 			'Authorization': 'Bearer ' + auth.token
