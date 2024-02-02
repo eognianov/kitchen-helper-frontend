@@ -35,7 +35,7 @@
 
 							<div class="form-group">
 								<label>Short summary</label>
-								<textarea class="form-control" rows="4" v-model="summary" @change="status.checkSummary"></textarea>
+								<textarea class="form-control" rows="4" v-model="summary"></textarea>
 								<p class="error" :class="errors.summary ? 'show' : null">Please enter some summary.</p>
 							</div>
 
@@ -297,9 +297,6 @@ const status = {
 	checkCategory: () => {
 		errors.value.category = selectCategory.value === ''
 	},
-	checkSummary: () => {
-		errors.value.summary = summary.value.trim() === '';
-	},
 	checkServes: () => {
 		errors.value.serves = serves.value < 1
 	},
@@ -342,7 +339,6 @@ const errors = ref({
 async function submitRecipe() {
 	status.checkTitle();
 	status.checkCategory();
-	status.checkSummary();
 	status.checkServes();
 	status.checkInstructions();
 	status.checkIngredients();
