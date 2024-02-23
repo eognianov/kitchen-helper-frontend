@@ -57,10 +57,10 @@
 								<ol class="directions">
 									<li v-for="instruction in recipe.instructions" :key="instruction.id">{{ instruction.instruction }}
 										<button
-											:disabled="!instruction.audio_file"
-											:id="'play-pause-button-' + instruction.id"
-											:class="!instruction.audio_file ? 'disabled' : null"
-											@click="togglePlayPause(instruction.id)"
+												:disabled="!instruction.audio_file"
+												:id="'play-pause-button-' + instruction.id"
+												:class="!instruction.audio_file ? 'disabled' : null"
+												@click="togglePlayPause(instruction.id)"
 										><i class="fa-solid fa-play"></i>
 										</button>
 									</li>
@@ -99,6 +99,12 @@
 								</p>
 							</div>
 						</div>
+					</div>
+					<div class="tag" v-if="auth.user.username === recipe.created_by">
+						<router-link
+								:to="'/recipes/' + recipe.id + '/edit'">
+							Edit Recipe
+						</router-link>
 					</div>
 				</div>
 			</div>
@@ -189,7 +195,7 @@ async function fetchAudioChunks(instructionId) {
 		const websocket = new WebSocket(`${import.meta.env.VITE_BASE_WEBSOCKET_URL}/recipes/instructions/${instructionId}/ws`);
 
 		const playAudio = () => {
-			const audioBlob = new Blob(audioChunks.value[instructionId], { type: 'audio/mp3' });
+			const audioBlob = new Blob(audioChunks.value[instructionId], {type: 'audio/mp3'});
 			const audioDataUrl = URL.createObjectURL(audioBlob);
 			audioPlayers.value[instructionId].value.src = audioDataUrl;
 			currentlyPlayingInstruction.value = instructionId;
@@ -202,14 +208,14 @@ async function fetchAudioChunks(instructionId) {
 		};
 
 		websocket.onmessage = (event) => {
-		const chunk = event.data;
-		if (typeof chunk === 'string' && chunk === 'audio_stream_end') {
-			websocket.close();
-			playAudio();
-			resolve();
-		} else {
-			audioChunks.value[instructionId].push(chunk);
-		}
+			const chunk = event.data;
+			if (typeof chunk === 'string' && chunk === 'audio_stream_end') {
+				websocket.close();
+				playAudio();
+				resolve();
+			} else {
+				audioChunks.value[instructionId].push(chunk);
+			}
 		};
 	});
 }
@@ -377,15 +383,18 @@ async function fetchAudioChunks(instructionId) {
 	color: var(--main-text)
 }
 
-.recipe-detail .nutrition-facts{
-	margin-top: 2rem ;
+.recipe-detail .nutrition-facts {
+	margin-top: 2rem;
 }
+
 .recipe-detail .nutrition-facts div p {
 	margin-bottom: 0
 }
+
 .nutrition-facts {
 	padding: 0 .4rem;
 }
+
 .nutrition-facts .cat {
 	min-width: 100px;
 }

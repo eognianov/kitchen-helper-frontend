@@ -43,6 +43,7 @@ init()
 	--dark-background-transparent: #33333366;
 	--main-hover: #F8F8F8;
 	--main-alert: #e13b2b;
+	--main-success: #30a306;
 }
 
 body {
