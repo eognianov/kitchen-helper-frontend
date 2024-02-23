@@ -1,5 +1,5 @@
 import {defineStore, acceptHMRUpdate} from 'pinia'
-import {getRecipes} from './helpers'
+import {getRequest} from './helpers'
 
 export const useMyRecipesStore = defineStore({
     id: 'myRecipes',
@@ -10,9 +10,9 @@ export const useMyRecipesStore = defineStore({
         async searchTrigger(token, user) {
             this.recipes = []
             let url = `/recipes/?filters=created_by:${user}`
-            let response = await getRecipes(url, token)
+            let response = await getRequest(url, token)
             if (response.status === 200) {
-                for (const item of response.data.recipes){
+                for (const item of response.data.recipes) {
                     this.recipes.push(item)
                 }
             }
