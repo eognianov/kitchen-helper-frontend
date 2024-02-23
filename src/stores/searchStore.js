@@ -1,5 +1,5 @@
 import {defineStore, acceptHMRUpdate} from 'pinia'
-import axios from "axios";
+import {getRequest, constructUrl} from './helpers'
 
 export const useSearchStore = defineStore({
     id: 'search',
@@ -37,93 +37,32 @@ export const useSearchStore = defineStore({
         }
     }),
     actions: {
-        constructUrl() {
-            let pagination = ''
-            let filter_expression = ''
-            let sort_expression = ''
-
-            if (this.page_number && this.page_size) {
-                pagination = `?page=${this.page_number}&page_size=${this.page_size}`
-            }
-
-            let sort_conditions = []
-            for (const key in this.sort) {
-                const value = this.sort[key];
-                if (value !== null) {
-                    sort_conditions.push(`${key}:${value}`)
+        async fillRecipes(url, token) {
+            let response = await getRequest(url, token)
+            if (response.status === 200) {
+                for (const item of response.data.recipes) {
+                    this.recipes.push(item)
                 }
-            }
-            if (sort_conditions.length > 0) {
-                if (pagination !== '') {
-                    sort_expression = `&sort=${sort_conditions.join(",")}`
-                } else {
-                    sort_expression = `?sort=${sort_conditions.join(",")}`
-                }
-            }
-
-            let filter_conditions = []
-            for (const key in this.filters) {
-                const value = this.filters[key];
-                if (value !== null) {
-                    filter_conditions.push(`${key}:${value}`)
-                }
-            }
-            if (filter_conditions.length > 0) {
-                if (pagination !== '' && sort_expression !== '' || (pagination !== '' || sort_expression !== '')) {
-                    filter_expression = `&filters=${filter_conditions.join(",")}`
-                } else {
-                    filter_expression = `?filters=${filter_conditions.join(",")}`
-                }
-            }
-            return `/recipes/${pagination}${sort_expression}${filter_expression}`
-        },
-        async getRecipes(url, token) {
-            try {
-                let response = await axios.get(url, {
-                    headers: {'Authorization': 'Bearer ' + token}
-                })
-                if (response.status === 200) {
-                    for (const item of response.data.recipes) {
-                        this.recipes.push(item)
-                    }
-                    this.next_page = response.data.next_page
-                    this.previous_page = response.data.previous_page
-                    this.total_pages = response.data.total_pages
-                    this.total_items = response.data.total_items
-                    this.page_number = response.data.page_number
-                    this.page_size = response.data.page_size
-                }
-            } catch (error) {
-                console.log(error)
-                return null
+                this.next_page = response.data.next_page
+                this.previous_page = response.data.previous_page
+                this.total_pages = response.data.total_pages
+                this.total_items = response.data.total_items
+                this.page_number = response.data.page_number
+                this.page_size = response.data.page_size
             }
         },
         async getCategories() {
-            try {
-                let response = await axios.get('/categories/')
-                if (response.status === 200) {
-                    this.categories = response.data
-                    return response.data
-                }
-
-            } catch (error) {
-                console.log(error)
-                return null
+            let response = await getRequest('/categories/', null)
+            if (response.status === 200) {
+                this.categories = response.data
+                return response.data
             }
         },
-        async getIngredients(token) {
-            try {
-                let response = await axios.get('ingredients/',
-                    {
-                        headers: {'Authorization': 'Bearer ' + token}
-                    })
-                if (response.status === 200) {
-                    this.ingredients = response.data
-                    return response.data
-                }
-            } catch (error) {
-                console.log(error)
-                return null
+        async getIngredients() {
+            let response = await getRequest('/ingredients/', null)
+            if (response.status === 200) {
+                this.ingredients = response.data
+                return response.data
             }
         },
         resetSearch() {
@@ -148,14 +87,14 @@ export const useSearchStore = defineStore({
         async searchTrigger(token) {
             this.page_number = 1
             this.recipes = []
-            const url = this.constructUrl()
-            await this.getRecipes(url, token)
+            const url = constructUrl(this.page_number, this.page_size, this.sort, this.filters)
+            await this.fillRecipes(url, token)
         },
         async nextPage(token) {
-            await this.getRecipes(this.next_page, token)
+            await this.fillRecipes(this.next_page, token)
         },
         async previousPage(token) {
-            await this.getRecipes(this.previous_page, token)
+            await this.fillRecipes(this.previous_page, token)
         },
     }
 })
