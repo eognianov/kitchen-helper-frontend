@@ -3,7 +3,7 @@
 		<div v-if="!isLoading">
 			<h1>
 				<span v-if="category"> {{ category.name }}</span>
-				<span v-if="errorFound"> not found</span>
+				<span v-if="errorFound"> Not Found</span>
 			</h1>
 			<p>Recipes in this category: {{ items }}</p>
 			<list-recipes
@@ -54,6 +54,7 @@ onMounted(async () => {
 		}
 	} catch (e) {
 		errorFound.value = true
+		isLoading.value = false
 		return
 	}
 	await categoryStore.searchTrigger(auth.token)
