@@ -41,10 +41,7 @@ const reloadState = ref(0)
 async function init() {
 	isLoading.value = true
 	await auth.init()
-	myRecipesStore.filters.created_by = auth.user.id
-	myRecipesStore.page_size = 100
-	myRecipesStore.page_number = 1
-	await myRecipesStore.searchTrigger(auth.token)
+	await myRecipesStore.searchTrigger(auth.token, auth.user.id)
 	recipes.value = myRecipesStore.recipes
 	reloadState.value += 1
 	isLoading.value = false
