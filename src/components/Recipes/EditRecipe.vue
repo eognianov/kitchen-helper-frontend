@@ -14,7 +14,7 @@
 				<div class="container">
 					<div class="row">
 						<div class="mb-2">Recipe title</div>
-						<div class="col-10">
+						<div class="col-sm-10">
 							<input type="text" class="form-control" v-model="name">
 							<p class="message"
 								 :class="{ 'error': titleStatus.error, 'success': titleStatus.changed }"
@@ -22,14 +22,14 @@
 								{{ titleStatus.message }}
 							</p>
 						</div>
-						<div class="col-2">
+						<div class="col-sm-2">
 							<div class="btn btn-dark" @click="changeTitle">Change</div>
 						</div>
 					</div>
 
 					<div class="row" v-if="categories.length > 0">
 						<div class="mb-2">Choose category</div>
-						<div class="col-10">
+						<div class="col-sm-10">
 							<select v-model="selectCategory" class="form-select" name="category"
 											data-placeholder="Choose Category">
 								<option disabled>Change category</option>
@@ -46,16 +46,25 @@
 								{{ categoryStatus.message }}
 							</p>
 						</div>
-						<div class="col-2">
+						<div class="col-sm-2">
 							<div class="btn btn-dark" @click="changeCategory">Change</div>
 						</div>
 					</div>
 
-					<!--							<div class="form-group">-->
-					<!--								<label>Short summary</label>-->
-					<!--								<textarea class="form-control" rows="4" v-model="summary"></textarea>-->
-					<!--								<p class="error" :class="errors.summary ? 'show' : null">Please enter some summary.</p>-->
-					<!--							</div>-->
+					<div class="row">
+						<div class="col-sm-10">
+							<label>Edit summary</label>
+							<textarea class="form-control" rows="4" v-model="summary"></textarea>
+							<p class="message"
+								 :class="{ 'error': summaryStatus.error, 'success': summaryStatus.changed }"
+							>
+								{{ summaryStatus.message }}
+							</p>
+						</div>
+						<div class="col-sm-2 d-flex align-items-center">
+							<div class="btn btn-dark" @click="changeSummary">Change</div>
+						</div>
+					</div>
 
 					<!--							<div class="form-group">-->
 					<!--								<label>Serves</label>-->
@@ -208,6 +217,7 @@ const pictureUrl = ref(null)
 const categories = ref([])
 const name = ref(null)
 const selectCategory = ref('')
+const summary = ref('')
 
 
 async function getRecipeById() {
@@ -221,7 +231,7 @@ async function getRecipeById() {
 		if (response.status === 200) {
 			recipe.value = response.data
 			name.value = recipe.value.name
-			// category.value = recipe.value.category
+			summary.value = recipe.value.summary
 			pictureUrl.value = createPictureUrl(response.data.picture)
 			recipe.value = response.data;
 			recipe.value.instructions.sort((a, b) => a.id - b.id)
@@ -245,6 +255,19 @@ onMounted(() => {
 	getRecipesCategories()
 });
 
+async function patchRecipe(field, value) {
+	let response = axios.patch(`/recipes/${recipe.value.id}`, {
+		"field": field,
+		"value": value
+	}, {
+		headers: {
+			"Content-Type": "application/json",
+			'Authorization': 'Bearer ' + auth.token
+		}
+	})
+	return response
+}
+
 const titleStatus = ref(
 		{
 			error: false,
@@ -254,18 +277,10 @@ const titleStatus = ref(
 )
 
 async function changeTitle() {
-	const response = await axios.patch(`/recipes/${recipe.value.id}`, {
-		"field": "name",
-		"value": name.value
-	}, {
-		headers: {
-			"Content-Type": "application/json",
-			'Authorization': 'Bearer ' + auth.token
-		}
-	})
+	const response = await patchRecipe("name", name.value)
 	if (response.status === 200) {
 		titleStatus.value.changed = true;
-		titleStatus.value.message = "Recipe title successfully changed"
+		titleStatus.value.message = "Recipe title successfully updated"
 	} else {
 		titleStatus.value.error = true;
 		titleStatus.value.message = "Error changing title"
@@ -281,8 +296,8 @@ watch(name, (newName) => {
 		titleStatus.value.error = false
 		titleStatus.value.message = ""
 	}
-
 })
+
 const categoryStatus = ref(
 		{
 			error: false,
@@ -297,24 +312,54 @@ async function changeCategory() {
 		categoryStatus.value.error = true;
 		categoryStatus.value.message = "Please select category"
 	} else {
-		const response = await axios.patch(`/recipes/${recipe.value.id}`, {
-			"field": "category_id",
-			"value": selectCategory.value
-		}, {
-			headers: {
-				"Content-Type": "application/json",
-				'Authorization': 'Bearer ' + auth.token
-			}
-		})
+		const response = await patchRecipe("category_id", selectCategory.value)
 		if (response.status === 200) {
 			categoryStatus.value.changed = true;
-			categoryStatus.value.message = "Recipe category successfully changed"
+			categoryStatus.value.message = "Recipe category successfully updated"
 		} else {
 			categoryStatus.value.error = true;
 			categoryStatus.value.message = "Error changing category"
 		}
 	}
 }
+
+const summaryStatus = ref(
+		{
+			error: false,
+			changed: false,
+			message: ''
+		}
+)
+
+async function changeSummary() {
+	summaryStatus.value.message = ''
+	summaryStatus.value.error = false
+	if (summary.value.length < 3) {
+		summaryStatus.value.error = true
+		summaryStatus.value.message = "Summary must be at least 3 characters long."
+	} else {
+		const response = await patchRecipe("summary", summary.value)
+		if (response.status === 200) {
+			summaryStatus.value.changed = true;
+			summaryStatus.value.message = "Summary successfully updated"
+		} else {
+			summaryStatus.value.error = true;
+			summaryStatus.value.message = "Error changing category"
+		}
+	}
+}
+
+watch(summary, (newSummary) => {
+	summaryStatus.value.changed = false;
+	if (newSummary.length < 3) {
+		summaryStatus.value.error = true
+		summaryStatus.value.message = "Summary must be at least 3 characters long."
+	} else {
+		summaryStatus.value.error = false
+		summaryStatus.value.message = ""
+	}
+})
+
 </script>
 
 <style scoped>
