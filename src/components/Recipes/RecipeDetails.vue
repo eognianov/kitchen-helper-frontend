@@ -100,7 +100,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="tag" v-if="auth.user.username === recipe.created_by">
+					<div class="tag" v-if="auth.user && auth.user.username === recipe.created_by">
 						<router-link
 								:to="'/recipes/' + recipe.id + '/edit'">
 							Edit Recipe
