@@ -16,6 +16,7 @@ import CreateAccount from "./components/LoginUser/CreateAccount.vue";
 import CheckEmail from "./components/LoginUser/CheckEmail.vue";
 import MyRecipes from "./components/Recipes/MyRecipes.vue";
 import RecipeCategory from "./components/Recipes/RecipeCategory.vue";
+import EditRecipe from "./components/Recipes/EditRecipe.vue";
 import AdminMainPage from "./components/AdminPanel/AdminMainPage.vue";
 import Users from "./components/AdminPanel/Users.vue";
 import UserDetails from "./components/AdminPanel/UserDetails.vue";
@@ -42,6 +43,7 @@ const router = createRouter({
         {path: '/recipes', component: SearchRecipes, meta: {requiresAuth: false}},
         {path: '/create', component: CreateRecipe, meta: {requiresAuth: true}},
         {path: '/recipes/:id', component: RecipeDetails, meta: {requiresAuth: false}, name: 'recipe details'},
+        {path: '/recipes/:id/edit', component: EditRecipe, meta: {requiresAuth: false}, name: 'recipe edit'},
         {path: '/recipes/category/:id', component: RecipeCategory, meta: {requiresAuth: false}, name: 'recipe category'},
         {path: '/login', component: LoginUser, meta: {requiresAuth: false}},
         {path: '/reset-password', component: ForgotPassword, meta: {requiresAuth: false}},
