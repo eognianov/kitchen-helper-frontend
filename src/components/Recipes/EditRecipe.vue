@@ -23,7 +23,7 @@
 							</p>
 						</div>
 						<div class="col-sm-2">
-							<div class="btn btn-dark" @click="changeTitle">Change</div>
+							<div class="btn btn-dark" @click="changeTitle">Update</div>
 						</div>
 					</div>
 
@@ -47,7 +47,7 @@
 							</p>
 						</div>
 						<div class="col-sm-2">
-							<div class="btn btn-dark" @click="changeCategory">Change</div>
+							<div class="btn btn-dark" @click="changeCategory">Update</div>
 						</div>
 					</div>
 
@@ -62,24 +62,37 @@
 							</p>
 						</div>
 						<div class="col-sm-2 d-flex align-items-center">
-							<div class="btn btn-dark" @click="changeSummary">Change</div>
+							<div class="btn btn-dark" @click="changeSummary">Update</div>
 						</div>
 					</div>
 
-					<!--							<div class="form-group">-->
-					<!--								<label>Serves</label>-->
-					<!--								<input type="number" class="form-control" v-model="serves"-->
-					<!--											 @change="status.checkServes">-->
-					<!--								<p class="error" :class="errors.serves ? 'show' : null">Serves must be greater than 0.</p>-->
-					<!--							</div>-->
+					<div class="row">
+						<label>Edit picture </label>
+						<div class="col-sm-10">
+							<div class="d-flex gap-4 align-items-center">
+								<label v-if="pictureUrl && !picture" class="d-flex flex-column">
+									<img :src="pictureUrl" :alt="recipe.name" class="image-container">
+									<div>Current picture</div>
+								</label>
+								<label v-if="picture" class="d-flex flex-column">
+									<img :src="picture" :alt="recipe.name" class="image-container">
+									<div>New picture</div>
+								</label>
+								<div class="col-lg-3">
+									<input type="file" class="form-control-file" @change="uploadPicture">
+								</div>
 
-					<!--							<div class="form-group row">-->
-					<!--								<label>Upload picture </label>-->
-					<!--								<hr>-->
-					<!--								<div class="col-lg-3">-->
-					<!--									<input type="file" class="form-control-file" @change="uploadPicture">-->
-					<!--								</div>-->
-					<!--							</div>-->
+							</div>
+							<p class="message"
+								 :class="{ 'error': pictureStatus.error, 'success': pictureStatus.changed }"
+							>
+								{{ pictureStatus.message }}
+							</p>
+						</div>
+						<div class="col-sm-2 d-flex align-items-center">
+							<div class="btn btn-dark" @click="changePicture">Update</div>
+						</div>
+					</div>
 
 					<!--							<div class="form-group">-->
 					<!--								<label>Ingredients:</label>-->
@@ -218,7 +231,8 @@ const categories = ref([])
 const name = ref(null)
 const selectCategory = ref('')
 const summary = ref('')
-
+const picture = ref(null)
+const pictureId = ref(null)
 
 async function getRecipeById() {
 	try {
@@ -232,6 +246,7 @@ async function getRecipeById() {
 			recipe.value = response.data
 			name.value = recipe.value.name
 			summary.value = recipe.value.summary
+			pictureUrl.value = createPictureUrl(recipe.value.picture)
 			pictureUrl.value = createPictureUrl(response.data.picture)
 			recipe.value = response.data;
 			recipe.value.instructions.sort((a, b) => a.id - b.id)
@@ -360,6 +375,46 @@ watch(summary, (newSummary) => {
 	}
 })
 
+const pictureStatus = ref(
+		{
+			error: false,
+			changed: false,
+			message: ''
+		}
+)
+
+async function uploadPicture(e) {
+	const image = e.target.files[0];
+	if (image !== undefined) {
+		const fd = new FormData();
+		fd.append('file', image, image.name)
+		const response = await axios.post('/images/', fd, {
+			headers: {'Authorization': 'Bearer ' + auth.token}
+		})
+		picture.value = createPictureUrl(response.data.url)
+		pictureId.value = response.data.id
+	}
+}
+
+async function changePicture() {
+	pictureStatus.value.error = false
+	pictureStatus.value.message = ''
+	if (!picture.value) {
+		pictureStatus.value.error = true
+		pictureStatus.value.message = "No picture selected."
+	} else {
+		const response = await patchRecipe("picture", String(pictureId.value))
+		if (response.status === 200) {
+			pictureStatus.value.changed = true;
+			pictureStatus.value.message = "Picture successfully updated"
+		} else {
+			pictureStatus.value.error = true;
+			pictureStatus.value.message = "Error updating picture"
+		}
+	}
+}
+
+
 </script>
 
 <style scoped>
@@ -483,6 +538,12 @@ watch(summary, (newSummary) => {
 	flex-direction: row;
 	justify-content: space-between;
 	margin-top: 10px;
+}
+
+.edit .image-container {
+	width: 200px;
+	height: 200px;
+	object-fit: cover;
 }
 
 </style>
